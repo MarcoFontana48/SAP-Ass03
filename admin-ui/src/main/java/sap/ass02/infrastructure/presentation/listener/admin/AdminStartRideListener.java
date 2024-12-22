@@ -9,19 +9,35 @@ import sap.ass02.infrastructure.presentation.view.admin.AdminView;
 
 import java.awt.event.ActionEvent;
 
+/**
+ * Listener for the start ride button in the admin UI.
+ */
 public final class AdminStartRideListener implements ViewListener<AdminGUIWebController, AdminView> {
     private static final Logger LOGGER = LogManager.getLogger(AdminStartRideListener.class);
     private AdminGUIWebController controller;
 
+    /**
+     * Creates a new listener.
+     */
     public AdminStartRideListener() {
     }
 
+    /**
+     * Attaches the given controller to this listener.
+     *
+     * @param controller the controller to attach
+     */
     @Override
     public void attachController(final AdminGUIWebController controller) {
         this.controller = controller;
         LOGGER.trace("Attached webController of type '{}' to listener of type '{}'", controller.getClass().getSimpleName(), this.getClass().getSimpleName());
     }
 
+    /**
+     * Handles the action performed event.
+     *
+     * @param e the event
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         LOGGER.trace("Start ride button clicked");
