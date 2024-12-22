@@ -16,12 +16,22 @@ import sap.ass02.domain.User;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Standard implementation of the {@link ClientRequest} interface.
+ */
 public final class StandardClientRequest implements ClientRequest {
     private static final Logger LOGGER = LogManager.getLogger(StandardClientRequest.class);
     private WebClient webClient;
     private String host;
     private int port;
     
+    /**
+     * Attaches the web client to this client request.
+     *
+     * @param webClient the web client to use
+     * @param host the host to connect to
+     * @param port the port to connect to
+     */
     @Override
     public void attachWebClient(final WebClient webClient, final String host, final int port) {
         this.webClient = webClient;
@@ -30,6 +40,13 @@ public final class StandardClientRequest implements ClientRequest {
         LOGGER.trace("Attached model of type '{}' to webController '{}'", webClient.getClass().getSimpleName(), this.getClass().getSimpleName());
     }
     
+    /**
+     * Adds a user to the repository
+     *
+     * @param userId the user id
+     * @param credits the user credits
+     * @return a future that will be completed with a boolean indicating the success of the operation
+     */
     @Override
     public Future<Boolean> addUser(String userId, int credits) {
         LOGGER.trace("about to POST add user with id '{}' and credits '{}'", userId, credits);
@@ -55,6 +72,12 @@ public final class StandardClientRequest implements ClientRequest {
         return result.future();
     }
     
+    /**
+     * Adds an eBike to the repository
+     *
+     * @param eBikeId the eBike id
+     * @return a future that will be completed with a boolean indicating the success of the operation
+     */
     @Override
     public Future<Boolean> addEBike(String eBikeId) {
         LOGGER.trace("about to POST add ebike with id '{}'", eBikeId);
@@ -79,6 +102,13 @@ public final class StandardClientRequest implements ClientRequest {
         return result.future();
     }
     
+    /**
+     * Starts a ride for a user with a given eBike
+     *
+     * @param userId the user id
+     * @param eBikeId the eBike id
+     * @return a future that will be completed with a boolean indicating the success of the operation
+     */
     @Override
     public Future<Boolean> startRide(String userId, String eBikeId) {
         LOGGER.trace("About to start ride, checking if ride already exists");
@@ -104,6 +134,13 @@ public final class StandardClientRequest implements ClientRequest {
         return result.future();
     }
     
+    /**
+     * Starts a new ride for a user with a given eBike
+     *
+     * @param userId the user id
+     * @param eBikeId the eBike id
+     * @param result the promise to complete
+     */
     private void startNewRide(String userId, String eBikeId, Promise<Boolean> result) {
         LOGGER.trace("about to POST start ride for user with id '{}' and eBike with id '{}'", userId, eBikeId);
         JsonObject request = toJsonRide(userId, eBikeId, "start");
@@ -124,6 +161,13 @@ public final class StandardClientRequest implements ClientRequest {
                 });
     }
     
+    /**
+     * Resumes a ride for a user with a given eBike
+     *
+     * @param userId the user id
+     * @param eBikeId the eBike id
+     * @param result the promise to complete
+     */
     private void resumeRide(String userId, String eBikeId, Promise<Boolean> result) {
         LOGGER.trace("Ride is not ongoing but is present, sending PUT request to resume ride");
         LOGGER.trace("about to PUT start ride for user with id '{}' and eBike with id '{}'", userId, eBikeId);
@@ -145,6 +189,14 @@ public final class StandardClientRequest implements ClientRequest {
                 });
     }
     
+    /**
+     * Converts the given user id, eBike id and action to a JSON object
+     *
+     * @param userId the user id
+     * @param eBikeId the eBike id
+     * @param action the action
+     * @return the JSON object
+     */
     private static JsonObject toJsonRide(String userId, String eBikeId, String action) {
         return new JsonObject()
             .put(JsonFieldKey.JSON_RIDE_ID_KEY, userId + eBikeId)
@@ -153,6 +205,13 @@ public final class StandardClientRequest implements ClientRequest {
             .put(JsonFieldKey.JSON_RIDE_ACTION, action);
     }
     
+    /**
+     * Gets a ride for a user with a given eBike
+     *
+     * @param userId the user id
+     * @param eBikeId the eBike id
+     * @return a future type string of the ID of the ride
+     */
     @Override
     public Future<String> getRide(String userId, String eBikeId) {
         Promise<String> promise = Promise.promise();
@@ -183,6 +242,13 @@ public final class StandardClientRequest implements ClientRequest {
         return promise.future();
     }
     
+    /**
+     * Gets the ongoing ride for a user with a given eBike
+     *
+     * @param userId the user id
+     * @param eBikeId the eBike id
+     * @return a future type string of the ID of the ride
+     */
     @Override
     public Future<String> getOngoingRide(String userId, String eBikeId) {
         Promise<String> promise = Promise.promise();
@@ -210,6 +276,12 @@ public final class StandardClientRequest implements ClientRequest {
         return promise.future();
     }
     
+    /**
+     * Stops a ride for a user with a given eBike
+     *
+     * @param rideId the ride id
+     * @return a future that will be completed with a boolean indicating the success of the operation
+     */
     @Override
     public Future<Boolean> stopRide(String rideId) {
         LOGGER.trace("about to PUT stop ride for ride with id '{}'", rideId);
@@ -235,6 +307,11 @@ public final class StandardClientRequest implements ClientRequest {
         return result.future();
     }
     
+    /**
+     * retrieves all the ebikes from the system
+     *
+     * @return a future that will be completed with all the ebikes in the system
+     */
     @Override
     public Future<Iterable<EBike>> getAllEBikes() {
         Promise<Iterable<EBike>> promise = Promise.promise();
@@ -272,6 +349,11 @@ public final class StandardClientRequest implements ClientRequest {
         return promise.future();
     }
     
+    /**
+     * retrieves all the users from the system
+     *
+     * @return a future that will be completed with all the users in the system
+     */
     @Override
     public Future<Iterable<User>> getAllUsers() {
         Promise<Iterable<User>> promise = Promise.promise();
@@ -304,6 +386,12 @@ public final class StandardClientRequest implements ClientRequest {
         return promise.future();
     }
     
+    /**
+     * Retrieves the user with the given id
+     *
+     * @param userId the user id
+     * @return a future that will be completed with the user
+     */
     @Override
     public Future<User> getUser(String userId) {
         Promise<User> promise = Promise.promise();
@@ -333,6 +421,12 @@ public final class StandardClientRequest implements ClientRequest {
         return promise.future();
     }
     
+    /**
+     * Retrieves the eBike with the given id
+     *
+     * @param eBikeId the eBike id
+     * @return a future that will be completed with the eBike
+     */
     @Override
     public Future<EBike> getEBike(String eBikeId) {
         Promise<EBike> promise = Promise.promise();
