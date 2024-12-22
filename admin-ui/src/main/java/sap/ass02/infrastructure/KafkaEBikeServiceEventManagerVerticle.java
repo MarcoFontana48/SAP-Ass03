@@ -10,15 +10,25 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * The type Kafka ebike service event manager verticle.
+ */
 public final class KafkaEBikeServiceEventManagerVerticle extends AbstractVerticle implements EventManager {
     private static final Logger LOGGER = LogManager.getLogger(KafkaEBikeServiceEventManagerVerticle.class);
     private Map<String, String> consumerConfig = new HashMap<>();
     private KafkaConsumer<String, String> consumer;
     
+    /**
+     * Instantiates a new Kafka ebike service event manager verticle.
+     */
+    @Override
     public void start() {
         this.startMonitoring();
     }
     
+    /**
+     * Start monitoring.
+     */
     @Override
     public void startMonitoring() {
         this.consumerConfig.put("bootstrap.servers", "kafka:9092");
