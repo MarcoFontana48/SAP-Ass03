@@ -27,7 +27,7 @@ public final class JsonUtils {
     
     /**
      * Converts a JSON string to a User object.
-     * @param userJsonString the JSON string to convert
+     * @param eBike the JSON string to convert
      * @return the User object
      */
     public static JsonObject fromEBikeToJsonObject(EBike eBike) {
