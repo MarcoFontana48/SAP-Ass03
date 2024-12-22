@@ -7,6 +7,9 @@ import sap.ass02.domain.dto.UserDTO;
 
 import java.util.Optional;
 
+/**
+ * Utility class for converting DTOs to domain objects
+ */
 public class DTOUtils {
     public static User toUser(UserDTO userDTO) {
         User user = new User(userDTO.id());
