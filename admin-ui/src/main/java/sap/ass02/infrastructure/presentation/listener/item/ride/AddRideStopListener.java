@@ -11,19 +11,35 @@ import sap.ass02.infrastructure.presentation.view.dialog.AddRideView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Listener for stopping a ride.
+ */
 public final class AddRideStopListener implements ActionListener, ViewListener<AddRideWebController, AddRideView> {
     private static final Logger LOGGER = LogManager.getLogger(AddRideStopListener.class);
     private AddRideWebController controller;
 
+    /**
+     * Instantiates a new Add ride stop listener.
+     */
     public AddRideStopListener() {
     }
     
+    /**
+     * Attaches the controller to the listener
+     *
+     * @param controller the controller
+     */
     @Override
     public void attachController(final AddRideWebController controller) {
         this.controller = controller;
         LOGGER.trace("Attached webController of type '{}' to listener '{}'", controller.getClass().getSimpleName(), this.getClass().getSimpleName());
     }
     
+    /**
+     * Handles the action event
+     *
+     * @param e the action event
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         LOGGER.trace("Stop ride button clicked");

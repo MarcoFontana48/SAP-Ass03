@@ -10,13 +10,26 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.io.File;
 
+/**
+ * Listener for adding a plugin
+ *
+ * @param <V> the view type
+ */
 public abstract class AddPluginListener<V extends AppView> implements ViewListener<WebController<V>, V> {
     private static final Logger LOGGER = LogManager.getLogger(AddPluginListener.class);
     protected WebController<V> webController;
     
+    /**
+     * Creates a new AddPluginListener
+     */
     public AddPluginListener() {
     }
     
+    /**
+     * Attaches the given web controller to this listener
+     *
+     * @param webController
+     */
     @Override
     public void attachController(WebController<V> webController) {
         this.webController = webController;
@@ -24,6 +37,11 @@ public abstract class AddPluginListener<V extends AppView> implements ViewListen
         
     }
     
+    /**
+     * Handles the action event
+     *
+     * @param e the action event
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         LOGGER.trace("Add plugin button clicked");

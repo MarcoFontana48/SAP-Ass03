@@ -11,19 +11,35 @@ import sap.ass02.infrastructure.presentation.view.dialog.AddRideView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Listener for the start ride button.
+ */
 public final class AddRideStartListener implements ActionListener, ViewListener<AddRideWebController, AddRideView> {
     private static final Logger LOGGER = LogManager.getLogger(AddRideStartListener.class);
     private AddRideWebController controller;
 
+    /**
+     * Instantiates a new Add ride start listener.
+     */
     public AddRideStartListener() {
     }
     
+    /**
+     * Attaches the controller to the listener
+     *
+     * @param controller the controller
+     */
     @Override
     public void attachController(final AddRideWebController controller) {
         this.controller = controller;
         LOGGER.trace("Attached webController of type '{}' to listener '{}'", controller.getClass().getSimpleName(), this.getClass().getSimpleName());
     }
     
+    /**
+     * Invoked when an action occurs.
+     *
+     * @param e the event to be processed
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         LOGGER.trace("Start ride button clicked");

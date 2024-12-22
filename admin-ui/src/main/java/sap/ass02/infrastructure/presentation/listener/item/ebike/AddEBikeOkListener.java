@@ -9,19 +9,35 @@ import sap.ass02.infrastructure.presentation.view.dialog.AddEBikeView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Listener for the ok button in the add eBike dialog.
+ */
 public final class AddEBikeOkListener implements ActionListener, ViewListener<AddEBikeWebController, AddEBikeView> {
     private static final Logger LOGGER = LogManager.getLogger(AddEBikeOkListener.class);
     private AddEBikeWebController controller;
 
+    /**
+     * Creates a new listener
+     */
     public AddEBikeOkListener() {
     }
     
+    /**
+     * Attaches the controller to the listener
+     *
+     * @param controller the controller
+     */
     @Override
     public void attachController(final AddEBikeWebController controller) {
         this.controller = controller;
         LOGGER.trace("Attached webController of type '{}' to listener '{}'", controller.getClass().getSimpleName(), this.getClass().getSimpleName());
     }
     
+    /**
+     * Handles the action event
+     *
+     * @param e the action event
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         LOGGER.trace("Ok button clicked");
