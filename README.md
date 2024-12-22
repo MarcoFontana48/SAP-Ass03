@@ -6,14 +6,14 @@
 5. move to path `~\bike-service` and run `docker build -t bike-service -f docker-maven/Dockerfile . ; docker build -t bike-sql-db -f docker-sql-db/Dockerfile . ; docker build -t bike-mongo-db -f docker-mongo-db/Dockerfile .` to build the bike-service and bike-db images
 6. move to path `~\ride-service` and run `docker build -t ride-service -f docker-maven/Dockerfile . ; docker build -t ride-sql-db -f docker-sql-db/Dockerfile . ; docker build -t ride-mongo-db -f docker-mongo-db/Dockerfile .` to build the bike-service and bike-db images
 7. move to the project root path `~\` (the parent directory of previous' steps paths) and run `docker-compose up -d` to run the whole project and its services on containers based on the images created in previous steps
-8. to run the clients: 
+8. to run the clients:
     - User client: move to path `~\user-ui\src\main\java\sap\ass02\infrastructure\UserClient.java` and run its main method
     - Admin client: move to path `~\admin-ui\src\main\java\sap\ass02\infrastructure\UserClient.java` and run its main method
 
 ### How to see the metrics
 Open a browser and navigate to `http://localhost:9090` to see the metrics of the services
 
-- execute query `user_service_requests_method_status_total` to see the number of requests made to the services divided by service type, method and status code 
+- execute query `user_service_requests_method_status_total` to see the number of requests made to the services divided by service type, method and status code
 - execute query `histogram_quantile(0.95, sum(rate(requests_latency_seconds_bucket[5m])) by (le))` to see the latency of the 95° (percentile) of requests made to the service in the last 5 minutes (remove the "[5m]" to see the latency of all requests)
 - execute query `rate(requests_latency_seconds_sum[5m]) / rate(requests_latency_seconds_count[5m])` to see the average latency of requests made to the service in the last 5 minutes (remove the "[5m]" to see the average latency of all requests)
 - execute query `requests_latency_seconds_bucket` to see the distribution of latency of requests made to the service in a histogram of bins of 'less than or equal to' the value specified in the output of the query "le=..." ("le" stands for "less or equal than" the number specified after the '=')

@@ -4,21 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c36b0785-90ba-474f-8b00-43f3f30ac046" name="Changes" comment="uploaded ass-02 refactorized to jvm21">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bike-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/bike-service/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bike-service/src/main/java/sap/ass02/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/bike-service/src/main/java/sap/ass02/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bike-service/src/main/java/sap/ass02/application/BikeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/bike-service/src/main/java/sap/ass02/domain/application/BikeService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bike-service/src/main/java/sap/ass02/application/BikeServiceVerticle.java" beforeDir="false" afterPath="$PROJECT_DIR$/bike-service/src/main/java/sap/ass02/domain/application/BikeServiceVerticle.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bike-service/src/main/java/sap/ass02/application/ServiceVerticle.java" beforeDir="false" afterPath="$PROJECT_DIR$/bike-service/src/main/java/sap/ass02/domain/application/ServiceVerticle.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bike-service/src/test/java/sap/ass02/infrastructure/EBikeServiceComponentTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/bike-service/src/test/java/sap/ass02/infrastructure/EBikeServiceComponentTest.java" afterDir="false" />
-    </list>
+    <list default="true" id="c36b0785-90ba-474f-8b00-43f3f30ac046" name="Changes" comment="docs(api-gateway): add documentation api-gateway classes" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory"><![CDATA[{
@@ -58,9 +55,11 @@
     "JUnit.All in bike-service.executor": "Run",
     "JUnit.DependenciesTest.executor": "Run",
     "JUnit.EBikeServiceComponentTest.executor": "Run",
+    "JUnit.RideServiceComponentTest.executor": "Run",
+    "JUnit.UserServiceComponentTest.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "dev",
     "last_opened_file_path": "C:/Users/marco/OneDrive/Universita/Software architecture and platforms/SAP-ASS03/user-ui",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -183,7 +182,7 @@
       <updated>1734858372384</updated>
       <workItem from="1734858374139" duration="558000" />
       <workItem from="1734859073997" duration="241000" />
-      <workItem from="1734859587723" duration="2076000" />
+      <workItem from="1734859587723" duration="7477000" />
     </task>
     <task id="LOCAL-00001" summary="uploaded ass-02 refactorized to jvm21">
       <option name="closed" value="true" />
@@ -193,7 +192,199 @@
       <option name="project" value="LOCAL" />
       <updated>1734861174056</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="refactor: add mockito for tests where a mock is required">
+      <option name="closed" value="true" />
+      <created>1734862031266</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1734862031266</updated>
+    </task>
+    <task id="LOCAL-00003" summary="docs(admin-ui): add documentation to DTO classes">
+      <option name="closed" value="true" />
+      <created>1734863132912</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1734863132912</updated>
+    </task>
+    <task id="LOCAL-00004" summary="docs(admin-ui): add documentation to ports">
+      <option name="closed" value="true" />
+      <created>1734863172764</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1734863172764</updated>
+    </task>
+    <task id="LOCAL-00005" summary="docs(admin-ui): add documentation to domain utils and properties">
+      <option name="closed" value="true" />
+      <created>1734863245115</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1734863245115</updated>
+    </task>
+    <task id="LOCAL-00006" summary="docs(admin-ui): add documentation to P2dDTO and V2dDTO methods">
+      <option name="closed" value="true" />
+      <created>1734863474122</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1734863474122</updated>
+    </task>
+    <task id="LOCAL-00007" summary="docs(admin-ui): add documentation to DTOUtils and JsonUtils methods">
+      <option name="closed" value="true" />
+      <created>1734863534514</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1734863534514</updated>
+    </task>
+    <task id="LOCAL-00008" summary="docs(admin-ui): fix documentation to JsonUtils method">
+      <option name="closed" value="true" />
+      <created>1734863573400</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1734863573400</updated>
+    </task>
+    <task id="LOCAL-00009" summary="docs(admin-ui): add documentation to domain elements">
+      <option name="closed" value="true" />
+      <created>1734864133132</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1734864133132</updated>
+    </task>
+    <task id="LOCAL-00010" summary="docs(admin-ui): add documentation to api elements">
+      <option name="closed" value="true" />
+      <created>1734864249957</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1734864249957</updated>
+    </task>
+    <task id="LOCAL-00011" summary="docs(admin-ui): add documentation to controllers">
+      <option name="closed" value="true" />
+      <created>1734864526864</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1734864526864</updated>
+    </task>
+    <task id="LOCAL-00012" summary="docs(admin-ui): add documentation to controllers items">
+      <option name="closed" value="true" />
+      <created>1734864723462</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1734864723462</updated>
+    </task>
+    <task id="LOCAL-00013" summary="docs(admin-ui): add documentation to controllers property">
+      <option name="closed" value="true" />
+      <created>1734865005381</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1734865005381</updated>
+    </task>
+    <task id="LOCAL-00014" summary="docs(admin-ui): add documentation to controller's WebController">
+      <option name="closed" value="true" />
+      <created>1734865049526</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1734865049526</updated>
+    </task>
+    <task id="LOCAL-00015" summary="docs(admin-ui): fix documentation of controller's AbstractAdminController">
+      <option name="closed" value="true" />
+      <created>1734865117160</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1734865117160</updated>
+    </task>
+    <task id="LOCAL-00016" summary="docs(admin-ui): add documentation of listener classes">
+      <option name="closed" value="true" />
+      <created>1734865200571</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1734865200571</updated>
+    </task>
+    <task id="LOCAL-00017" summary="docs(admin-ui): add documentation of listener classes">
+      <option name="closed" value="true" />
+      <created>1734865347530</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1734865347530</updated>
+    </task>
+    <task id="LOCAL-00018" summary="docs(admin-ui): add documentation of admin view classes">
+      <option name="closed" value="true" />
+      <created>1734865639738</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1734865639738</updated>
+    </task>
+    <task id="LOCAL-00019" summary="docs(admin-ui): add documentation of admin view dialog classes">
+      <option name="closed" value="true" />
+      <created>1734865859364</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1734865859364</updated>
+    </task>
+    <task id="LOCAL-00020" summary="docs(admin-ui): add documentation of admin view property classes">
+      <option name="closed" value="true" />
+      <created>1734865986222</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1734865986222</updated>
+    </task>
+    <task id="LOCAL-00021" summary="docs(admin-ui): add documentation of admin view">
+      <option name="closed" value="true" />
+      <created>1734866135482</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1734866135482</updated>
+    </task>
+    <task id="LOCAL-00022" summary="docs(admin-ui): add documentation of AdminClient main class">
+      <option name="closed" value="true" />
+      <created>1734866163343</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1734866163343</updated>
+    </task>
+    <task id="LOCAL-00023" summary="docs(admin-ui): add documentation of KafkaEBikeServiceEventManagerVerticle">
+      <option name="closed" value="true" />
+      <created>1734866175271</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1734866175271</updated>
+    </task>
+    <task id="LOCAL-00024" summary="docs(admin-ui): add documentation for DDD objects">
+      <option name="closed" value="true" />
+      <created>1734866210143</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1734866210143</updated>
+    </task>
+    <task id="LOCAL-00025" summary="docs(api-gateway): add documentation api-gateway classes">
+      <option name="closed" value="true" />
+      <created>1734866409074</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1734866409074</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -202,7 +393,30 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="uploaded ass-02 code" />
     <MESSAGE value="uploaded ass-02 refactorized to jvm21" />
-    <option name="LAST_COMMIT_MESSAGE" value="uploaded ass-02 refactorized to jvm21" />
+    <MESSAGE value="refactor: add mockito for tests where a mock is required" />
+    <MESSAGE value="docs(admin-ui): add documentation to DTO classes" />
+    <MESSAGE value="docs(admin-ui): add documentation to ports" />
+    <MESSAGE value="docs(admin-ui): add documentation to domain utils and properties" />
+    <MESSAGE value="docs(admin-ui): add documentation to P2dDTO and V2dDTO methods" />
+    <MESSAGE value="docs(admin-ui): add documentation to DTOUtils and JsonUtils methods" />
+    <MESSAGE value="docs(admin-ui): fix documentation to JsonUtils method" />
+    <MESSAGE value="docs(admin-ui): add documentation to domain elements" />
+    <MESSAGE value="docs(admin-ui): add documentation to api elements" />
+    <MESSAGE value="docs(admin-ui): add documentation to controllers" />
+    <MESSAGE value="docs(admin-ui): add documentation to controllers items" />
+    <MESSAGE value="docs(admin-ui): add documentation to controllers property" />
+    <MESSAGE value="docs(admin-ui): add documentation to controller's WebController" />
+    <MESSAGE value="docs(admin-ui): fix documentation of controller's AbstractAdminController" />
+    <MESSAGE value="docs(admin-ui): add documentation of listener classes" />
+    <MESSAGE value="docs(admin-ui): add documentation of admin view classes" />
+    <MESSAGE value="docs(admin-ui): add documentation of admin view dialog classes" />
+    <MESSAGE value="docs(admin-ui): add documentation of admin view property classes" />
+    <MESSAGE value="docs(admin-ui): add documentation of admin view" />
+    <MESSAGE value="docs(admin-ui): add documentation of AdminClient main class" />
+    <MESSAGE value="docs(admin-ui): add documentation of KafkaEBikeServiceEventManagerVerticle" />
+    <MESSAGE value="docs(admin-ui): add documentation for DDD objects" />
+    <MESSAGE value="docs(api-gateway): add documentation api-gateway classes" />
+    <option name="LAST_COMMIT_MESSAGE" value="docs(api-gateway): add documentation api-gateway classes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

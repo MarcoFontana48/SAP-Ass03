@@ -12,6 +12,7 @@
         <option value="$PROJECT_DIR$/service-discovery/pom.xml" />
         <option value="$PROJECT_DIR$/user-service/pom.xml" />
         <option value="$PROJECT_DIR$/user-ui/pom.xml" />
+        <option value="$PROJECT_DIR$/SAP-ASS03/pom.xml" />
       </list>
     </option>
   </component>
