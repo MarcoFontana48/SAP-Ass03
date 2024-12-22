@@ -14,10 +14,16 @@ import io.vertx.ext.web.handler.BodyHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * The API gateway verticle.
+ */
 public final class ApiGatewayVerticle extends AbstractVerticle {
     private static final Logger LOGGER = LogManager.getLogger(ApiGatewayVerticle.class);
     private static final int HTTP_PORT = 8080;
     
+    /**
+     * Starts the API gateway verticle.
+     */
     @Override
     public void start() {
         WebClient client = WebClient.create(this.vertx, new WebClientOptions().setDefaultPort(HTTP_PORT));
@@ -53,6 +59,9 @@ public final class ApiGatewayVerticle extends AbstractVerticle {
         this.vertx.createHttpServer().requestHandler(router).listen(HTTP_PORT);
     }
     
+    /**
+     * Stops the API gateway verticle.
+     */
     private void rerouteTo(Router router, String endpoint, String host, WebClient client) {
         router.route(endpoint).handler(ctx -> {
             String path = ctx.request().uri();
@@ -69,6 +78,9 @@ public final class ApiGatewayVerticle extends AbstractVerticle {
         });
     }
     
+    /**
+     * Determines the target host.
+     */
     private String determineTargetHost(String path) {
         if (path.startsWith("/wsc/ebike/")) {
             return "ebike-service";
@@ -79,6 +91,9 @@ public final class ApiGatewayVerticle extends AbstractVerticle {
         }
     }
     
+    /**
+     * Proxies the WebSocket.
+     */
     private void proxyWebSocket(RoutingContext ctx, String targetHost) {
         if (targetHost == null) {
             ctx.fail(404);
@@ -113,6 +128,9 @@ public final class ApiGatewayVerticle extends AbstractVerticle {
         });
     }
     
+    /**
+     * Sends a response to the client.
+     */
     private static void sendResponse(RoutingContext routingContext, JsonObject response, int statusCode) {
         LOGGER.trace("Sending response with status code '{}' to client:\n{}", statusCode, response.encodePrettily());
         routingContext.response()
