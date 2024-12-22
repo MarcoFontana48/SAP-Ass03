@@ -20,6 +20,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * The admin GUI view
+ */
 public final class AdminGUIView extends AbstractGUIView<AdminView> implements AdminView {
     private static final Logger LOGGER = LogManager.getLogger(AdminGUIView.class);
     private static final int WIDTH = 800;
@@ -33,6 +36,9 @@ public final class AdminGUIView extends AbstractGUIView<AdminView> implements Ad
     private final AddRideView addRideDialog = new AddRideView();
     private final JPanel topPanel = new JPanel();
     
+    /**
+     * displays a new Admin GUI view.
+     */
     @Override
     public void display() {
         LOGGER.trace("About to display user GUI: '{}'", this.getClass().getSimpleName());
@@ -40,59 +46,100 @@ public final class AdminGUIView extends AbstractGUIView<AdminView> implements Ad
         LOGGER.debug("Now showing user GUI: '{}'", this.getClass().getSimpleName());
     }
     
+    /**
+     * opens the add user dialog.
+     */
     @Override
     public void openAddUserDialog() {
         LOGGER.trace("Opening add user dialog");
         this.addUserDialog.setVisible(true);
     }
     
+    /**
+     * opens the add ebike dialog.
+     */
     @Override
     public void openAddEBikeDialog() {
         LOGGER.trace("Opening add ebike dialog");
         this.addEBikeDialog.setVisible(true);
     }
     
+    /**
+     * opens the start ride dialog.
+     */
     @Override
     public void openStartRideDialog() {
         LOGGER.trace("Opening start ride dialog");
         this.addRideDialog.setVisible(true);
     }
     
+    /**
+     * gets the add user dialog.
+     */
     @Override
     public AddUserView getAddUserDialog() {
         return this.addUserDialog;
     }
     
+    /**
+     * gets the add ebike dialog.
+     */
     @Override
     public AddEBikeView getAddEBikeDialog() {
         return this.addEBikeDialog;
     }
     
+    /**
+     * gets the add ride dialog.
+     */
     @Override
     public AddRideView getAddRideDialog() {
         return this.addRideDialog;
     }
     
+    /**
+     * adds an add user listener.
+     *
+     * @param listener the listener
+     */
     @Override
     public void addAddUserListener(final AdminAddUserListener listener) {
         this.addUserButton.addActionListener(listener);
     }
     
+    /**
+     * adds an add ebike listener.
+     *
+     * @param adminAddEBikeListener the listener
+     */
     @Override
     public void addAddEBikeListener(final AdminAddEBikeListener adminAddEBikeListener) {
         this.addEBikeButton.addActionListener(adminAddEBikeListener);
     }
     
+    /**
+     * adds a start ride listener.
+     *
+     * @param listener the listener
+     */
     @Override
     public void addStartRideEBikeListener(final AdminStartRideListener listener) {
         this.startRideButton.addActionListener(listener);
     }
     
+    /**
+     * adds a plugin listener.
+     *
+     * @param listener the listener
+     */
     @Override
     public void addPluginListener(AddPluginListener<AdminView> listener) {
         this.addPluginButton.addActionListener(listener);
     }
     
+    /**
+     * sets up the admin GUI view.
+     */
     @Override
     public void setup() {
         LOGGER.trace("'{}' setup started", this.getClass().getSimpleName());
@@ -117,21 +164,39 @@ public final class AdminGUIView extends AbstractGUIView<AdminView> implements Ad
         LOGGER.trace("'{}' setup completed", this.getClass().getSimpleName());
     }
     
+    /**
+     * adds an ebike to show.
+     *
+     * @param ebike the ebike
+     */
     @Override
     public void addEBikeToShow(EBike ebike) {
         this.centralPanel.addBikeToShow(ebike);
     }
     
+    /**
+     * adds a user to show.
+     *
+     * @param user the user
+     */
     @Override
     public void addUserToShow(User user) {
         this.centralPanel.addUserToShow(user);
     }
     
+    /**
+     * refreshes the view.
+     */
     @Override
     public void refresh() {
         this.centralPanel.refresh();
     }
     
+    /**
+     * adds a new effect.
+     *
+     * @param s the effect
+     */
     @Override
     public void addNewEffect(String s) {
         LOGGER.trace("Adding new effect: '{}'", s);
@@ -146,13 +211,18 @@ public final class AdminGUIView extends AbstractGUIView<AdminView> implements Ad
         this.topPanel.revalidate();
     }
     
+    /**
+     * gets the visualizer panel.
+     */
     @Override
     public Optional<VisualiserPanel> getVisualizerPanel() {
         return Optional.ofNullable(this.centralPanel);
     }
     
+    /**
+     * class of the admin visualizer panel.
+     */
     public static class AdminVisualiserPanel extends JPanel implements VisualiserPanel {
-        
         private final Map<String, EBike> bikes = new HashMap<>();
         private final Map<String, User> users = new HashMap<>();
         private final long dx;
@@ -163,12 +233,23 @@ public final class AdminGUIView extends AbstractGUIView<AdminView> implements Ad
         private Color usersOutOfCreditsColor = Color.BLACK;
         private Color usersDefaultColor = Color.BLACK;
         
+        /**
+         * creates a new admin visualizer panel.
+         *
+         * @param w the width
+         * @param h the height
+         */
         public AdminVisualiserPanel(int w, int h) {
             this.setSize(w, h);
             this.dx = w / 2 - 20;
             this.dy = h / 2 - 20;
         }
         
+        /**
+         * paints the panel.
+         *
+         * @param g the graphics
+         */
         public void paint(Graphics g) {
             Graphics2D g2 = (Graphics2D) g;
             
@@ -223,54 +304,95 @@ public final class AdminGUIView extends AbstractGUIView<AdminView> implements Ad
             }
         }
         
+        /**
+         * adds a bike to show.
+         *
+         * @param ebike the ebike
+         */
         public void addBikeToShow(EBike ebike) {
             this.bikes.put(ebike.getId(), ebike);
         }
         
+        /**
+         * adds a user to show.
+         *
+         * @param users the user
+         */
         public void addUserToShow(User users) {
             this.users.put(users.getId(), users);
         }
         
+        /**
+         * refreshes the panel.
+         */
         public void refresh() {
             this.repaint();
         }
         
+        /**
+         * applies an effect.
+         *
+         * @param pluginId the plugin id
+         */
         @Override
         public void applyEffect(String pluginId) {
             LOGGER.trace("Applying effect: '{}'", pluginId);
             this.refresh();
         }
         
+        /**
+         * sets the available color of the bike.
+         *
+         * @param color the color
+         */
         @Override
         public void setAvailableColorBike(Color color) {
             LOGGER.trace("Setting available ebike color to: '{}'", color);
             this.ebikesAvailableColor = color;
-            
         }
         
+        /**
+         * sets the in use color of the bike.
+         *
+         * @param color the color
+         */
         @Override
         public void setIsUseColorBike(Color color) {
             LOGGER.trace("Setting in use ebike color to: '{}'", color);
             this.ebikesIsUseColor = color;
         }
         
+        /**
+         * sets the maintenance color of the bike.
+         *
+         * @param color the color
+         */
         @Override
         public void setMantainanceColorBike(Color color) {
             LOGGER.trace("Setting maintenance ebike color to: '{}'", color);
             this.ebikesMantainanceColor = color;
         }
         
+        /**
+         * sets the out of credits user color.
+         *
+         * @param color the color
+         */
         @Override
         public void setOutOfCreditsUserColor(Color color) {
             LOGGER.trace("Setting idle user color to: '{}'", color);
             this.usersOutOfCreditsColor = color;
         }
         
+        /**
+         * sets the default user color.
+         *
+         * @param color the color
+         */
         @Override
         public void setDefaultUserColor(Color color) {
             LOGGER.trace("Setting riding user color to: '{}'", color);
             this.usersDefaultColor = color;
         }
     }
-
 }

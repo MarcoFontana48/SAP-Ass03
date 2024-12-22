@@ -7,6 +7,9 @@ import sap.ass02.infrastructure.presentation.listener.item.plugin.AddPluginListe
 import sap.ass02.infrastructure.presentation.view.AppView;
 import sap.ass02.infrastructure.presentation.view.property.*;
 
+/**
+ * Admin view interface
+ */
 public interface AdminView extends AppView, UserVisualizer, EBikeVisualizer, AddUserCapable<AdminAddUserListener>, AddEBikeCapable<AdminAddEBikeListener>, StartRideCapable<AdminStartRideListener>, AddPluginCapable<AddPluginListener<AdminView>> {
     
 }
