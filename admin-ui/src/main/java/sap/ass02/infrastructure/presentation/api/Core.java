@@ -2,6 +2,9 @@ package sap.ass02.infrastructure.presentation.api;
 
 import java.io.File;
 
+/**
+ * Core Interface for loading and applying plugins
+ */
 public interface Core {
     /**
      *
