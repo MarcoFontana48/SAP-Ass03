@@ -12,11 +12,17 @@ import sap.ass02.infrastructure.presentation.view.admin.AdminConsoleView;
 import sap.ass02.infrastructure.presentation.view.admin.AdminGUIView;
 import sap.ass02.infrastructure.presentation.view.admin.AdminView;
 
+/**
+ * The admin client
+ */
 public final class AdminClient {
     private static final Logger LOGGER = LogManager.getLogger(AdminClient.class);
     private static final int SERVER_PORT = 8080;
     private static final String SERVER_IP_ADDRESS = "localhost";
     
+    /**
+     * Creates a new admin client
+     */
     public static void main(String[] args) {
         Vertx vertx = Vertx.vertx();
         WebClient webClient = WebClient.create(vertx);
