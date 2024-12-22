@@ -20,6 +20,9 @@ import sap.ass02.infrastructure.presentation.view.admin.AdminView;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Abstract controller for the admin UI.
+ */
 public abstract class AbstractAdminController extends AbstractVerticle implements ClientRequestSender, AdminWebController {
     protected static final Logger LOGGER = LogManager.getLogger(AbstractAdminController.class);
     protected Map<String, String> consumerConfig = new HashMap<>();
@@ -30,6 +33,11 @@ public abstract class AbstractAdminController extends AbstractVerticle implement
     protected WebClient webClient;
     protected String host;
     
+    /**
+     * Attaches the given view to this controller.
+     *
+     * @param view the view to attach
+     */
     public void attachWebClient(final WebClient webClient, final String host, final int port) {
         this.port = port;
         this.webClient = webClient;
@@ -38,12 +46,18 @@ public abstract class AbstractAdminController extends AbstractVerticle implement
         LOGGER.trace("Attached model of type '{}' to webController '{}'", webClient.getClass().getSimpleName(), this.getClass().getSimpleName());
     }
     
+    /**
+     * starts the controller verticle.
+     */
     @Override
     public void start() {
         this.updateViewWithInitialState();
         this.startMonitoringAndUpdatingView();
     }
     
+    /**
+     * starts monitoring and updating the view.
+     */
     private void startMonitoringAndUpdatingView() {
         this.vertx.eventBus().consumer("ebike-update", message -> {
             JsonObject ebikeJsonObject = new JsonObject(message.body().toString());
@@ -58,6 +72,9 @@ public abstract class AbstractAdminController extends AbstractVerticle implement
         });
     }
     
+    /**
+     * Updates the view with the initial state.
+     */
     private void updateViewWithInitialState() {
         Future<Iterable<EBike>> allEBikes = this.makeClientRequest().getAllEBikes();
         Future<Iterable<User>> allUsers = this.makeClientRequest().getAllUsers();
@@ -66,6 +83,11 @@ public abstract class AbstractAdminController extends AbstractVerticle implement
         this.showToView(allUsers);
     }
     
+    /**
+     * Shows the given message to the view.
+     *
+     * @param message the message to show
+     */
     private void showToView(String message) {
         JsonObject obj = new JsonObject(message);
         LOGGER.trace("retrieved {}: '{}'", obj.getClass().getSimpleName(), obj);
@@ -84,6 +106,11 @@ public abstract class AbstractAdminController extends AbstractVerticle implement
         }
     }
     
+    /**
+     * Shows the given entities to the view.
+     *
+     * @param allEntities the entities to show
+     */
     private <T extends Entity<?>> void showToView(Future<Iterable<T>> allEntities) {
         allEntities.onSuccess(entities -> {
             entities.forEach(entity -> {
@@ -98,6 +125,11 @@ public abstract class AbstractAdminController extends AbstractVerticle implement
         allEntities.onFailure(throwable -> LOGGER.error("Failed to retrieve entities: {}", throwable.getMessage()));
     }
     
+    /**
+     * Gets the application API.
+     *
+     * @return the application API
+     */
     @Override
     public ClientRequest makeClientRequest() {
         return this.clientRequest;
