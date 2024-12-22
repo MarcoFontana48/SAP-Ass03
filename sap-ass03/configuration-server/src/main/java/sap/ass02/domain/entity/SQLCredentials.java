@@ -4,7 +4,13 @@ import io.vertx.core.json.JsonObject;
 import sap.ass02.domain.property.Jsonifyable;
 import sap.ass02.domain.utils.JsonFieldKey;
 
+/**
+ * record class for SQL credentials
+ */
 public record SQLCredentials(String host, String port, String database, String username, String password) implements Jsonifyable {
+    /**
+     * Check if the SQL credentials are valid
+     */
     public SQLCredentials {
         if (host == null || host.isBlank()) {
             throw new IllegalArgumentException("Host cannot be null or empty");
@@ -23,6 +29,10 @@ public record SQLCredentials(String host, String port, String database, String u
         }
     }
     
+    /**
+     * Convert the SQL credentials to a JSON object
+     * @return the JSON object representing the SQL credentials
+     */
     @Override
     public JsonObject toJsonObject() {
         return new JsonObject()

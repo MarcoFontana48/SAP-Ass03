@@ -4,7 +4,14 @@ import sap.ass02.domain.entity.MongoCredentials;
 import sap.ass02.domain.entity.SQLCredentials;
 import sap.ass02.domain.port.Service;
 
+/**
+ * Service class to provide the credentials for the services
+ */
 public final class ServiceImpl implements Service {
+    /**
+     * Get the sql credentials for the user service
+     * @return the credentials for the user service
+     */
     @Override
     public SQLCredentials getUserServiceSqlCredentials() {
         return new SQLCredentials(
@@ -16,6 +23,10 @@ public final class ServiceImpl implements Service {
         );
     }
     
+    /**
+     * Get the mongo credentials for the user service
+     * @return the credentials for the user service
+     */
     @Override
     public MongoCredentials getUserServiceMongoCredentials() {
         return new MongoCredentials(
@@ -27,6 +38,10 @@ public final class ServiceImpl implements Service {
         );
     }
     
+    /**
+     * Get the sql credentials for the eBike service
+     * @return the credentials for the eBike service
+     */
     @Override
     public SQLCredentials getEBikeServiceSqlCredentials() {
         return new SQLCredentials(
@@ -38,6 +53,10 @@ public final class ServiceImpl implements Service {
         );
     }
     
+    /**
+     * Get the mongo credentials for the eBike service
+     * @return the credentials for the eBike service
+     */
     @Override
     public MongoCredentials getEBikeServiceMongoCredentials() {
         return new MongoCredentials(

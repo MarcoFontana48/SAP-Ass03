@@ -1,5 +1,8 @@
 package sap.ass02.infrastructure;
 
+/**
+ * Class to store the endpoint paths
+ */
 public final class EndpointPath {
     public static final String USER_SERVICE_SQL_CONFIG = "/user-service/config/sql";
     public static final String USER_SERVICE_MONGO_CONFIG = "/user-service/config/mongo";

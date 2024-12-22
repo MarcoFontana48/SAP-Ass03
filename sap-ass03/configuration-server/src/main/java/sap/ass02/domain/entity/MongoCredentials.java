@@ -4,7 +4,13 @@ import io.vertx.core.json.JsonObject;
 import sap.ass02.domain.property.Jsonifyable;
 import sap.ass02.domain.utils.JsonFieldKey;
 
+/**
+ * record class for MongoDB credentials
+ */
 public record MongoCredentials(String mongoDbHost, String mongoDbPort, String mongoDbName, String mongoDbUser, String mongoDbPassword) implements Jsonifyable {
+    /**
+     * Check if the MongoDB credentials are valid
+     */
     public MongoCredentials {
         if (mongoDbHost == null || mongoDbHost.isBlank()) {
             throw new IllegalArgumentException("MongoDB host cannot be null or empty");
@@ -23,6 +29,10 @@ public record MongoCredentials(String mongoDbHost, String mongoDbPort, String mo
         }
     }
     
+    /**
+     * Convert the MongoDB credentials to a JSON object
+     * @return the JSON object representing the MongoDB credentials
+     */
     @Override
     public JsonObject toJsonObject() {
         return new JsonObject()

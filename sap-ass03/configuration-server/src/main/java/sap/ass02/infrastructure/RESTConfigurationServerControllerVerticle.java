@@ -11,6 +11,9 @@ import sap.ass02.domain.port.Service;
 import sap.ass02.application.ServiceImpl;
 import sap.ass02.infrastructure.adapter.Controller;
 
+/**
+ * REST controller for the configuration server
+ */
 public final class RESTConfigurationServerControllerVerticle extends AbstractVerticle implements Controller {
     private static final Logger LOGGER = LogManager.getLogger(RESTConfigurationServerControllerVerticle.class);
     private static final int HTTP_PORT = 8080;
@@ -19,6 +22,9 @@ public final class RESTConfigurationServerControllerVerticle extends AbstractVer
     private final Service service = new ServiceImpl();
     private CircuitBreaker circuitBreaker;
     
+    /**
+     * Start the REST controller
+     */
     @Override
     public void start() {
         this.circuitBreaker = new CircuitBreaker.Builder()
@@ -40,6 +46,10 @@ public final class RESTConfigurationServerControllerVerticle extends AbstractVer
         this.vertx.createHttpServer().requestHandler(router).listen(HTTP_PORT);
     }
     
+    /**
+     * Get the SQL credentials for the user service
+     * @param routingContext the routing context
+     */
     private void getEbikeServiceMongoConfigHandler(RoutingContext routingContext) {
         this.circuitBreaker.execute(() -> {
             LOGGER.trace("Received GET request for mongo config");
@@ -56,6 +66,10 @@ public final class RESTConfigurationServerControllerVerticle extends AbstractVer
         });
     }
     
+    /**
+     * Get the SQL credentials for the user service
+     * @param routingContext the routing context
+     */
     private void getEbikeServiceSqlConfigHandler(RoutingContext routingContext) {
         this.circuitBreaker.execute(() -> {
             LOGGER.trace("Received GET request for sql config");
@@ -72,6 +86,10 @@ public final class RESTConfigurationServerControllerVerticle extends AbstractVer
         });
     }
     
+    /**
+     * Get the health check
+     * @param routingContext the routing context
+     */
     private void getHealthCheckHandler(RoutingContext routingContext) {
         this.circuitBreaker.execute(() -> {
             LOGGER.info("Received GET request");
@@ -89,6 +107,10 @@ public final class RESTConfigurationServerControllerVerticle extends AbstractVer
         });
     }
     
+    /**
+     * Get the SQL credentials for the user service
+     * @param routingContext the routing context
+     */
     private void getUserServiceMongoConfigHandler(RoutingContext routingContext) {
         this.circuitBreaker.execute(() -> {
             LOGGER.trace("Received GET request for mongo config");
@@ -105,6 +127,10 @@ public final class RESTConfigurationServerControllerVerticle extends AbstractVer
         });
     }
     
+    /**
+     * Get the SQL credentials for the user service
+     * @param routingContext the routing context
+     */
     private void getUserServiceSqlConfigHandler(RoutingContext routingContext) {
         this.circuitBreaker.execute(() -> {
             LOGGER.trace("Received GET request for sql config");
@@ -121,6 +147,12 @@ public final class RESTConfigurationServerControllerVerticle extends AbstractVer
         });
     }
     
+    /**
+     * Send a response to the client
+     * @param routingContext the routing context
+     * @param response the response
+     * @param statusCode the status code
+     */
     private static void sendResponse(RoutingContext routingContext, JsonObject response, int statusCode) {
         LOGGER.trace("Sending response with status code '{}' to client:\n{}", statusCode, response.encodePrettily());
         routingContext.response()
