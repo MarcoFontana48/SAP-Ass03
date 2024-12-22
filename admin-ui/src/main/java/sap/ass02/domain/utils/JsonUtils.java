@@ -8,6 +8,11 @@ import sap.ass02.domain.User;
  * Utility class for converting domain objects to JSON objects and vice versa.
  */
 public final class JsonUtils {
+    /**
+     * Converts a JSON string to an EBike object.
+     * @param eBikeJsonString the JSON string to convert
+     * @return the EBike object
+     */
     public static EBike fromJsonStringToEBike(String eBikeJsonString) {
         JsonObject eBikeJson = new JsonObject(eBikeJsonString);
         EBike eBike = new EBike(eBikeJson.getString(JsonFieldKey.EBIKE_ID_KEY));
@@ -20,6 +25,11 @@ public final class JsonUtils {
         return eBike;
     }
     
+    /**
+     * Converts a JSON string to a User object.
+     * @param userJsonString the JSON string to convert
+     * @return the User object
+     */
     public static JsonObject fromEBikeToJsonObject(EBike eBike) {
         return new JsonObject()
                 .put(JsonFieldKey.EBIKE_ID_KEY, eBike.getId())
@@ -32,12 +42,22 @@ public final class JsonUtils {
                 .put(JsonFieldKey.EBIKE_BATTERY_KEY, eBike.getBatteryLevel());
     }
     
+    /**
+     * Converts a User object to a JSON object.
+     * @param user the User object to convert
+     * @return the JSON object
+     */
     public static JsonObject fromUserToJsonObject(User user) {
         return new JsonObject()
                 .put(JsonFieldKey.USER_ID_KEY, user.getId())
                 .put(JsonFieldKey.USER_CREDIT_KEY, user.getCredit());
     }
 
+    /**
+     * Converts a JSON string to a User object.
+     * @param userJsonString the JSON string to convert
+     * @return the User object
+     */
     public static User fromJsonStringToUser(String userJsonString) {
         JsonObject userJson = new JsonObject(userJsonString);
         User user = new User(userJson.getString(JsonFieldKey.USER_ID_KEY));

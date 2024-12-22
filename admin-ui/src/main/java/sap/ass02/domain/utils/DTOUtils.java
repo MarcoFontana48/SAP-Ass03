@@ -11,12 +11,22 @@ import java.util.Optional;
  * Utility class for converting DTOs to domain objects
  */
 public class DTOUtils {
+    /**
+     * Converts a UserDTO to a User
+     * @param userDTO the DTO to convert
+     * @return the converted User
+     */
     public static User toUser(UserDTO userDTO) {
         User user = new User(userDTO.id());
         user.rechargeCredit(userDTO.credit());
         return user;
     }
     
+    /**
+     * Converts an EBikeDTO to an EBike
+     * @param ebikeDTO the DTO to convert
+     * @return the converted EBike
+     */
     public static EBike toEBike(EBikeDTO ebikeDTO) {
         EBike ebike = new EBike(ebikeDTO.id());
         ebike.updateState(EBike.EBikeState.valueOf(ebikeDTO.state().toString()));
@@ -27,6 +37,11 @@ public class DTOUtils {
         return ebike;
     }
     
+    /**
+     * Converts a RideDTO to a Ride
+     * @param rideDTO the DTO to convert
+     * @return the converted Ride
+     */
     public static Ride toRide(RideDTO rideDTO) {
         User user = toUser(rideDTO.user());
         EBike ebike = toEBike(rideDTO.ebike());
