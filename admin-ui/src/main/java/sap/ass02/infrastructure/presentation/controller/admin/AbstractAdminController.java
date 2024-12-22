@@ -34,9 +34,11 @@ public abstract class AbstractAdminController extends AbstractVerticle implement
     protected String host;
     
     /**
-     * Attaches the given view to this controller.
+     * Attaches the given web client to this controller.
      *
-     * @param view the view to attach
+     * @param webClient the web client to attach
+     * @param host the host
+     * @param port the port
      */
     public void attachWebClient(final WebClient webClient, final String host, final int port) {
         this.port = port;
