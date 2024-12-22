@@ -1,0 +1,222 @@
+version: '3.8'
+
+services:
+  config-server:
+    image: config-server
+    container_name: config-server
+    ports:
+      - "8083:8080"
+    healthcheck:
+      test: curl --fail http://localhost:8080/health || exit 1
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+      start_interval: 5s
+    networks:
+      - ebike-app-network
+
+  # this tag has to match the 'DB_HOST' value in the user-service
+  mysql_user_db:
+    image: user-sql-db:latest
+    container_name: user-sql-db
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: ebike
+    ports:
+      - "3308:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+      start_interval: 5s
+    depends_on:
+      config-server:
+        condition: service_healthy
+    networks:
+      - ebike-app-network
+
+  # this tag has to match the 'DB_HOST' value in the ebike-service
+  mysql_bike_db:
+    image: bike-sql-db:latest
+    container_name: bike-sql-db
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: ebike
+    ports:
+      - "3307:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+      start_interval: 5s
+    depends_on:
+      config-server:
+        condition: service_healthy
+    networks:
+      - ebike-app-network
+
+  # this tag has to match the 'DB_HOST_MONGO' value in the user-service
+  mongo_user_db:
+    image: user-mongo-db:latest
+    container_name: user-mongo-db
+    ports:
+      - "27017:27017"
+    depends_on:
+      config-server:
+        condition: service_healthy
+    networks:
+      - ebike-app-network
+
+  # this tag has to match the 'DB_HOST_MONGO' value in the user-service
+  mongo_bike_db:
+    image: bike-mongo-db:latest
+    container_name: bike-mongo-db
+    ports:
+      - "27018:27017"
+    depends_on:
+      config-server:
+        condition: service_healthy
+    networks:
+      - ebike-app-network
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    container_name: zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "2181:2181"
+    networks:
+      - ebike-app-network
+    healthcheck:
+      test: ["CMD", "echo", "ruok", "|", "nc", "localhost", "2181", "|", "grep", "imok"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    container_name: kafka
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    ports:
+      - "9092:9092"
+    depends_on:
+      zookeeper:
+        condition: service_healthy
+    networks:
+      - ebike-app-network
+
+  user-service:
+    image: user-service
+    container_name: user-service
+    ports:
+      - "8081:8080"    
+    environment:
+      CONFIG_SERVER_HOST_NAME: config-server
+    healthcheck:
+      test: curl --fail http://localhost:8080/health || exit 1
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+      start_interval: 5s
+    depends_on:
+      mysql_user_db:
+        condition: service_healthy
+      mysql_bike_db:
+        condition: service_healthy
+    networks:
+      - ebike-app-network
+
+  ebike-service:
+    image: bike-service
+    container_name: bike-service
+    ports:
+      - "8082:8080"
+    environment:
+      CONFIG_SERVER_HOST_NAME: config-server
+    healthcheck:
+      test: curl --fail http://localhost:8080/health || exit 1
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+      start_interval: 5s
+    depends_on:
+      mysql_user_db:
+        condition: service_healthy
+      mysql_bike_db:
+        condition: service_healthy
+    networks:
+      - ebike-app-network
+
+  ride-service:
+    image: ride-service
+    container_name: ride-service
+    ports:
+      - "8084:8080"
+    environment:
+      CONFIG_SERVER_HOST_NAME: config-server
+    healthcheck:
+      test: curl --fail http://localhost:8080/health || exit 1
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+      start_interval: 5s
+    depends_on:
+      user-service:
+        condition: service_healthy
+      ebike-service:
+        condition: service_healthy
+    networks:
+      - ebike-app-network
+
+  api-gateway:
+    image: api-gateway
+    container_name: api-gateway
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: curl --fail http://localhost:8080/health || exit 1
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+      start_interval: 5s
+    depends_on:
+      ride-service:
+        condition: service_healthy
+    networks:
+      - ebike-app-network
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    expose:
+      - "9090"
+    depends_on:
+      api-gateway:
+          condition: service_healthy
+    networks:
+      - ebike-app-network
+    
+networks:
+  ebike-app-network:
+    driver: bridge

@@ -1,0 +1,36 @@
+FROM maven:3.9.9-eclipse-temurin-23 AS build
+WORKDIR /project
+COPY . /project/
+RUN mvn clean package
+EXPOSE 8080
+
+# sql user-service db credentials
+ENV USER_SERVICE_SQL_DB_HOST=mysql_user_db
+ENV USER_SERVICE_SQL_DB_PORT=3306
+ENV USER_SERVICE_SQL_DB_NAME=ebike
+ENV USER_SERVICE_SQL_DB_USER=root
+ENV USER_SERVICE_SQL_DB_PASSWORD=password
+
+# mongo user-service db credentials
+ENV USER_SERVICE_MONGO_DB_HOST=mongo_user_db
+ENV USER_SERVICE_MONGO_DB_PORT=27017
+ENV USER_SERVICE_MONGO_DB_NAME=ebike
+ENV USER_SERVICE_MONGO_DB_USER=root
+ENV USER_SERVICE_MONGO_DB_PASSWORD=password
+
+# sql ebike-service db credentials
+ENV EBIKE_SERVICE_SQL_DB_HOST=mysql_bike_db
+ENV EBIKE_SERVICE_SQL_DB_PORT=3306
+ENV EBIKE_SERVICE_SQL_DB_NAME=ebike
+ENV EBIKE_SERVICE_SQL_DB_USER=root
+ENV EBIKE_SERVICE_SQL_DB_PASSWORD=password
+
+# mongo ebike-service db credentials
+ENV EBIKE_SERVICE_MONGO_DB_HOST=mongo_bike_db
+ENV EBIKE_SERVICE_MONGO_DB_PORT=27017
+ENV EBIKE_SERVICE_MONGO_DB_NAME=ebike
+ENV EBIKE_SERVICE_MONGO_DB_USER=root
+ENV EBIKE_SERVICE_MONGO_DB_PASSWORD=password
+
+CMD ["mvn", "exec:java", "-Dexec.mainClass=sap.ass02.Main"]
+

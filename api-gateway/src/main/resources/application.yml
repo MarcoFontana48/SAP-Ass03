@@ -1,0 +1,18 @@
+# api gateway routing can be configured either in application.yml or writing java code, here is an example of application.yml
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: ebike-service
+          uri: http://ebike-service:8080
+          predicates:
+            - Path=/app/ebike/**
+        - id: user-service
+          uri: http://user-service:8080
+          predicates:
+            - Path=/app/user/**
+        - id: ride-service
+          uri: http://ride-service:8080
+          predicates:
+            - Path=/app/ride/**

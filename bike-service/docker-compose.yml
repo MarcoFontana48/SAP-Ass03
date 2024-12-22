@@ -1,0 +1,83 @@
+version: '3.8'
+
+services:
+  config-server:
+    image: config-server
+    container_name: config-server
+    ports:
+      - "8081:8080"
+    healthcheck:
+      test: curl --fail http://localhost:8080/health || exit 1
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+      start_interval: 5s
+    networks:
+      - ebike-app-network
+
+  # this tag has to match the 'DB_HOST' value in the ebike-service
+  mysql_bike_db:
+    image: bike-sql-db:latest
+    container_name: bike-sql-db
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: ebike
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+      start_interval: 5s
+    depends_on:
+      config-server:
+        condition: service_healthy
+    networks:
+      - ebike-app-network
+
+  # this tag has to match the 'DB_HOST_MONGO' value in the user-service
+  mongo_bike_db:
+    image: bike-mongo-db:latest
+    container_name: bike-mongo-db
+    ports:
+      - "27017:27017"
+#    healthcheck:
+#      test: ["CMD-SHELL", "mongo --eval 'db.adminCommand(\"ping\")'"]
+#      interval: 1m30s
+#      timeout: 10s
+#      retries: 3
+#      start_period: 40s
+    depends_on:
+      config-server:
+        condition: service_healthy
+    networks:
+      - ebike-app-network
+
+  ebike-service:
+    image: bike-service
+    container_name: bike-service
+    ports:
+      - "8080:8080"
+    environment:
+      CONFIG_SERVER_HOST_NAME: config-server
+    healthcheck:
+      test: curl --fail http://localhost:8080/health || exit 1
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+      start_interval: 5s
+    depends_on:
+      mysql_bike_db:
+        condition: service_healthy
+#      mongo_bike_db:
+#        condition: service_healthy
+    networks:
+      - ebike-app-network
+
+networks:
+  ebike-app-network:
+    driver: bridge
