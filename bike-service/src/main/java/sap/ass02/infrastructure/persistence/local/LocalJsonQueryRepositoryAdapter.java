@@ -7,7 +7,7 @@ import sap.ass02.domain.dto.EBikeDTO;
 import static sap.ass02.infrastructure.persistence.utils.EBikeDTOJsonSerializer.deserializeEBikeDTO;
 
 /**
- * Pseudo-proxy class for AbstractLocalJsonRepositoryAdapter to make it a query-only repository updated via events to implement CQRS pattern
+ * Proxy class for AbstractLocalJsonRepositoryAdapter to make it a query-only repository updated via events to implement CQRS pattern
  */
 public final class LocalJsonQueryRepositoryAdapter extends AbstractLocalJsonRepositoryAdapter {
     private static final Logger LOGGER = LogManager.getLogger(LocalJsonQueryRepositoryAdapter.class);
