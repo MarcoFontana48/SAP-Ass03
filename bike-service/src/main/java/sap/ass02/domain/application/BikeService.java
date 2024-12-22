@@ -1,4 +1,4 @@
-package sap.ass02.application;
+package sap.ass02.domain.application;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

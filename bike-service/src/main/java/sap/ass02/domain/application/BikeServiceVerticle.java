@@ -1,4 +1,4 @@
-package sap.ass02.application;
+package sap.ass02.domain.application;
 
 import io.vertx.core.AbstractVerticle;
 import org.apache.logging.log4j.LogManager;

@@ -123,6 +123,14 @@
       <version>4.9.0</version>
     </dependency>
 
+    <!-- Mockito dependency -->
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <version>3.12.4</version>
+      <scope>test</scope>
+    </dependency>
+
     <!-- Prometheus simple client dependency -->
     <dependency>
       <groupId>io.prometheus</groupId>

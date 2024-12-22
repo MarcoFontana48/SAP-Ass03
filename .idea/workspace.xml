@@ -4,7 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c36b0785-90ba-474f-8b00-43f3f30ac046" name="Changes" comment="" />
+    <list default="true" id="c36b0785-90ba-474f-8b00-43f3f30ac046" name="Changes" comment="uploaded ass-02 refactorized to jvm21">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bike-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/bike-service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bike-service/src/main/java/sap/ass02/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/bike-service/src/main/java/sap/ass02/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bike-service/src/main/java/sap/ass02/application/BikeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/bike-service/src/main/java/sap/ass02/domain/application/BikeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bike-service/src/main/java/sap/ass02/application/BikeServiceVerticle.java" beforeDir="false" afterPath="$PROJECT_DIR$/bike-service/src/main/java/sap/ass02/domain/application/BikeServiceVerticle.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bike-service/src/main/java/sap/ass02/application/ServiceVerticle.java" beforeDir="false" afterPath="$PROJECT_DIR$/bike-service/src/main/java/sap/ass02/domain/application/ServiceVerticle.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bike-service/src/test/java/sap/ass02/infrastructure/EBikeServiceComponentTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/bike-service/src/test/java/sap/ass02/infrastructure/EBikeServiceComponentTest.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -12,6 +20,21 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "MarcoFontana48"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/MarcoFontana48/SAP-Ass03.git",
+    "accountId": "3b849447-567b-4f65-a98f-0f4c48905646"
+  }
+}]]></component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
   </component>
   <component name="ProjectCodeStyleSettingsMigration">
     <option name="version" value="2" />
@@ -33,6 +56,8 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "JUnit.All in bike-service.executor": "Run",
+    "JUnit.DependenciesTest.executor": "Run",
+    "JUnit.EBikeServiceComponentTest.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "master",
@@ -54,11 +79,71 @@
       <recent name="C:\Users\marco\OneDrive\Universita\Software architecture and platforms\SAP-ASS03" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.All in bike-service">
+  <component name="RunManager" selected="JUnit.UserServiceComponentTest">
     <configuration name="All in bike-service" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="bike-service" />
       <option name="PACKAGE_NAME" value="" />
       <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DependenciesTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="bike-service" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="sap.ass02.architecture.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="sap.ass02.architecture" />
+      <option name="MAIN_CLASS_NAME" value="sap.ass02.architecture.DependenciesTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="EBikeServiceComponentTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="bike-service" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="sap.ass02.infrastructure.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="sap.ass02.infrastructure" />
+      <option name="MAIN_CLASS_NAME" value="sap.ass02.infrastructure.EBikeServiceComponentTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RideServiceComponentTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ride-service" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="sap.ass02.infrastructure.persistence.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="sap.ass02.infrastructure.persistence" />
+      <option name="MAIN_CLASS_NAME" value="sap.ass02.infrastructure.persistence.RideServiceComponentTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserServiceComponentTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="user-service" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="sap.ass02.infrastructure.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="sap.ass02.infrastructure" />
+      <option name="MAIN_CLASS_NAME" value="sap.ass02.infrastructure.UserServiceComponentTest" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -72,6 +157,10 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.UserServiceComponentTest" />
+        <item itemvalue="JUnit.RideServiceComponentTest" />
+        <item itemvalue="JUnit.EBikeServiceComponentTest" />
+        <item itemvalue="JUnit.DependenciesTest" />
         <item itemvalue="JUnit.All in bike-service" />
       </list>
     </recent_temporary>
@@ -94,12 +183,26 @@
       <updated>1734858372384</updated>
       <workItem from="1734858374139" duration="558000" />
       <workItem from="1734859073997" duration="241000" />
-      <workItem from="1734859587723" duration="428000" />
+      <workItem from="1734859587723" duration="2076000" />
     </task>
+    <task id="LOCAL-00001" summary="uploaded ass-02 refactorized to jvm21">
+      <option name="closed" value="true" />
+      <created>1734861174056</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1734861174056</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="uploaded ass-02 code" />
+    <MESSAGE value="uploaded ass-02 refactorized to jvm21" />
+    <option name="LAST_COMMIT_MESSAGE" value="uploaded ass-02 refactorized to jvm21" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

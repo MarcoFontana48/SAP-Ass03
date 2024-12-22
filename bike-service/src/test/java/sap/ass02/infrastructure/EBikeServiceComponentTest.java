@@ -2,17 +2,14 @@ package sap.ass02.infrastructure;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import sap.ass02.application.BikeService;
+import sap.ass02.domain.application.BikeService;
 import sap.ass02.domain.EBike;
 import sap.ass02.domain.P2d;
 import sap.ass02.domain.V2d;
-import sap.ass02.domain.dto.EBikeDTO;
 import sap.ddd.Repository;
-
-import java.util.List;
-import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.Mockito.*;
 
 //! COMPONENT tests
 public class EBikeServiceComponentTest {
@@ -22,7 +19,9 @@ public class EBikeServiceComponentTest {
     
     @BeforeEach
     public void setUp() {
-        Repository repository = new RepositoryMock();
+        Repository repository = mock(Repository.class);
+        when(repository.getEbikeById("1")).thenReturn(java.util.Optional.of(this.eBike1.toDTO()));
+        when(repository.getEbikeById("2")).thenReturn(java.util.Optional.of(this.eBike2.toDTO()));
         this.eBikeService = new BikeService();
         this.eBikeService.attachRepository(repository);
     }
@@ -36,36 +35,6 @@ public class EBikeServiceComponentTest {
     @Test
     public void getEBikeByIdNotFound() {
         this.eBikeService.getEBikes();
-        assertEquals(null, this.eBikeService.getEBike("3"));
-    }
-    
-    private class RepositoryMock implements Repository {
-        @Override
-        public void init() {
-        }
-        
-        @Override
-        public boolean insertEbike(EBikeDTO eBike) {
-            return false;
-        }
-        
-        @Override
-        public Optional<EBikeDTO> getEbikeById(String ebikeId) {
-            if (ebikeId.equals(EBikeServiceComponentTest.this.eBike1.getId())) {
-                return Optional.of(EBikeServiceComponentTest.this.eBike1.toDTO());
-            } else {
-                return Optional.empty();
-            }
-        }
-        
-        @Override
-        public Iterable<EBikeDTO> getAllEBikes() {
-            return List.of(EBikeServiceComponentTest.this.eBike1.toDTO(), EBikeServiceComponentTest.this.eBike2.toDTO());
-        }
-        
-        @Override
-        public boolean updateEBike(EBikeDTO ebike) {
-            return false;
-        }
+        assertNull(this.eBikeService.getEBike("3"));
     }
 }

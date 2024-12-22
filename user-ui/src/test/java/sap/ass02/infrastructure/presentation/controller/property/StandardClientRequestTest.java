@@ -171,5 +171,4 @@ class StandardClientRequestTest {
                 .directory(workDir)
                 .start();
     }
-    
 }

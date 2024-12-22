@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class RideServiceComponentTest {
     private final EBike eBike1 = new EBike("1", EBike.EBikeState.AVAILABLE, new P2d(1.0, 2.0), new V2d(3.0, 4.0), 5.0, 11);
@@ -22,7 +24,11 @@ public class RideServiceComponentTest {
     
     @BeforeEach
     public void setUp() {
-        Repository repository = new RepositoryMock();
+        Repository repository = mock(Repository.class);
+        when(repository.getRideById("1")).thenReturn(Optional.of(this.ride1));
+        when(repository.getRideById("1", "1")).thenReturn(Optional.of(this.ride1));
+        when(repository.getOngoingRideById("1", "1")).thenReturn(Optional.of(this.ride1));
+        when(repository.getAllRides()).thenReturn(List.of(this.ride1));
         this.rideService = new RideService();
         this.rideService.attachRepository(repository);
     }
@@ -47,54 +53,5 @@ public class RideServiceComponentTest {
         Ride ride = this.rideService.getOngoingRide("1", "1");
         Ride expected = new Ride(this.ride1.id(), new User(this.ride1.user().id()), new EBike(this.ride1.ebike().id()));
         assertEquals(expected.getEBike().getId(), ride.getEBike().getId());
-    }
-    
-    private class RepositoryMock implements Repository {
-        @Override
-        public void init() {
-        
-        }
-        
-        @Override
-        public void insertRide(RideDTO ride) {
-        
-        }
-        
-        @Override
-        public void updateRideEnd(RideDTO ride) {
-        
-        }
-        
-        @Override
-        public Optional<RideDTO> getRideById(String rideId) {
-            if (rideId.equals("1")) {
-                return Optional.of(RideServiceComponentTest.this.ride1);
-            } else {
-                return Optional.empty();
-            }
-        }
-        
-        @Override
-        public Optional<RideDTO> getRideById(String userId, String ebikeId) {
-            if (userId.equals("1") && ebikeId.equals("1")) {
-                return Optional.of(RideServiceComponentTest.this.ride1);
-            } else {
-                return Optional.empty();
-            }
-        }
-        
-        @Override
-        public Optional<RideDTO> getOngoingRideById(String userId, String ebikeId) {
-            if (userId.equals("1") && ebikeId.equals("1")) {
-                return Optional.of(RideServiceComponentTest.this.ride1);
-            } else {
-                return Optional.empty();
-            }
-        }
-        
-        @Override
-        public Iterable<RideDTO> getAllRides() {
-            return List.of(RideServiceComponentTest.this.ride1);
-        }
     }
 }
