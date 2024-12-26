@@ -38,7 +38,7 @@ public final class AdminClient {
         AdminWebController consoleController = new AdminConsoleWebController();
         consoleController.attachView(consoleView);
         consoleController.attachWebClient(webClient, SERVER_IP_ADDRESS, SERVER_PORT);
-            
+        
         guiView.setup();
         guiView.display();
         
