@@ -51,6 +51,7 @@ public final class KafkaEBikeServiceEventManagerVerticle extends AbstractVerticl
                     LOGGER.trace("Sending event ebike-update to vertx event bus: {}", ebikeJsonObject);
                     this.vertx.eventBus().publish("ebike-update", ebikeJsonObject);
                     this.producer.write(KafkaProducerRecord.create("client", "client-ebike-update", ebikeJsonObject.encode()));
+                    this.producer.write(KafkaProducerRecord.create("bike-service", "update-ebike", ebikeJsonObject.encode()));
                 } else {
                     LOGGER.error("Unknown record key: '{}'", record.key());
                 }
@@ -61,6 +62,7 @@ public final class KafkaEBikeServiceEventManagerVerticle extends AbstractVerticl
             LOGGER.trace("Received message from event bus: '{}'", message.body());
             JsonObject ebikeJsonObject = new JsonObject(message.body().toString());
             this.producer.write(KafkaProducerRecord.create("client", "client-insert-ebike", ebikeJsonObject.encode()));
+            this.producer.write(KafkaProducerRecord.create("bike-service", "insert-ebike", ebikeJsonObject.encode()));
         });
     }
 }

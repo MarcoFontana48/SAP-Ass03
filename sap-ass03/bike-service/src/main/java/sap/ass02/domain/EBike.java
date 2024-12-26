@@ -9,7 +9,7 @@ import sap.ddd.Entity;
 
 import java.util.Objects;
 
-public class EBike implements Entity<EBikeDTO> {
+public final class EBike implements Entity<EBikeDTO> {
     
     private final String id;
     private EBikeState state;
@@ -40,6 +40,17 @@ public class EBike implements Entity<EBikeDTO> {
         } else {
             this.batteryLevel = batteryLevel;
         }
+    }
+    
+    public EBike(JsonObject asJsonObject) {
+        this(
+                asJsonObject.getString(JsonFieldKey.EBIKE_ID_KEY),
+                EBikeState.valueOf(asJsonObject.getString(JsonFieldKey.EBIKE_STATE_KEY)),
+                new P2d(asJsonObject.getDouble(JsonFieldKey.EBIKE_X_LOCATION_KEY), asJsonObject.getDouble(JsonFieldKey.EBIKE_Y_LOCATION_KEY)),
+                new V2d(asJsonObject.getDouble(JsonFieldKey.EBIKE_X_DIRECTION_KEY), asJsonObject.getDouble(JsonFieldKey.EBIKE_Y_DIRECTION_KEY)),
+                asJsonObject.getDouble(JsonFieldKey.EBIKE_SPEED_KEY),
+                asJsonObject.getInteger(JsonFieldKey.EBIKE_BATTERY_KEY)
+        );
     }
     
     public String getId() {
@@ -118,13 +129,20 @@ public class EBike implements Entity<EBikeDTO> {
     
     @Override
     public EBikeDTO toDTO() {
-        return new EBikeDTO(this.id, EBikeDTO.EBikeStateDTO.valueOf(this.state.toString()), new P2dDTO(this.location.getX(), this.location.getY()), new V2dDTO(this.direction.getX(), this.direction.getY()), this.speed, this.batteryLevel);
+        return new EBikeDTO(
+                this.id,
+                EBikeDTO.EBikeStateDTO.valueOf(this.state.toString()),
+                new P2dDTO(this.location.getX(), this.location.getY()),
+                new V2dDTO(this.direction.x(), this.direction.y()),
+                this.speed,
+                this.batteryLevel
+        );
     }
     
     @Override
-    public String toJsonString() {
-        JsonObject json = new JsonObject();
-        json.put(JsonFieldKey.EBIKE_ID_KEY, this.id)
+    public JsonObject toJsonObject() {
+        return new JsonObject()
+                .put(JsonFieldKey.EBIKE_ID_KEY, this.id)
                 .put(JsonFieldKey.EBIKE_STATE_KEY, this.state.toString())
                 .put(JsonFieldKey.EBIKE_X_LOCATION_KEY, this.location.getX())
                 .put(JsonFieldKey.EBIKE_Y_LOCATION_KEY, this.location.getY())
@@ -132,7 +150,11 @@ public class EBike implements Entity<EBikeDTO> {
                 .put(JsonFieldKey.EBIKE_Y_DIRECTION_KEY, this.direction.y())
                 .put(JsonFieldKey.EBIKE_SPEED_KEY, this.speed)
                 .put(JsonFieldKey.EBIKE_BATTERY_KEY, this.batteryLevel);
-        return json.encode();
+    }
+    
+    @Override
+    public String toJsonString() {
+        return this.toJsonObject().encode();
     }
     
     @Override

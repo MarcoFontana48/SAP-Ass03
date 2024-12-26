@@ -15,6 +15,11 @@ public record EBikeDTO(String id, EBikeStateDTO state, P2dDTO location, V2dDTO d
      */
     @Override
     public String toJsonString() {
+        return this.toJsonObject().encode();
+    }
+    
+    @Override
+    public JsonObject toJsonObject() {
         JsonObject jsonObject = new JsonObject();
         jsonObject.put(JsonFieldKey.EBIKE_ID_KEY, this.id)
                 .put(JsonFieldKey.EBIKE_STATE_KEY, this.state)
@@ -24,6 +29,6 @@ public record EBikeDTO(String id, EBikeStateDTO state, P2dDTO location, V2dDTO d
                 .put(JsonFieldKey.EBIKE_Y_DIRECTION_KEY, this.direction.y())
                 .put(JsonFieldKey.EBIKE_SPEED_KEY, this.speed)
                 .put(JsonFieldKey.EBIKE_BATTERY_KEY, this.batteryLevel);
-        return jsonObject.encode();
+        return jsonObject;
     }
 }

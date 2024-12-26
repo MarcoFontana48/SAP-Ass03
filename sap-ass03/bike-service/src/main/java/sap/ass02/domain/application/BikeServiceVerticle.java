@@ -8,7 +8,8 @@ import sap.ass02.domain.P2d;
 import sap.ass02.domain.V2d;
 import sap.ass02.domain.dto.DTOUtils;
 import sap.ass02.domain.dto.EBikeDTO;
-import sap.ddd.Repository;
+import sap.ddd.ReadOnlyRepository;
+import sap.ddd.ReadWriteRepository;
 import sap.ddd.Service;
 
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ import java.util.List;
 public final class BikeServiceVerticle extends AbstractVerticle implements ServiceVerticle {
     private static final Logger LOGGER = LogManager.getLogger(BikeServiceVerticle.class);
     private final Service bikeService = new BikeService();
-    private Repository queryOnlyRepository;
+    private ReadOnlyRepository queryOnlyRepository;
     
     /**
      * Adds an ebike to the repository
@@ -91,7 +92,7 @@ public final class BikeServiceVerticle extends AbstractVerticle implements Servi
      * @param repository the repository
      */
     @Override
-    public void attachRepository(Repository repository) {
+    public void attachRepository(ReadWriteRepository repository) {
         this.bikeService.attachRepository(repository);
     }
     
@@ -99,7 +100,7 @@ public final class BikeServiceVerticle extends AbstractVerticle implements Servi
      * @param repository
      */
     @Override
-    public void attachQueryOnlyRepository(Repository repository) {
+    public void attachReadOnlyRepository(ReadOnlyRepository repository) {
         this.queryOnlyRepository = repository;
     }
 }

@@ -1,9 +1,9 @@
 package sap.ass02.domain.application;
 
 import io.vertx.core.Verticle;
-import sap.ddd.Repository;
+import sap.ddd.ReadOnlyRepository;
 import sap.ddd.Service;
 
 public interface ServiceVerticle extends Verticle, Service {
-    void attachQueryOnlyRepository(Repository repository);
+    void attachReadOnlyRepository(ReadOnlyRepository repository);
 }

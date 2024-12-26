@@ -3,13 +3,13 @@ package sap.ass02.infrastructure.persistence.sql;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import sap.ass02.domain.dto.EBikeDTO;
-import sap.ddd.Repository;
+import sap.ddd.ReadWriteRepository;
 
 import static sap.ass02.infrastructure.persistence.utils.EBikeDTOJsonSerializer.deserializeEBikeDTO;
 
 public final class SQLQueryRepositoryAdapter extends AbstractSQLRepositoryAdapter {
     private static final Logger LOGGER = LogManager.getLogger(SQLQueryRepositoryAdapter.class);
-    private final Repository sqlRepositoryAdapter = new SQLRepositoryAdapter();
+    private final ReadWriteRepository sqlRepositoryAdapter = new SQLRepositoryAdapter();
     
     @Override
     public void start() {

@@ -9,7 +9,7 @@ import sap.ass02.domain.V2d;
 import sap.ass02.domain.dto.EBikeDTO;
 import sap.ass02.domain.dto.P2dDTO;
 import sap.ass02.domain.dto.V2dDTO;
-import sap.ddd.Repository;
+import sap.ddd.ReadWriteRepository;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,7 +25,7 @@ class LocalJsonRepositoryAdapterTest {
     private final String databaseFileName = "database";
     private final String databaseEbikeFileName = "ebike";
     private final String testEbikeId = "test_ebike";
-    private Repository repo;
+    private ReadWriteRepository repo;
     
     @BeforeEach
     void setUp() {

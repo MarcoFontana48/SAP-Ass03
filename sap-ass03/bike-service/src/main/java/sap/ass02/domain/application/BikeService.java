@@ -5,7 +5,8 @@ import org.apache.logging.log4j.Logger;
 import sap.ass02.domain.EBike;
 import sap.ass02.domain.dto.DTOUtils;
 import sap.ass02.domain.dto.EBikeDTO;
-import sap.ddd.Repository;
+import sap.ddd.ReadOnlyRepository;
+import sap.ddd.ReadWriteRepository;
 import sap.ddd.Service;
 
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ import java.util.List;
 
 public final class BikeService implements Service {
     private static final Logger LOGGER = LogManager.getLogger(BikeService.class);
-    private Repository repository;
+    private ReadWriteRepository repository;
     
     @Override
     public boolean addEBike(final String ebikeId) {
@@ -52,7 +53,7 @@ public final class BikeService implements Service {
     }
     
     @Override
-    public void attachRepository(Repository repository) {
+    public void attachRepository(ReadWriteRepository repository) {
         this.repository = repository;
     }
 }
