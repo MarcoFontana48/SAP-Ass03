@@ -24,6 +24,8 @@ class MongoRepositoryAdapterTest {
     private final String testUserId = "test_user";
     private final String testEBikeId = "test_ebike";
     private final AbstractMongoRepositoryAdapter repository = new MongoRepositoryAdapter();
+    private final UserDTO user = new UserDTO(this.testUserId, 100);
+    private final EBikeDTO ebike = new EBikeDTO(this.testEBikeId, EBikeDTO.EBikeStateDTO.AVAILABLE, new P2dDTO(0, 0), new V2dDTO(0, 0), 0, 100);
     
     @BeforeAll
     static void setUpAll() throws InterruptedException, IOException {
@@ -74,8 +76,8 @@ class MongoRepositoryAdapterTest {
         this.repository.insertRide(new RideDTO(
                 Date.valueOf("2021-01-01"),
                 Optional.of(Date.valueOf("2021-01-02")),
-                new UserDTO(this.testUserId, 100),
-                new EBikeDTO(this.testEBikeId, EBikeDTO.EBikeStateDTO.AVAILABLE, new P2dDTO(0, 0), new V2dDTO(0, 0), 0, 100),
+                this.user,
+                this.ebike,
                 false,
                 this.testRideId
         ));
@@ -87,8 +89,8 @@ class MongoRepositoryAdapterTest {
                 () -> assertEquals(this.testRideId, ride.get().id(), "Ride id should be correct"),
                 () -> assertEquals(Date.valueOf("2021-01-01"), ride.get().startedDate(), "Ride start date should be correct"),
                 () -> assertEquals(Date.valueOf("2021-01-02"), ride.get().endDate().get(), "Ride end date should be correct"),
-                () -> assertEquals(this.testUserId, ride.get().user().id(), "Ride user id should be correct"),
-                () -> assertEquals(this.testEBikeId, ride.get().ebike().id(), "Ride ebike id should be correct")
+                () -> assertEquals(this.user, ride.get().user(), "User should be correct"),
+                () -> assertEquals(this.ebike, ride.get().ebike(), "Ebike should be correct")
         );
     }
 }

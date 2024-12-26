@@ -21,8 +21,6 @@ import java.util.Optional;
 
 public abstract class AbstractLocalJsonRepositoryAdapter extends AbstractVerticleRepository {
     private static final Logger LOGGER = LogManager.getLogger(AbstractLocalJsonRepositoryAdapter.class);
-    private final String USER_PATH = "users";
-    private final String EBIKE_PATH = "ebikes";
     private final String RIDE_PATH = "rides";
     private final String databaseFolder;
     
@@ -34,62 +32,28 @@ public abstract class AbstractLocalJsonRepositoryAdapter extends AbstractVerticl
     @Override
     public void init() {
         this.makeDir(this.databaseFolder);
-        this.makeDir(this.databaseFolder + File.separator + this.USER_PATH);
-        this.makeDir(this.databaseFolder + File.separator + this.EBIKE_PATH);
         this.makeDir(this.databaseFolder + File.separator + this.RIDE_PATH);
         LOGGER.trace("LocalJsonRepositoryAdapter initialized");
     }
     
+    @Override
     public Optional<EBikeDTO> getEBikeById(final String ebikeId) {
         LOGGER.trace("Retrieving eBike with ID: {}", ebikeId);
-        File ebikeFile = new File(this.databaseFolder + File.separator + this.EBIKE_PATH + File.separator + ebikeId + ".json");
-        if (ebikeFile.exists()) {
-            LOGGER.trace("EBikeDTO file found: {}", ebikeFile.getAbsolutePath());
-            try {
-                String content = new String(Files.readAllBytes(ebikeFile.toPath()));
-                LOGGER.trace("EBikeDTO file content: {}", content);
-                JsonObject obj = new JsonObject(content);
-                LOGGER.trace("EBikeDTO file content parsed: {}", obj.encodePrettily());
-                EBikeDTO retrievedEBike = new EBikeDTO(
-                        obj.getString(JsonFieldKey.EBIKE_ID_KEY),
-                        EBikeDTO.EBikeStateDTO.valueOf(obj.getString(JsonFieldKey.EBIKE_STATE_KEY)),
-                        new P2dDTO(obj.getDouble(JsonFieldKey.EBIKE_X_LOCATION_KEY), obj.getDouble(JsonFieldKey.EBIKE_Y_LOCATION_KEY)),
-                        new V2dDTO(obj.getDouble(JsonFieldKey.EBIKE_X_DIRECTION_KEY), obj.getDouble(JsonFieldKey.EBIKE_Y_DIRECTION_KEY)),
-                        obj.getDouble(JsonFieldKey.EBIKE_SPEED_KEY),
-                        obj.getInteger(JsonFieldKey.EBIKE_BATTERY_KEY)
-                );
-                LOGGER.trace("EBikeDTO retrieved: {}", retrievedEBike.toString());
-                return Optional.of(retrievedEBike);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+        for (RideDTO ride : this.getAllRides()) {
+            if (ride.ebike().id().equals(ebikeId)) {
+                return Optional.of(ride.ebike());
             }
-        } else {
-            LOGGER.trace("EBikeDTO file not found, returning Optional.empty()");
-            return Optional.empty();
         }
+        return Optional.empty();
     }
     
+    @Override
     public Optional<UserDTO> getUserById(String userId) {
         LOGGER.trace("Retrieving user with ID: {}", userId);
-        File userFile = new File(this.databaseFolder + File.separator + this.USER_PATH + File.separator + userId + ".json");
-        if (userFile.exists()) {
-            LOGGER.trace("UserDTO file found: {}", userFile.getAbsolutePath());
-            try {
-                String content = new String(Files.readAllBytes(userFile.toPath()));
-                LOGGER.trace("UserDTO file content: {}", content);
-                JsonObject obj = new JsonObject(content);
-                LOGGER.trace("UserDTO file content parsed: {}", obj.encodePrettily());
-                UserDTO retrievedUser = new UserDTO(
-                        obj.getString(JsonFieldKey.USER_ID_KEY),
-                        obj.getInteger(JsonFieldKey.USER_CREDIT_KEY)
-                );
-                LOGGER.trace("UserDTO retrieved: {}", retrievedUser.toString());
-                return Optional.of(retrievedUser);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+        for (RideDTO ride : this.getAllRides()) {
+            if (ride.user().id().equals(userId)) {
+                return Optional.of(ride.user());
             }
-        } else {
-            LOGGER.trace("UserDTO file not found, returning Optional.empty()");
         }
         return Optional.empty();
     }
@@ -111,15 +75,8 @@ public abstract class AbstractLocalJsonRepositoryAdapter extends AbstractVerticl
     
     @Override
     public void insertRide(RideDTO ride) {
-        JsonObject obj = new JsonObject();
-        obj.put(JsonFieldKey.RIDE_ID_KEY, ride.id());
-        obj.put(JsonFieldKey.RIDE_USER_ID_KEY, ride.user().id());
-        obj.put(JsonFieldKey.RIDE_EBIKE_ID_KEY, ride.ebike().id());
-        obj.put(JsonFieldKey.RIDE_START_DATE_KEY, ride.startedDate().toString());
-        obj.put(JsonFieldKey.RIDE_END_DATE_KEY, ride.endDate().isPresent() ? ride.endDate().get().toString() : "");
-        obj.put(JsonFieldKey.RIDE_ONGONING_KEY, ride.ongoing());
         try {
-            this.saveObj(this.RIDE_PATH, String.valueOf(ride.id()), obj);
+            this.saveObj(this.RIDE_PATH, String.valueOf(ride.id()), ride.toJsonObject());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -186,52 +143,9 @@ public abstract class AbstractLocalJsonRepositoryAdapter extends AbstractVerticl
         if (rideFile.exists()) {
             LOGGER.trace("RideDTO file found: {}", rideFile.getAbsolutePath());
             try {
-                String content = new String(Files.readAllBytes(rideFile.toPath()));
-                LOGGER.trace("RideDTO file content: {}", content);
-                JsonObject obj = new JsonObject(content);
-                
-                UserDTO user;
-                user = new UserDTO(
-                        obj.getString(JsonFieldKey.USER_ID_KEY),
-                        -1
-                );
-                
-                EBikeDTO ebike;
-                ebike = new EBikeDTO(
-                        obj.getString(JsonFieldKey.EBIKE_ID_KEY),
-                        EBikeDTO.EBikeStateDTO.AVAILABLE,
-                        new P2dDTO(
-                                0,
-                                0
-                        ),
-                        new V2dDTO(
-                                0,
-                                0
-                        ),
-                        0,
-                        0
-                );
-                
-                Date startDate = DateFormatUtils.toSqlDate(obj.getString(JsonFieldKey.RIDE_START_DATE_KEY));
-                Optional<Date> endDate;
-                if (obj.getString(JsonFieldKey.RIDE_END_DATE_KEY).isBlank()) {
-                    endDate = Optional.empty();
-                } else {
-                    endDate = Optional.of(DateFormatUtils.toSqlDate(obj.getString(JsonFieldKey.RIDE_END_DATE_KEY)));
-                }
-                RideDTO ride = new RideDTO(
-                        startDate,
-                        endDate,
-                        user,
-                        ebike,
-                        obj.getBoolean(JsonFieldKey.RIDE_ONGONING_KEY),
-                        obj.getString(JsonFieldKey.RIDE_ID_KEY));
-                
-                LOGGER.trace("RideDTO retrieved: {}", ride.toString());
-                
-                LOGGER.trace("RideDTO file content parsed: {}", obj.encodePrettily());
-                return Optional.of(ride);
-            } catch (IOException | ParseException e) {
+                JsonObject jsonRide = new JsonObject(new String(Files.readAllBytes(rideFile.toPath())));
+                return Optional.of(RideDTO.fromJson(jsonRide));
+            } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         } else {
@@ -309,5 +223,31 @@ public abstract class AbstractLocalJsonRepositoryAdapter extends AbstractVerticl
             ex.printStackTrace();
             throw new RuntimeException(ex);
         }
+    }
+    
+    public void updateEBike(EBikeDTO dto) {
+        this.getAllRides().forEach(ride -> {
+            if (ride.ebike().id().equals(dto.id())) {
+                try {
+                    JsonObject rideWithEbikeUpdated = ride.toJsonObject().put(JsonFieldKey.RIDE_EBIKE_KEY, dto.toJsonObject());
+                    this.saveObj(this.RIDE_PATH, ride.id(), rideWithEbikeUpdated);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+    
+    public void updateUser(UserDTO dto) {
+        this.getAllRides().forEach(ride -> {
+            if (ride.user().id().equals(dto.id())) {
+                try {
+                    JsonObject rideWithUserUpdated = ride.toJsonObject().put(JsonFieldKey.RIDE_USER_KEY, dto.toJsonObject());
+                    this.saveObj(this.RIDE_PATH, ride.id(), rideWithUserUpdated);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 }

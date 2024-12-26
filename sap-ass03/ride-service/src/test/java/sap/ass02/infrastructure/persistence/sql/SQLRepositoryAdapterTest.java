@@ -60,10 +60,10 @@ class SQLRepositoryAdapterTest {
     
     @AfterEach
     void tearDown() throws IOException, InterruptedException {
-        Process process = startProcess(new File(".."), "docker", "stop", "ride-sql-db");
-        process.waitFor();
-        process = startProcess(new File(".."), "docker", "rm", "ride-sql-db");
-        process.waitFor();
+//        Process process = startProcess(new File(".."), "docker", "stop", "ride-sql-db");
+//        process.waitFor();
+//        process = startProcess(new File(".."), "docker", "rm", "ride-sql-db");
+//        process.waitFor();
     }
     
     @Test

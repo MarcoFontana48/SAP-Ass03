@@ -5,14 +5,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import sap.ass02.domain.dto.*;
 import sap.ass02.domain.utils.JsonFieldKey;
-import sap.ddd.Repository;
+import sap.ddd.ReadWriteRepository;
 
 import java.sql.Date;
 import java.util.Optional;
 
 public class MongoQueryRepositoryAdapter extends AbstractMongoRepositoryAdapter {
     private static final Logger LOGGER = LogManager.getLogger(MongoQueryRepositoryAdapter.class);
-    private final Repository mongoRepositoryAdapter = new MongoRepositoryAdapter();
+    private final ReadWriteRepository mongoRepositoryAdapter = new MongoRepositoryAdapter();
 
     @Override
     public void start() {

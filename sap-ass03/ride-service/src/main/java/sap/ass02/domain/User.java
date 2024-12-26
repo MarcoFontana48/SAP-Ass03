@@ -27,6 +27,13 @@ public final class User implements Entity<UserDTO> {
             this.credit = credit;
         }
     }
+    
+    public User(JsonObject asJsonObject) {
+        this(
+                asJsonObject.getString(JsonFieldKey.USER_ID_KEY),
+                asJsonObject.getInteger(JsonFieldKey.USER_CREDIT_KEY)
+        );
+    }
 
     public String getId() {
         return this.id;
@@ -65,13 +72,18 @@ public final class User implements Entity<UserDTO> {
     public UserDTO toDTO() {
         return new UserDTO(this.id, this.credit);
     }
-
+    
     @Override
-    public String toJsonString() {
+    public JsonObject toJsonObject() {
         JsonObject jsonObject = new JsonObject();
         jsonObject.put(JsonFieldKey.USER_ID_KEY, this.id)
                 .put(JsonFieldKey.USER_CREDIT_KEY, this.credit);
-        return jsonObject.encode();
+        return jsonObject;
+    }
+    
+    @Override
+    public String toJsonString() {
+        return this.toJsonObject().encode();
     }
 
     @Override

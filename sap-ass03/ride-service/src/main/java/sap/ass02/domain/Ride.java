@@ -5,12 +5,13 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import sap.ass02.domain.dto.RideDTO;
 import sap.ass02.domain.utils.JsonFieldKey;
+import sap.ddd.Aggregate;
 import sap.ddd.Entity;
 
 import java.sql.Date;
 import java.util.Optional;
 
-public final class Ride implements Entity<RideDTO> {
+public final class Ride implements Aggregate<RideDTO> {
     private static final Logger LOGGER = LogManager.getLogger(Ride.class);
     private final User user;
     private final EBike ebike;
@@ -25,6 +26,14 @@ public final class Ride implements Entity<RideDTO> {
         this.endDate = Optional.empty();
         this.user = user;
         this.ebike = ebike;
+    }
+    
+    public Ride(JsonObject asJsonObject) {
+        this(
+                asJsonObject.getString(JsonFieldKey.RIDE_ID_KEY),
+                new User(asJsonObject.getJsonObject(JsonFieldKey.RIDE_USER_KEY)),
+                new EBike(asJsonObject.getJsonObject(JsonFieldKey.RIDE_EBIKE_KEY))
+        );
     }
     
     public String getId() {
@@ -89,15 +98,20 @@ public final class Ride implements Entity<RideDTO> {
     }
     
     @Override
-    public String toJsonString() {
+    public JsonObject toJsonObject() {
         JsonObject json = new JsonObject();
         json.put(JsonFieldKey.RIDE_ID_KEY, this.id)
-                .put(JsonFieldKey.RIDE_USER_ID_KEY, this.user.getId())
-                .put(JsonFieldKey.RIDE_EBIKE_ID_KEY, this.ebike.getId())
+                .put(JsonFieldKey.RIDE_USER_KEY, this.user.toJsonObject())
+                .put(JsonFieldKey.RIDE_EBIKE_KEY, this.ebike.toJsonObject())
                 .put(JsonFieldKey.RIDE_START_DATE_KEY, this.startedDate.toString())
                 .put(JsonFieldKey.RIDE_ONGONING_KEY, this.ongoing)
                 .put(JsonFieldKey.RIDE_END_DATE_KEY, this.endDate.toString());
-        return json.encode();
+        return json;
+    }
+    
+    @Override
+    public String toJsonString() {
+        return this.toJsonObject().encode();
     }
     
     public String toString() {

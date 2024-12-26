@@ -1,8 +1,0 @@
-{
-  "ride_id" : "test_ride",
-  "user_id" : "test_user",
-  "ebike_id" : "test_ebike",
-  "start_date" : "2021-01-01",
-  "end_date" : "2021-01-02",
-  "ongoing" : false
-}

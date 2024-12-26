@@ -1,5 +1,6 @@
-package sap.ass02.application;
+package sap.ass02.domain.application;
 
+import io.vertx.core.AbstractVerticle;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.json.JsonObject;
 import org.apache.logging.log4j.LogManager;
@@ -11,7 +12,7 @@ import sap.ass02.domain.User;
 import sap.ass02.domain.dto.DTOUtils;
 import sap.ass02.domain.dto.RideDTO;
 import sap.ass02.domain.utils.JsonFieldKey;
-import sap.ddd.Repository;
+import sap.ddd.ReadOnlyRepository;
 import sap.ddd.Service;
 
 import java.util.ArrayList;
@@ -20,20 +21,19 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class RideService implements Service {
-    private static final Logger LOGGER = LogManager.getLogger(RideService.class);
-    private Repository repository;
-    private EventBus eventBus;
+public class RideServiceVerticle extends AbstractVerticle implements ServiceVerticle {
+    private static final Logger LOGGER = LogManager.getLogger(RideServiceVerticle.class);
+    private ReadOnlyRepository repository;
     private final Map<String, RideSimulation> currentlyActiveSimulations = new ConcurrentHashMap<>();
     
     @Override
     public boolean startRide(Ride ride, User user, EBike ebike) {
         LOGGER.trace("Starting ride for user with id '{}' and eBike with id '{}'", user.getId(), ebike.getId());
         ebike.updateState(EBike.EBikeState.IN_USE);
-        this.eventBus.publish("ebike-update", ebike.toJsonString());
+        this.vertx.eventBus().publish("ebike-update", ebike.toJsonString());
         ride.start();
         
-        this.repository.insertRide(ride.toDTO());
+        this.vertx.eventBus().publish("insert-ride", ride.toDTO().toJsonString());
         LOGGER.trace("About to start ride simulation '{}'", ride);
         
         RideSimulation rideSimulation = new RideSimulation(ride, user, this);
@@ -42,7 +42,7 @@ public class RideService implements Service {
         
         this.currentlyActiveSimulations.put(ride.getId(), rideSimulation);
         
-        this.eventBus.publish("ride-started", ride.toDTO().toJsonString());
+        this.vertx.eventBus().publish("ride-started", ride.toDTO().toJsonString());
         return true;
     }
     
@@ -73,7 +73,7 @@ public class RideService implements Service {
     }
     
     @Override
-    public void attachRepository(Repository repository) {
+    public void attachRepository(ReadOnlyRepository repository) {
         this.repository = repository;
     }
     
@@ -99,29 +99,41 @@ public class RideService implements Service {
                 );
         
         LOGGER.trace("About to publish event 'ebike-update' with payload '{}'", jsonObject.encode());
-        this.eventBus.publish("ebike-update", jsonObject.encode());
-        
-        LOGGER.trace("About to update ride end onto db");
-        this.repository.updateRideEnd(retrievedRide.toDTO());
+        this.vertx.eventBus().publish("ebike-update", jsonObject.encode());
         
         LOGGER.trace("About to publish event 'ride-ended' with payload '{}'", retrievedRide.toJsonString());
-        this.eventBus.publish("ride-ended", retrievedRide.toJsonString());
+        this.vertx.eventBus().publish("ride-ended", retrievedRide.toJsonString());
         
         return true;
     }
     
     @Override
     public void updateEBike(Ride ride) {
-        this.eventBus.publish("ebike-update", ride.getEBike().toJsonString());
+        this.vertx.eventBus().publish("ebike-update", ride.getEBike().toJsonString());
     }
     
     @Override
     public void updateUserCredits(Ride ride) {
-        this.eventBus.publish("user-update", ride.getUser().toJsonString());
+        this.vertx.eventBus().publish("user-update", ride.getUser().toJsonString());
     }
     
     @Override
-    public void attachEventBus(EventBus eventBus) {
-        this.eventBus = eventBus;
+    public User getUser(String userId) {
+        var maybeUser = this.repository.getUserById(userId);
+        if (maybeUser.isPresent()) {
+            return DTOUtils.toUser(maybeUser.get());
+        } else {
+            throw new RuntimeException("User not found");
+        }
+    }
+    
+    @Override
+    public EBike getEBike(String ebikeId) {
+        var maybeEBike = this.repository.getEBikeById(ebikeId);
+        if (maybeEBike.isPresent()) {
+            return DTOUtils.toEBike(maybeEBike.get());
+        } else {
+            throw new RuntimeException("EBike not found");
+        }
     }
 }

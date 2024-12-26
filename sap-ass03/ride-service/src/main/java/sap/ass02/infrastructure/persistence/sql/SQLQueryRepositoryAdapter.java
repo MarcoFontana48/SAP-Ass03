@@ -5,14 +5,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import sap.ass02.domain.dto.*;
 import sap.ass02.domain.utils.JsonFieldKey;
-import sap.ddd.Repository;
+import sap.ddd.ReadWriteRepository;
 
 import java.sql.Date;
 import java.util.Optional;
 
 public final class SQLQueryRepositoryAdapter extends AbstractSQLRepositoryAdapter {
     private static final Logger LOGGER = LogManager.getLogger(SQLQueryRepositoryAdapter.class);
-    private final Repository sqlRepositoryAdapter = new SQLRepositoryAdapter();
+    private final ReadWriteRepository sqlRepositoryAdapter = new SQLRepositoryAdapter();
 
     @Override
     public void start() {

@@ -70,6 +70,9 @@ public abstract class AbstractSQLRepositoryAdapter extends AbstractVerticleRepos
     @Override
     public void insertRide(RideDTO ride) {
         LOGGER.trace("Preparing statement to insert ride '{}' to SQL database", ride);
+        
+        this.insertUser(ride.user());
+        this.insertEbike(ride.ebike());
         try (PreparedStatement statement = prepareStatement(
                 this.connection,
                 INSERT_RIDE,
@@ -79,6 +82,40 @@ public abstract class AbstractSQLRepositoryAdapter extends AbstractVerticleRepos
                 ride.startedDate(),
                 ride.endDate().orElse(null),
                 ride.ongoing())) {
+            LOGGER.trace("Executing statement:\n'{}'", statement);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void insertUser(UserDTO user) {
+        LOGGER.trace("Preparing statement to insert user '{}' to SQL database", user);
+        try (PreparedStatement statement = prepareStatement(
+                this.connection,
+                INSERT_USER,
+                user.id(),
+                user.credit())) {
+            LOGGER.trace("Executing statement:\n'{}'", statement);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    public void insertEbike(EBikeDTO ebike) {
+        LOGGER.trace("Preparing statement to insert ebike '{}' to SQL database", ebike);
+        try (PreparedStatement statement = prepareStatement(
+                this.connection,
+                INSERT_EBIKE,
+                ebike.id(),
+                ebike.state().toString(),
+                ebike.location().x(),
+                ebike.location().y(),
+                ebike.direction().x(),
+                ebike.direction().y(),
+                ebike.speed(),
+                ebike.batteryLevel())) {
             LOGGER.trace("Executing statement:\n'{}'", statement);
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -261,5 +298,26 @@ public abstract class AbstractSQLRepositoryAdapter extends AbstractVerticleRepos
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+    
+    //TODO
+    @Override
+    public Optional<EBikeDTO> getEBikeById(String ebikeId) {
+        return Optional.empty();
+    }
+    
+    @Override
+    public Optional<UserDTO> getUserById(String userId) {
+        return Optional.empty();
+    }
+    
+    @Override
+    public void updateEBike(EBikeDTO dto) {
+    
+    }
+    
+    @Override
+    public void updateUser(UserDTO dto) {
+    
     }
 }

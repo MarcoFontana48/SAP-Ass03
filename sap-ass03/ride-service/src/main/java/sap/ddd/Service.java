@@ -12,11 +12,13 @@ public interface Service {
     Iterable<Ride> getRides();
     boolean stopRide(final String rideId);
     
-    void attachRepository(Repository repository);
+    void attachRepository(ReadOnlyRepository repository);
     
     void updateUserCredits(Ride ride);
     
     void updateEBike(Ride ride);
     
-    void attachEventBus(EventBus eventBus);
+    User getUser(String userId);
+    
+    EBike getEBike(String ebikeId);
 }

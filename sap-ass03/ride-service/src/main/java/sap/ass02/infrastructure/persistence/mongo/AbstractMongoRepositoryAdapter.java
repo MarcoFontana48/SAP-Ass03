@@ -79,82 +79,92 @@ public abstract class AbstractMongoRepositoryAdapter extends AbstractVerticleRep
         this.ridesCollection.updateOne(eq(JsonFieldKey.RIDE_ID_KEY, ride.id()), new Document("$set", new Document(JsonFieldKey.RIDE_END_DATE_KEY, ride.endDate().map(java.sql.Date::toString).orElse(null))));
         LOGGER.trace("Ride updated: '{}'", ride.id());
     }
-
+    
     @Override
     public Optional<RideDTO> getRideById(String rideId) {
         LOGGER.trace("Retrieving ride '{}' from MongoDB database", rideId);
         Document rideDoc = this.ridesCollection.find(eq(JsonFieldKey.RIDE_ID_KEY, rideId)).first();
-
+        
         if (rideDoc == null) {
             LOGGER.trace("Ride not found: '{}'", rideId);
             return Optional.empty();
         } else {
             LOGGER.trace("Ride found: '{}'", rideId);
+            Document userDoc = rideDoc.get(JsonFieldKey.RIDE_USER_KEY, Document.class);
+            Document ebikeDoc = rideDoc.get(JsonFieldKey.RIDE_EBIKE_KEY, Document.class);
             return Optional.of(new RideDTO(
                     java.sql.Date.valueOf(rideDoc.getString(JsonFieldKey.RIDE_START_DATE_KEY)),
                     Optional.ofNullable(rideDoc.getString(JsonFieldKey.RIDE_END_DATE_KEY)).map(java.sql.Date::valueOf),
-                    new UserDTO(rideDoc.getString(JsonFieldKey.RIDE_USER_ID_KEY), -1),
-                    new EBikeDTO(rideDoc.getString(JsonFieldKey.RIDE_EBIKE_ID_KEY), EBikeDTO.EBikeStateDTO.AVAILABLE, new P2dDTO(0,0), new V2dDTO(0,0), 0, 0),
+                    UserDTO.fromJson(new JsonObject(userDoc.toJson())),
+                    EBikeDTO.fromJson(new JsonObject(ebikeDoc.toJson())),
                     rideDoc.getBoolean(JsonFieldKey.RIDE_ONGONING_KEY),
                     rideDoc.getString(JsonFieldKey.RIDE_ID_KEY)
             ));
         }
     }
-
+    
     @Override
     public Optional<RideDTO> getRideById(String userId, String ebikeId) {
         LOGGER.trace("Retrieving ride by user '{}' and ebike '{}' from MongoDB database", userId, ebikeId);
         Document rideDoc = this.ridesCollection.find(eq(JsonFieldKey.RIDE_USER_ID_KEY, userId)).first();
-
+        
         if (rideDoc == null) {
             LOGGER.trace("Ride not found for user '{}' and ebike '{}'", userId, ebikeId);
             return Optional.empty();
         } else {
             LOGGER.trace("Ride found for user '{}' and ebike '{}'", userId, ebikeId);
+            Document userDoc = rideDoc.get(JsonFieldKey.RIDE_USER_KEY, Document.class);
+            Document ebikeDoc = rideDoc.get(JsonFieldKey.RIDE_EBIKE_KEY, Document.class);
             return Optional.of(new RideDTO(
                     java.sql.Date.valueOf(rideDoc.getString(JsonFieldKey.RIDE_START_DATE_KEY)),
                     Optional.ofNullable(rideDoc.getString(JsonFieldKey.RIDE_END_DATE_KEY)).map(java.sql.Date::valueOf),
-                    new UserDTO(rideDoc.getString(JsonFieldKey.RIDE_USER_ID_KEY), -1),
-                    new EBikeDTO(rideDoc.getString(JsonFieldKey.RIDE_EBIKE_ID_KEY), EBikeDTO.EBikeStateDTO.AVAILABLE, new P2dDTO(0,0), new V2dDTO(0,0), 0, 0),
+                    UserDTO.fromJson(new JsonObject(userDoc.toJson())),
+                    EBikeDTO.fromJson(new JsonObject(ebikeDoc.toJson())),
                     rideDoc.getBoolean(JsonFieldKey.RIDE_ONGONING_KEY),
                     rideDoc.getString(JsonFieldKey.RIDE_ID_KEY)
             ));
         }
     }
-
+    
     @Override
     public Optional<RideDTO> getOngoingRideById(String userId, String ebikeId) {
         LOGGER.trace("Retrieving ongoing ride by user '{}' and ebike '{}' from MongoDB database", userId, ebikeId);
         Document rideDoc = this.ridesCollection.find(eq(JsonFieldKey.RIDE_USER_ID_KEY, userId)).first();
-
+    
         if (rideDoc == null) {
             LOGGER.trace("Ongoing ride not found for user '{}' and ebike '{}'", userId, ebikeId);
             return Optional.empty();
         } else {
             LOGGER.trace("Ongoing ride found for user '{}' and ebike '{}'", userId, ebikeId);
+            Document userDoc = rideDoc.get(JsonFieldKey.RIDE_USER_KEY, Document.class);
+            Document ebikeDoc = rideDoc.get(JsonFieldKey.RIDE_EBIKE_KEY, Document.class);
             return Optional.of(new RideDTO(
                     java.sql.Date.valueOf(rideDoc.getString(JsonFieldKey.RIDE_START_DATE_KEY)),
                     Optional.ofNullable(rideDoc.getString(JsonFieldKey.RIDE_END_DATE_KEY)).map(java.sql.Date::valueOf),
-                    new UserDTO(rideDoc.getString(JsonFieldKey.RIDE_USER_ID_KEY), -1),
-                    new EBikeDTO(rideDoc.getString(JsonFieldKey.RIDE_EBIKE_ID_KEY), EBikeDTO.EBikeStateDTO.AVAILABLE, new P2dDTO(0,0), new V2dDTO(0,0), 0, 0),
+                    UserDTO.fromJson(new JsonObject(userDoc.toJson())),
+                    EBikeDTO.fromJson(new JsonObject(ebikeDoc.toJson())),
                     rideDoc.getBoolean(JsonFieldKey.RIDE_ONGONING_KEY),
                     rideDoc.getString(JsonFieldKey.RIDE_ID_KEY)
             ));
         }
     }
-
+    
     @Override
     public Iterable<RideDTO> getAllRides() {
         LOGGER.trace("Retrieving all rides from MongoDB database");
         ArrayList<RideDTO> rides = new ArrayList<>();
-        this.ridesCollection.find().forEach(rideDoc -> rides.add(new RideDTO(
-                java.sql.Date.valueOf(rideDoc.getString(JsonFieldKey.RIDE_START_DATE_KEY)),
-                Optional.ofNullable(rideDoc.getString(JsonFieldKey.RIDE_END_DATE_KEY)).map(java.sql.Date::valueOf),
-                new UserDTO(rideDoc.getString(JsonFieldKey.RIDE_USER_ID_KEY), -1),
-                new EBikeDTO(rideDoc.getString(JsonFieldKey.RIDE_EBIKE_ID_KEY), EBikeDTO.EBikeStateDTO.AVAILABLE, new P2dDTO(0,0), new V2dDTO(0,0), 0, 0),
-                rideDoc.getBoolean(JsonFieldKey.RIDE_ONGONING_KEY),
-                rideDoc.getString(JsonFieldKey.RIDE_ID_KEY)
-        )));
+        this.ridesCollection.find().forEach(rideDoc -> {
+            Document userDoc = rideDoc.get(JsonFieldKey.RIDE_USER_KEY, Document.class);
+            Document ebikeDoc = rideDoc.get(JsonFieldKey.RIDE_EBIKE_KEY, Document.class);
+            rides.add(new RideDTO(
+                    java.sql.Date.valueOf(rideDoc.getString(JsonFieldKey.RIDE_START_DATE_KEY)),
+                    Optional.ofNullable(rideDoc.getString(JsonFieldKey.RIDE_END_DATE_KEY)).map(java.sql.Date::valueOf),
+                    UserDTO.fromJson(new JsonObject(userDoc.toJson())),
+                    EBikeDTO.fromJson(new JsonObject(ebikeDoc.toJson())),
+                    rideDoc.getBoolean(JsonFieldKey.RIDE_ONGONING_KEY),
+                    rideDoc.getString(JsonFieldKey.RIDE_ID_KEY)
+            ));
+        });
         LOGGER.trace("Retrieved {} rides", rides.size());
         return rides;
     }
@@ -166,11 +176,49 @@ public abstract class AbstractMongoRepositoryAdapter extends AbstractVerticleRep
                 .append(JsonFieldKey.RIDE_START_DATE_KEY, ride.startedDate().toString())
                 .append(JsonFieldKey.RIDE_END_DATE_KEY, ride.endDate().map(java.sql.Date::toString).orElse(null))
                 .append(JsonFieldKey.RIDE_ONGONING_KEY, ride.ongoing())
-                .append(JsonFieldKey.RIDE_USER_ID_KEY, ride.user().id())
-                .append(JsonFieldKey.RIDE_EBIKE_ID_KEY, ride.ebike().id());
-    
+                .append(JsonFieldKey.RIDE_USER_KEY, Document.parse(ride.user().toJsonObject().encode()))
+                .append(JsonFieldKey.RIDE_EBIKE_KEY, Document.parse(ride.ebike().toJsonObject().encode()));
+        
         LOGGER.trace("Document prepared: '{}'", rideDoc.toJson());
         this.ridesCollection.insertOne(rideDoc);
         LOGGER.trace("Ride inserted: '{}'", ride.id());
+    }
+    
+    @Override
+    public Optional<EBikeDTO> getEBikeById(String ebikeId) {
+        for (RideDTO ride : this.getAllRides()) {
+            if (ride.ebike().id().equals(ebikeId)) {
+                return Optional.of(ride.ebike());
+            }
+        }
+        return Optional.empty();
+    }
+    
+    @Override
+    public Optional<UserDTO> getUserById(String userId) {
+        for (RideDTO ride : this.getAllRides()) {
+            if (ride.user().id().equals(userId)) {
+                return Optional.of(ride.user());
+            }
+        }
+        return Optional.empty();
+    }
+    
+    @Override
+    public void updateEBike(EBikeDTO dto) {
+        for (RideDTO ride : this.getAllRides()) {
+            if (ride.ebike().id().equals(dto.id())) {
+                this.ridesCollection.updateOne(eq(JsonFieldKey.RIDE_EBIKE_ID_KEY, dto.id()), new Document("$set", new Document(JsonFieldKey.EBIKE_STATE_KEY, dto.state().toString())));
+            }
+        }
+    }
+    
+    @Override
+    public void updateUser(UserDTO dto) {
+        for (RideDTO ride : this.getAllRides()) {
+            if (ride.user().id().equals(dto.id())) {
+                this.ridesCollection.updateOne(eq(JsonFieldKey.RIDE_USER_ID_KEY, dto.id()), new Document("$set", new Document(JsonFieldKey.USER_CREDIT_KEY, dto.credit())));
+            }
+        }
     }
 }

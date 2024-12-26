@@ -13,4 +13,16 @@ public final class SQLUpdates implements SQLStatement {
             SET end_date = ?, ongoing = ?
             WHERE id = ?
             """;
+    
+    public static final String INSERT_USER =
+            """
+            INSERT INTO users (user_id, credit)
+            VALUES (?, ?)
+            """;
+
+    public static final String INSERT_EBIKE =
+            """
+            INSERT INTO ebikes (ebike_id, state, x_location, y_location, x_direction, y_direction, speed, battery)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            """;
 }

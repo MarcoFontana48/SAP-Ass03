@@ -2,10 +2,10 @@ package sap.ass02.infrastructure.persistence;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import sap.ass02.application.RideService;
+import sap.ass02.domain.application.RideServiceVerticle;
 import sap.ass02.domain.*;
 import sap.ass02.domain.dto.RideDTO;
-import sap.ddd.Repository;
+import sap.ddd.ReadOnlyRepository;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -20,16 +20,16 @@ public class RideServiceComponentTest {
     private final EBike eBike1 = new EBike("1", EBike.EBikeState.AVAILABLE, new P2d(1.0, 2.0), new V2d(3.0, 4.0), 5.0, 11);
     private final User user1 = new User("1", 10);
     private final RideDTO ride1 = new RideDTO(new Date(1), Optional.of(new Date(1)), this.user1.toDTO(), this.eBike1.toDTO(), true, "1");
-    private RideService rideService;
+    private RideServiceVerticle rideService;
     
     @BeforeEach
     public void setUp() {
-        Repository repository = mock(Repository.class);
+        ReadOnlyRepository repository = mock(ReadOnlyRepository.class);
         when(repository.getRideById("1")).thenReturn(Optional.of(this.ride1));
         when(repository.getRideById("1", "1")).thenReturn(Optional.of(this.ride1));
         when(repository.getOngoingRideById("1", "1")).thenReturn(Optional.of(this.ride1));
         when(repository.getAllRides()).thenReturn(List.of(this.ride1));
-        this.rideService = new RideService();
+        this.rideService = new RideServiceVerticle();
         this.rideService.attachRepository(repository);
     }
     

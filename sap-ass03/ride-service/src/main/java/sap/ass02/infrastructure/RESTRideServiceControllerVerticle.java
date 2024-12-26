@@ -61,7 +61,6 @@ public final class RESTRideServiceControllerVerticle extends AbstractVerticle im
     @Override
     public void attachService(Service service) {
         this.service = service;
-        this.service.attachEventBus(this.vertx.eventBus());
     }
     
     @Override
@@ -108,33 +107,19 @@ public final class RESTRideServiceControllerVerticle extends AbstractVerticle im
                 String userId = jsonBody.getString(JsonFieldKey.USER_ID_KEY);
                 String eBikeId = jsonBody.getString(JsonFieldKey.EBIKE_ID_KEY);
                 
-                Future<User> userFuture = this.sendGetUserByIdRequest(userId);
-                Future<EBike> eBikeFuture = this.sendGetEBikeByIdRequest(eBikeId);
+                User user = this.service.getUser(userId);
+                EBike eBike = this.service.getEBike(eBikeId);
                 
-                // Wait for all futures to complete and handle the result
-                Future.join(userFuture, eBikeFuture).onComplete(ar -> {
-                    if (ar.succeeded()) {
-                        LOGGER.trace("User and eBike futures completed successfully");
-                        User user = userFuture.result();
-                        EBike eBike = eBikeFuture.result();
-                        
-                        LOGGER.trace("Retrieved user: '{}'", user.toJsonString());
-                        LOGGER.trace("Retrieved eBike: '{}'", eBike.toJsonString());
-                        
-                        Ride ride = new Ride(jsonBody.getString(JsonFieldKey.RIDE_ID_KEY), user, eBike);
-                        LOGGER.trace("About to start ride: '{}'", ride.toJsonString());
-                        
-                        this.service.startRide(ride, user, eBike);
-                        
-                        promise.complete();
-                    } else {
-                        LOGGER.trace("User and eBike futures failed");
-                        promise.fail(ar.cause());
-                    }
-                });
-            } else {
-                promise.fail("Invalid action");
-            }
+                LOGGER.trace("Retrieved user: '{}'", user.toJsonString());
+                LOGGER.trace("Retrieved eBike: '{}'", eBike.toJsonString());
+                
+                Ride ride = new Ride(jsonBody.getString(JsonFieldKey.RIDE_ID_KEY), user, eBike);
+                LOGGER.trace("About to start ride: '{}'", ride.toJsonString());
+                
+                this.service.startRide(ride, user, eBike);
+                
+                promise.complete();
+                }
         }).onComplete(res -> {
             PERFORMANCE_MEASURER.stopTimer(latencyTimer);
             if (res.succeeded()) {
@@ -224,108 +209,31 @@ public final class RESTRideServiceControllerVerticle extends AbstractVerticle im
             
             LOGGER.trace("Retrieved IDs: user_id='{}', ebike_id='{}'", userId, eBikeId);
             
-            Future<User> userFuture = this.sendGetUserByIdRequest(userId);
-            Future<EBike> eBikeFuture = this.sendGetEBikeByIdRequest(eBikeId);
+            User user = this.service.getUser(userId);
+            EBike eBike = this.service.getEBike(eBikeId);
             
-            // Wait for all futures to complete and handle the result
-            Future.join(userFuture, eBikeFuture).onComplete(ar -> {
-                if (ar.succeeded()) {
-                    LOGGER.trace("User and eBike futures completed successfully");
-                    User user = userFuture.result();
-                    EBike eBike = eBikeFuture.result();
-                    
-                    LOGGER.trace("Retrieved user: '{}'", user.toJsonString());
-                    LOGGER.trace("Retrieved eBike: '{}'", eBike.toJsonString());
-                    
-                    Ride ride = new Ride(jsonBody.getString(JsonFieldKey.RIDE_ID_KEY), user, eBike);
-                    LOGGER.trace("About to start ride: '{}'", ride.toJsonString());
-                    
-                    this.service.startRide(ride, user, eBike);
-                    
-                    promise.complete();
-                } else {
-                    LOGGER.trace("User and eBike futures failed");
-                    promise.fail(ar.cause());
-                }
-            }).onComplete(res -> {
-                PERFORMANCE_MEASURER.stopTimer(latencyTimer);
-                if (res.succeeded()) {
-                    LOGGER.info("Ride added successfully, returning status code '{}' to client", STATUS_CODE_OK);
-                    REQUESTS_COUNTER.increasePostRequestsCounter(STATUS_CODE_OK);
-                    sendResponse(routingContext, new JsonObject(), STATUS_CODE_OK);
-                } else {
-                    LOGGER.error("Failed to add ride, returning status code '{}' to client", STATUS_CODE_INTERNAL_SERVER_ERROR);
-                    REQUESTS_COUNTER.increasePostRequestsCounter(STATUS_CODE_INTERNAL_SERVER_ERROR);
-                    sendResponse(routingContext, new JsonObject(), STATUS_CODE_INTERNAL_SERVER_ERROR);
-                }
-            });
+            LOGGER.trace("Retrieved user: '{}'", user.toJsonString());
+            LOGGER.trace("Retrieved eBike: '{}'", eBike.toJsonString());
+            
+            Ride ride = new Ride(jsonBody.getString(JsonFieldKey.RIDE_ID_KEY), user, eBike);
+            LOGGER.trace("About to start ride: '{}'", ride.toJsonString());
+            
+            this.service.startRide(ride, user, eBike);
+            
+            promise.complete();
         }).onComplete(res -> {
-            if (res.failed()) {
-                LOGGER.error("Failed to add ride, returning status code '{}' to client", STATUS_CODE_INTERNAL_SERVER_ERROR);
-                REQUESTS_COUNTER.increasePostRequestsCounter(STATUS_CODE_INTERNAL_SERVER_ERROR);
-                sendResponse(routingContext, new JsonObject(), STATUS_CODE_INTERNAL_SERVER_ERROR);
-            } else {
+            PERFORMANCE_MEASURER.stopTimer(latencyTimer);
+            if (res.succeeded()) {
                 LOGGER.info("Ride added successfully, returning status code '{}' to client", STATUS_CODE_OK);
                 REQUESTS_COUNTER.increasePostRequestsCounter(STATUS_CODE_OK);
                 sendResponse(routingContext, new JsonObject(), STATUS_CODE_OK);
+            } else {
+                LOGGER.error("Failed to add ride, returning status code '{}' to client", STATUS_CODE_INTERNAL_SERVER_ERROR);
+                REQUESTS_COUNTER.increasePostRequestsCounter(STATUS_CODE_INTERNAL_SERVER_ERROR);
+                sendResponse(routingContext, new JsonObject(), STATUS_CODE_INTERNAL_SERVER_ERROR);
             }
         });
     }
-    
-    private Future<EBike> sendGetEBikeByIdRequest(String eBikeId) {
-        String requestURI = EndpointPath.EBIKE + "?" + JsonFieldKey.EBIKE_ID_KEY + "=" + eBikeId;
-        LOGGER.trace("Sending GET request to eBike service with URI '{}'", requestURI);
-        
-        Promise<EBike> promise = Promise.promise();
-        
-        this.webClient.get(HTTP_PORT, "bike-service", requestURI)
-                .send()
-                .onSuccess(response -> {
-                    LOGGER.trace("Received response with status code: {}", response.statusCode());
-                    if (response.statusCode() != STATUS_CODE_OK) {
-                        LOGGER.warn("EBike not found, status code: {}", response.statusCode());
-                        promise.fail("EBike not found");
-                    } else {
-                        LOGGER.trace("EBike found: '{}'", response.bodyAsJsonArray());
-                        EBike eBike = JsonUtils.fromJsonStringToEBike(response.bodyAsJsonArray().getJsonObject(0).toString());
-                        promise.complete(eBike);
-                    }
-                })
-                .onFailure(err -> {
-                    LOGGER.error("Failed to send request: {}", err.getMessage());
-                    promise.fail(err);
-                });
-        
-        return promise.future();
-    }
-    
-    private Future<User> sendGetUserByIdRequest(String userId) {
-        String requestURI = EndpointPath.USER + "?" + JsonFieldKey.USER_ID_KEY + "=" + userId;
-        LOGGER.trace("Sending GET request to user service with URI '{}'", requestURI);
-        
-        Promise<User> promise = Promise.promise();
-        
-        this.webClient.get(HTTP_PORT, "user-service", requestURI)
-                .send()
-                .onSuccess(response -> {
-                    LOGGER.trace("Received response with status code: {}", response.statusCode());
-                    if (response.statusCode() != STATUS_CODE_OK) {
-                        LOGGER.warn("User not found, status code: {}", response.statusCode());
-                        promise.fail("User not found");
-                    } else {
-                        LOGGER.trace("User found: '{}'", response.bodyAsJsonArray());
-                        User user = JsonUtils.fromJsonStringToUser(response.bodyAsJsonArray().getJsonObject(0).toString());
-                        promise.complete(user);
-                    }
-                })
-                .onFailure(err -> {
-                    LOGGER.error("Failed to send request: {}", err.getMessage());
-                    promise.fail(err);
-                });
-        
-        return promise.future();
-    }
-
     
     private void getMetricsHandler(RoutingContext routingContext) {
         routingContext.response().putHeader("Content-Type", TextFormat.CONTENT_TYPE_004);
