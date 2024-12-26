@@ -5,7 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import sap.ass02.domain.User;
 import sap.ass02.domain.dto.UserDTO;
-import sap.ddd.Repository;
+import sap.ddd.ReadWriteRepository;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,7 +21,7 @@ class LocalJsonRepositoryAdapterTest {
     private final String databaseFileName = "database";
     private final String databaseUserFileName = "user";
     private final String testUserId = "test_user";
-    private Repository repo;
+    private ReadWriteRepository repo;
 
     @BeforeEach
     void setUp() {

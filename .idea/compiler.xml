@@ -12,11 +12,11 @@
         <module name="api-gateway" />
         <module name="user-service" />
         <module name="user-ui" />
-        <module name="service-discovery" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="SAP-ASS03" target="21" />
+      <module name="service-discovery" target="21" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">

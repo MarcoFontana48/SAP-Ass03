@@ -4,11 +4,11 @@ import io.vertx.core.json.JsonObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import sap.ass02.domain.dto.UserDTO;
-import sap.ddd.Repository;
+import sap.ddd.ReadWriteRepository;
 
 public final class SQLQueryRepositoryAdapter extends AbstractSQLRepositoryAdapter {
     private static final Logger LOGGER = LogManager.getLogger(SQLQueryRepositoryAdapter.class);
-    private final Repository sqlRepositoryAdapter = new SQLRepositoryAdapter();
+    private final ReadWriteRepository sqlRepositoryAdapter = new SQLRepositoryAdapter();
 
     @Override
     public void start() {

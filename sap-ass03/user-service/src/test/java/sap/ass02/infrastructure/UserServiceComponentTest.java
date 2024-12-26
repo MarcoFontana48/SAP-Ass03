@@ -2,10 +2,10 @@ package sap.ass02.infrastructure;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import sap.ass02.application.UserService;
+import sap.ass02.domain.application.UserService;
 import sap.ass02.domain.User;
 import sap.ass02.domain.dto.UserDTO;
-import sap.ddd.Repository;
+import sap.ddd.ReadWriteRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,7 +22,7 @@ public class UserServiceComponentTest {
     
     @BeforeEach
     public void setUp() {
-        Repository repository = mock(Repository.class);
+        ReadWriteRepository repository = mock(ReadWriteRepository.class);
         when(repository.getUserById(this.user1.id())).thenReturn(Optional.of(this.user1));
         when(repository.getAllUsers()).thenReturn(List.of(this.user1, this.user2));
         this.userService = new UserService();

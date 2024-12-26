@@ -61,6 +61,7 @@ public class KafkaUserServiceEventManagerVerticle extends AbstractVerticle imple
             LOGGER.trace("Received message from event bus: '{}'", message.body());
             JsonObject userJsonObject = new JsonObject(message.body().toString());
             this.producer.write(KafkaProducerRecord.create("client", "client-insert-user", userJsonObject.encode()));
+            this.producer.write(KafkaProducerRecord.create("user-service", "insert-user", userJsonObject.encode()));
         });
     }
 }

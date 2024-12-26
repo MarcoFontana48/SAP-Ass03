@@ -34,5 +34,5 @@ public interface Service {
      * Attach a repository to the service
      * @param repository the repository
      */
-    void attachRepository(Repository repository);
+    void attachRepository(ReadWriteRepository repository);
 }

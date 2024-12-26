@@ -1,11 +1,11 @@
-package sap.ass02.application;
+package sap.ass02.domain.application;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import sap.ass02.domain.User;
 import sap.ass02.domain.dto.DTOUtils;
 import sap.ass02.domain.dto.UserDTO;
-import sap.ddd.Repository;
+import sap.ddd.ReadWriteRepository;
 import sap.ddd.Service;
 
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ import java.util.List;
 
 public final class UserService implements Service {
     private static final Logger LOGGER = LogManager.getLogger(UserService.class);
-    private Repository repository;
+    private ReadWriteRepository repository;
     
     @Override
     public boolean addUser(String userId, int credits) {
@@ -50,7 +50,7 @@ public final class UserService implements Service {
     }
     
     @Override
-    public void attachRepository(Repository repository) {
+    public void attachRepository(ReadWriteRepository repository) {
         this.repository = repository;
     }
 }

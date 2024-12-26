@@ -11,9 +11,14 @@ public record UserDTO(String id, int credit) implements Jsonifyable, ValueObject
      */
     @Override
     public String toJsonString() {
+        return this.toJsonObject().encode();
+    }
+    
+    @Override
+    public JsonObject toJsonObject() {
         JsonObject jsonObject = new JsonObject();
         jsonObject.put(JsonFieldKey.USER_ID_KEY, this.id)
                 .put(JsonFieldKey.USER_CREDIT_KEY, this.credit);
-        return jsonObject.encode();
+        return jsonObject;
     }
 }

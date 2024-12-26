@@ -1,4 +1,4 @@
-package sap.ass02.application;
+package sap.ass02.domain.application;
 
 import io.vertx.core.AbstractVerticle;
 import org.apache.logging.log4j.LogManager;
@@ -6,7 +6,8 @@ import org.apache.logging.log4j.Logger;
 import sap.ass02.domain.User;
 import sap.ass02.domain.dto.DTOUtils;
 import sap.ass02.domain.dto.UserDTO;
-import sap.ddd.Repository;
+import sap.ddd.ReadOnlyRepository;
+import sap.ddd.ReadWriteRepository;
 import sap.ddd.Service;
 
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ import java.util.List;
 public final class UserServiceVerticle extends AbstractVerticle implements ServiceVerticle {
     private static final Logger LOGGER = LogManager.getLogger(UserServiceVerticle.class);
     private final Service userService = new UserService();
-    private Repository queryOnlyRepository;
+    private ReadOnlyRepository queryOnlyRepository;
     
     @Override
     public boolean addUser(String userId, int credits) {
@@ -56,7 +57,7 @@ public final class UserServiceVerticle extends AbstractVerticle implements Servi
     }
     
     @Override
-    public void attachRepository(Repository repository) {
+    public void attachRepository(ReadWriteRepository repository) {
         this.userService.attachRepository(repository);
     }
     
@@ -64,7 +65,7 @@ public final class UserServiceVerticle extends AbstractVerticle implements Servi
      * @param repository
      */
     @Override
-    public void attachQueryOnlyRepository(Repository repository) {
+    public void attachQueryOnlyRepository(ReadOnlyRepository repository) {
         this.queryOnlyRepository = repository;
     }
 }

@@ -19,6 +19,7 @@
     <option name="ignoredFiles">
       <set>
         <option value="$PROJECT_DIR$/SAP-ASS03/pom.xml" />
+        <option value="$PROJECT_DIR$/sap-ass03/service-discovery/pom.xml" />
       </set>
     </option>
   </component>

@@ -4,11 +4,11 @@ import io.vertx.core.json.JsonObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import sap.ass02.domain.dto.UserDTO;
-import sap.ddd.Repository;
+import sap.ddd.ReadWriteRepository;
 
 public class MongoQueryRepositoryAdapter extends AbstractMongoRepositoryAdapter {
     private static final Logger LOGGER = LogManager.getLogger(MongoQueryRepositoryAdapter.class);
-    private final Repository mongoRepositoryAdapter = new MongoRepositoryAdapter();
+    private final ReadWriteRepository mongoRepositoryAdapter = new MongoRepositoryAdapter();
     
     @Override
     public void start() {
