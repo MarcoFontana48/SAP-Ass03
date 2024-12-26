@@ -2,13 +2,14 @@ package sap.ass02.infrastructure;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.kafka.client.consumer.KafkaConsumer;
+import io.vertx.kafka.client.consumer.KafkaConsumerRecord;
+import io.vertx.kafka.client.consumer.KafkaConsumerRecords;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import sap.ass02.domain.port.EventManager;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.time.Duration;
+import java.util.*;
 
 /**
  * The type Kafka ebike service event manager verticle.
@@ -64,5 +65,39 @@ public final class KafkaEBikeServiceEventManagerVerticle extends AbstractVerticl
                 LOGGER.error("Unknown record topic: '{}'", record.topic());
             }
         });
+    }
+
+    public void updateViewWithLatestEventsCountingFrom(int daysAgo) {
+        List<KafkaConsumerRecord<String, String>> records = new ArrayList<>();
+
+        this.consumer.poll(Duration.ofDays(daysAgo), ar -> {
+            if (ar.succeeded()) {
+                KafkaConsumerRecords<String, String> kafkaRecords = ar.result();
+                for (int i = 0; i < kafkaRecords.size(); i++) {
+                    records.add(kafkaRecords.recordAt(i));
+                }
+                this.applyEvents(records);
+            } else {
+                LOGGER.error("Failed to poll records from Kafka. Cause: '{}'", ar.cause().getMessage());
+            }
+        });
+    }
+
+    /**
+     * Applies the events to update the view.
+     */
+    private void applyEvents(List<KafkaConsumerRecord<String, String>> records) {
+        LOGGER.trace("Applying events to update view '{}'", records.size());
+        for (KafkaConsumerRecord<String, String> record : records) {
+            if ("client-ebike-update".equals(record.key()) || "client-insert-ebike".equals(record.key())) {
+                LOGGER.trace("Updating view with data received from event stream: '{}'", record.value());
+                this.vertx.eventBus().publish("ebike-update", record.value());
+            } else if ("client-user-update".equals(record.key()) || "client-insert-user".equals(record.key())) {
+                LOGGER.trace("Updating view with data received from event stream: '{}'", record.value());
+                this.vertx.eventBus().publish("user-update", record.value());
+            } else {
+                LOGGER.error("Unknown record key: '{}'", record.key());
+            }
+        }
     }
 }

@@ -14,6 +14,7 @@ public final class UserClient {
     private static final Logger LOGGER = LogManager.getLogger(UserClient.class);
     private static final int SERVER_PORT = 8080;
     private static final String SERVER_IP_ADDRESS = "localhost";
+    private static final int FOUR_WEEKS = 28;
     
     public static void main(String[] args) {
         Vertx vertx = Vertx.vertx();
@@ -30,10 +31,12 @@ public final class UserClient {
         view.setup();
         view.display();
         
-        EventManager eventManager = new KafkaEBikeServiceEventManagerVerticle();
+        KafkaEBikeServiceEventManagerVerticle eventManager = new KafkaEBikeServiceEventManagerVerticle();
         
         vertx.deployVerticle(controller);
-        vertx.deployVerticle(eventManager);
+        vertx.deployVerticle(eventManager).onSuccess(ar ->
+            eventManager.updateViewWithLatestEventsCountingFrom(FOUR_WEEKS)
+        );
         
         LOGGER.info("user client started");
     }

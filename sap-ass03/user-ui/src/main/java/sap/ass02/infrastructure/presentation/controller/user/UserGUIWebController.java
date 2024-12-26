@@ -56,7 +56,7 @@ public final class UserGUIWebController extends AbstractVerticle implements User
     
     @Override
     public void start() {
-        this.updateViewWithInitialState();
+//        this.updateViewWithInitialState();
         this.startMonitoringAndUpdatingView();
     }
     

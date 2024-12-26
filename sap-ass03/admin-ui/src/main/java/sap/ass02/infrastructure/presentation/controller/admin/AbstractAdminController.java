@@ -53,7 +53,7 @@ public abstract class AbstractAdminController extends AbstractVerticle implement
      */
     @Override
     public void start() {
-        this.updateViewWithInitialState();
+//        this.updateViewWithLatestEventsCountingFrom();
         this.startMonitoringAndUpdatingView();
     }
     
