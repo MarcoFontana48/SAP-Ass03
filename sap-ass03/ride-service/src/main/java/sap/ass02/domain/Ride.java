@@ -6,7 +6,6 @@ import org.apache.logging.log4j.Logger;
 import sap.ass02.domain.dto.RideDTO;
 import sap.ass02.domain.utils.JsonFieldKey;
 import sap.ddd.Aggregate;
-import sap.ddd.Entity;
 
 import java.sql.Date;
 import java.util.Optional;
@@ -14,18 +13,18 @@ import java.util.Optional;
 public final class Ride implements Aggregate<RideDTO> {
     private static final Logger LOGGER = LogManager.getLogger(Ride.class);
     private final User user;
-    private final EBike ebike;
+    private final AbstractBike bike;
     private final String id;
     private Date startedDate;
     private Optional<Date> endDate;
     private boolean ongoing;
     
-    public Ride(String id, User user, EBike ebike) {
+    public Ride(String id, User user, EBike bike) {
         this.id = id;
         this.startedDate = new Date(new java.util.Date().getTime());   //! sql date trunks the time part of the date, leaving only 'YYYY-MM-DD'
         this.endDate = Optional.empty();
         this.user = user;
-        this.ebike = ebike;
+        this.bike = bike;
     }
     
     public Ride(JsonObject asJsonObject) {
@@ -82,8 +81,8 @@ public final class Ride implements Aggregate<RideDTO> {
         return this.user;
     }
     
-    public EBike getEBike() {
-        return this.ebike;
+    public AbstractBike getBike() {
+        return this.bike;
     }
     
     @Override
@@ -92,7 +91,7 @@ public final class Ride implements Aggregate<RideDTO> {
                 this.startedDate,
                 this.endDate,
                 this.user.toDTO(),
-                this.ebike.toDTO(),
+                this.bike.toDTO(),
                 this.ongoing,
                 this.id);
     }
@@ -102,7 +101,7 @@ public final class Ride implements Aggregate<RideDTO> {
         JsonObject json = new JsonObject();
         json.put(JsonFieldKey.RIDE_ID_KEY, this.id)
                 .put(JsonFieldKey.RIDE_USER_KEY, this.user.toJsonObject())
-                .put(JsonFieldKey.RIDE_EBIKE_KEY, this.ebike.toJsonObject())
+                .put(JsonFieldKey.RIDE_EBIKE_KEY, this.bike.toJsonObject())
                 .put(JsonFieldKey.RIDE_START_DATE_KEY, this.startedDate.toString())
                 .put(JsonFieldKey.RIDE_ONGONING_KEY, this.ongoing)
                 .put(JsonFieldKey.RIDE_END_DATE_KEY, this.endDate.toString());
@@ -115,6 +114,6 @@ public final class Ride implements Aggregate<RideDTO> {
     }
     
     public String toString() {
-        return "{ id: " + this.id + ", user: " + this.user.getId() + ", bike: " + this.ebike.getId() + " }";
+        return "{ id: " + this.id + ", user: " + this.user.getId() + ", bike: " + this.bike.getBikeId() + " }";
     }
 }

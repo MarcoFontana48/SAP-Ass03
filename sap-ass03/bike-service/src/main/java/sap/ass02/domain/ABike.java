@@ -9,7 +9,6 @@ import sap.ddd.Entity;
 import java.util.Objects;
 
 public final class ABike extends AbstractBike implements Entity<ABikeDTO> {
-    final double perceptionRadius = 101;
     
     public ABike(String id) {
         super(id);
@@ -28,22 +27,6 @@ public final class ABike extends AbstractBike implements Entity<ABikeDTO> {
                 asJsonObject.getDouble(JsonFieldKey.ABIKE_SPEED_KEY),
                 asJsonObject.getInteger(JsonFieldKey.ABIKE_BATTERY_KEY)
         );
-    }
-    
-    private Station evaluateNearestStation() {
-        Iterable<Station> stations = Environment.getStations();
-        Station nearestStation = null;
-        double minDistance = Double.MAX_VALUE;
-        
-        for (Station station : stations) {
-            double distance = Math.sqrt(Math.pow(this.location.getX() - station.location().getX(), 2) + Math.pow(this.location.getY() - station.location().getY(), 2));
-            if (distance < minDistance && distance <= this.perceptionRadius) {
-                minDistance = distance;
-                nearestStation = station;
-            }
-        }
-        
-        return nearestStation;
     }
     
     @Override

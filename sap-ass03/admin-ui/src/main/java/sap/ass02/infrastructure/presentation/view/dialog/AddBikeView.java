@@ -1,7 +1,7 @@
 package sap.ass02.infrastructure.presentation.view.dialog;
 
 import sap.ass02.infrastructure.presentation.listener.item.ebike.AddEBikeCancelListener;
-import sap.ass02.infrastructure.presentation.listener.item.ebike.AddEBikeOkListener;
+import sap.ass02.infrastructure.presentation.listener.item.ebike.AddBikeOkListener;
 import sap.ass02.infrastructure.presentation.view.AppView;
 import sap.ass02.infrastructure.presentation.view.VisualiserPanel;
 
@@ -12,15 +12,16 @@ import java.util.Optional;
 /**
  * Adapted from AddEBikeDialog
  */
-public final class AddEBikeView extends JDialog implements AppView {
+public final class AddBikeView extends JDialog implements AppView {
     private JTextField idField, errorField;
+    private JCheckBox asAgentBike;
     private JButton okButton;
     private JButton cancelButton;
     
     /**
-     * Creates a new AddEBikeView
+     * Creates a new AddBikeView
      */
-    public AddEBikeView() {
+    public AddBikeView() {
         this.initializeComponents();
         this.setupLayout();
         this.pack();
@@ -32,6 +33,7 @@ public final class AddEBikeView extends JDialog implements AppView {
     private void initializeComponents() {
         this.idField = new JTextField(15);
         this.errorField = new JTextField(25);
+        this.asAgentBike = new JCheckBox();
         this.okButton = new JButton("Ok");
         this.cancelButton = new JButton("Cancel");
     }
@@ -40,13 +42,17 @@ public final class AddEBikeView extends JDialog implements AppView {
      * Sets up the layout
      */
     private void setupLayout() {
-        JPanel inputPanel = new JPanel(new GridLayout(3, 2, 10, 10));
+        JPanel inputPanel = new JPanel(new GridLayout(4, 2, 10, 10));
         inputPanel.add(new JLabel("eBike ID:"));
         inputPanel.add(this.idField);
         
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(this.okButton);
         buttonPanel.add(this.cancelButton);
+        
+        JPanel asAgentBike = new JPanel();
+        asAgentBike.add(new JLabel("As Agent Bike:"));
+        asAgentBike.add(this.asAgentBike);
         
         // JPanel errorPanel = new JPanel();
         // errorPanel.add(errorField);
@@ -70,13 +76,17 @@ public final class AddEBikeView extends JDialog implements AppView {
         return this.idField.getText();
     }
     
+    public boolean isAgentBike() {
+        return this.asAgentBike.isSelected();
+    }
+    
     /**
      * Adds an OK button listener
      *
-     * @param addEBikeOkListener the listener to add
+     * @param addBikeOkListener the listener to add
      */
-    public void addOkButtonListener(AddEBikeOkListener addEBikeOkListener) {
-        this.okButton.addActionListener(addEBikeOkListener);
+    public void addOkButtonListener(AddBikeOkListener addBikeOkListener) {
+        this.okButton.addActionListener(addBikeOkListener);
     }
     
     /**

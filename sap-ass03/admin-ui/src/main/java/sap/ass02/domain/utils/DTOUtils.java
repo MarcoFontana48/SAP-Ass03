@@ -29,7 +29,7 @@ public class DTOUtils {
      */
     public static EBike toEBike(EBikeDTO ebikeDTO) {
         EBike ebike = new EBike(ebikeDTO.id());
-        ebike.updateState(EBike.EBikeState.valueOf(ebikeDTO.state().toString()));
+        ebike.updateState(AbstractBike.BikeState.valueOf(ebikeDTO.state().toString()));
         ebike.updateLocation(new P2d(ebikeDTO.location().y(), ebikeDTO.location().x()));
         ebike.updateDirection(new V2d(ebikeDTO.direction().x(), ebikeDTO.direction().y()));
         ebike.updateSpeed(ebikeDTO.speed());

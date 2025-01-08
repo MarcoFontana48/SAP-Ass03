@@ -24,7 +24,7 @@ class LocalJsonRepositoryAdapterTest {
     private final String testEBikeId = "test_ebike";
     private ReadWriteRepository repo;
     private final UserDTO user = new UserDTO(this.testUserId, 100);
-    private final EBikeDTO ebike = new EBikeDTO(this.testEBikeId, EBikeDTO.EBikeStateDTO.AVAILABLE, new P2dDTO(0, 0), new V2dDTO(0, 0), 0, 100);
+    private final EBikeDTO ebike = new EBikeDTO(this.testEBikeId, BikeStateDTO.AVAILABLE, new P2dDTO(0, 0), new V2dDTO(0, 0), 0, 100);
     
     @BeforeEach
     void setUp() {

@@ -1,19 +1,14 @@
 package sap.ass02.domain.application;
 
 import io.vertx.core.AbstractVerticle;
-import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.json.JsonObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import sap.ass02.domain.EBike;
-import sap.ass02.domain.Ride;
-import sap.ass02.domain.RideSimulation;
-import sap.ass02.domain.User;
+import sap.ass02.domain.*;
 import sap.ass02.domain.dto.DTOUtils;
 import sap.ass02.domain.dto.RideDTO;
 import sap.ass02.domain.utils.JsonFieldKey;
 import sap.ddd.ReadOnlyRepository;
-import sap.ddd.Service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,8 +23,8 @@ public class RideServiceVerticle extends AbstractVerticle implements ServiceVert
     
     @Override
     public boolean startRide(Ride ride, User user, EBike ebike) {
-        LOGGER.trace("Starting ride for user with id '{}' and eBike with id '{}'", user.getId(), ebike.getId());
-        ebike.updateState(EBike.EBikeState.IN_USE);
+        LOGGER.trace("Starting ride for user with id '{}' and eBike with id '{}'", user.getId(), ebike.getBikeId());
+        ebike.updateState(AbstractBike.BikeState.IN_USE);
         this.vertx.eventBus().publish("ebike-update", ebike.toJsonString());
         ride.start();
         
@@ -95,7 +90,7 @@ public class RideServiceVerticle extends AbstractVerticle implements ServiceVert
         
         JsonObject jsonObject = new JsonObject()
                 .put(JsonFieldKey.EBIKE_ID_KEY, rideId)
-                .put(JsonFieldKey.EBIKE_STATE_KEY, EBike.EBikeState.AVAILABLE.toString()
+                .put(JsonFieldKey.EBIKE_STATE_KEY, AbstractBike.BikeState.AVAILABLE.toString()
                 );
         
         LOGGER.trace("About to publish event 'ebike-update' with payload '{}'", jsonObject.encode());
@@ -109,7 +104,7 @@ public class RideServiceVerticle extends AbstractVerticle implements ServiceVert
     
     @Override
     public void updateEBike(Ride ride) {
-        this.vertx.eventBus().publish("ebike-update", ride.getEBike().toJsonString());
+        this.vertx.eventBus().publish("ebike-update", ride.getBike().toJsonString());
     }
     
     @Override

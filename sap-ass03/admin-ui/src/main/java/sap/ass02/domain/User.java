@@ -3,6 +3,7 @@ package sap.ass02.domain;
 import io.vertx.core.json.JsonObject;
 import sap.ass02.domain.utils.JsonFieldKey;
 import sap.ass02.domain.dto.UserDTO;
+import sap.ass02.domain.utils.JsonUtils;
 import sap.ddd.Entity;
 
 import java.util.Objects;
@@ -104,5 +105,10 @@ public class User implements Entity<UserDTO> {
     @Override
     public int hashCode() {
         return Objects.hash(this.getId(), this.getCredit());
+    }
+    
+    @Override
+    public JsonObject toJsonObject() {
+        return JsonUtils.fromUserToJsonObject(this);
     }
 }

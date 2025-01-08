@@ -24,7 +24,7 @@ public class MongoQueryRepositoryAdapter extends AbstractMongoRepositoryAdapter 
                 new Date(Long.parseLong(obj.getString(JsonFieldKey.RIDE_START_DATE_KEY))),
                 Optional.of(new Date(Long.parseLong(String.valueOf(obj.getInteger(JsonFieldKey.RIDE_END_DATE_KEY))))),
                 new UserDTO(obj.getString(JsonFieldKey.RIDE_USER_ID_KEY), -1),
-                new EBikeDTO(obj.getString(JsonFieldKey.RIDE_EBIKE_ID_KEY), EBikeDTO.EBikeStateDTO.AVAILABLE, new P2dDTO(0,0), new V2dDTO(0,0), 0, 0),
+                new EBikeDTO(obj.getString(JsonFieldKey.RIDE_EBIKE_ID_KEY), BikeStateDTO.AVAILABLE, new P2dDTO(0,0), new V2dDTO(0,0), 0, 0),
                 obj.getBoolean(JsonFieldKey.RIDE_ONGONING_KEY),
                 obj.getString(JsonFieldKey.RIDE_ID_KEY)
             );
@@ -38,7 +38,7 @@ public class MongoQueryRepositoryAdapter extends AbstractMongoRepositoryAdapter 
                 new Date(Long.parseLong(obj.getString(JsonFieldKey.RIDE_START_DATE_KEY))),
                 Optional.of(new Date(Long.parseLong(String.valueOf(obj.getInteger(JsonFieldKey.RIDE_END_DATE_KEY))))),
                 new UserDTO(obj.getString(JsonFieldKey.RIDE_USER_ID_KEY), -1),
-                new EBikeDTO(obj.getString(JsonFieldKey.RIDE_EBIKE_ID_KEY), EBikeDTO.EBikeStateDTO.AVAILABLE, new P2dDTO(0,0), new V2dDTO(0,0), 0, 0),
+                new EBikeDTO(obj.getString(JsonFieldKey.RIDE_EBIKE_ID_KEY), BikeStateDTO.AVAILABLE, new P2dDTO(0,0), new V2dDTO(0,0), 0, 0),
                 obj.getBoolean(JsonFieldKey.RIDE_ONGONING_KEY),
                 obj.getString(JsonFieldKey.RIDE_ID_KEY)
             );

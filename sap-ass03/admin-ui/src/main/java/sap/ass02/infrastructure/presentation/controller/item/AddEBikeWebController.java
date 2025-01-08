@@ -10,15 +10,15 @@ import sap.ass02.infrastructure.presentation.controller.property.ClientRequestSe
 import sap.ass02.infrastructure.presentation.controller.property.StandardClientRequest;
 import sap.ass02.infrastructure.presentation.controller.property.ViewAware;
 import sap.ass02.infrastructure.presentation.listener.item.ebike.AddEBikeCancelListener;
-import sap.ass02.infrastructure.presentation.listener.item.ebike.AddEBikeOkListener;
-import sap.ass02.infrastructure.presentation.view.dialog.AddEBikeView;
+import sap.ass02.infrastructure.presentation.listener.item.ebike.AddBikeOkListener;
+import sap.ass02.infrastructure.presentation.view.dialog.AddBikeView;
 
 /**
  * Controller for adding an eBike
  */
-public final class AddEBikeWebController implements ViewAware<AddEBikeView>, ClientRequestSender, WebController<AddEBikeView> {
+public final class AddEBikeWebController implements ViewAware<AddBikeView>, ClientRequestSender, WebController<AddBikeView> {
     private static final Logger LOGGER = LogManager.getLogger(AddEBikeWebController.class);
-    private AddEBikeView eBikeServiceViewAddEBikeDialog;
+    private AddBikeView eBikeServiceViewAddEBikeDialog;
     private final ClientRequest clientRequest = new StandardClientRequest();
     private CoreImpl appAPI;
     
@@ -34,13 +34,13 @@ public final class AddEBikeWebController implements ViewAware<AddEBikeView>, Cli
      * @param view the view to attach
      */
     @Override
-    public void attachView(AddEBikeView view) {
+    public void attachView(AddBikeView view) {
         LOGGER.trace("Attaching view of type '{}' to webController of type '{}'", view.getClass().getSimpleName(), this.getClass().getSimpleName());
         this.eBikeServiceViewAddEBikeDialog = view;
         
-        AddEBikeOkListener addEBikeOkListener = new AddEBikeOkListener();
-        addEBikeOkListener.attachController(this);
-        this.eBikeServiceViewAddEBikeDialog.addOkButtonListener(addEBikeOkListener);
+        AddBikeOkListener addBikeOkListener = new AddBikeOkListener();
+        addBikeOkListener.attachController(this);
+        this.eBikeServiceViewAddEBikeDialog.addOkButtonListener(addBikeOkListener);
         
         AddEBikeCancelListener addEBikeCancelListener = new AddEBikeCancelListener();
         addEBikeCancelListener.attachController(this);
@@ -68,7 +68,7 @@ public final class AddEBikeWebController implements ViewAware<AddEBikeView>, Cli
      * @return the view
      */
     @Override
-    public AddEBikeView getView() {
+    public AddBikeView getView() {
         return this.eBikeServiceViewAddEBikeDialog;
     }
     

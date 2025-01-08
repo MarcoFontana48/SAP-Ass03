@@ -17,7 +17,7 @@ public final class BikeService implements Service {
     private ReadWriteRepository repository;
     
     @Override
-    public boolean addEBike(final String ebikeId) {
+    public boolean addBike(final String ebikeId) {
         EBike ebike = new EBike(ebikeId);
         LOGGER.trace("Adding ebike with id '{}'", ebikeId);
         this.repository.insertEbike(ebike.toDTO());

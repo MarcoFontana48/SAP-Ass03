@@ -7,7 +7,7 @@ public interface Service {
      * Adds an ebike to the repository
      * @param ebikeId the ebike id
      */
-    boolean addEBike(final String ebikeId);
+    boolean addBike(final String ebikeId);
     
     /**
      * Gets an ebike from the repository

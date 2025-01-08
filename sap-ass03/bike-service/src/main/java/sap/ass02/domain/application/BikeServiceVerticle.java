@@ -27,9 +27,9 @@ public final class BikeServiceVerticle extends AbstractVerticle implements Servi
      * @param ebikeId the ebike id
      */
     @Override
-    public boolean addEBike(String ebikeId) {
+    public boolean addBike(String ebikeId) {
         LOGGER.trace("Adding ebike with id '{}'", ebikeId);
-        this.bikeService.addEBike(ebikeId);
+        this.bikeService.addBike(ebikeId);
         EBikeDTO addedEBike = new EBike(ebikeId).toDTO();
         LOGGER.trace("Publishing insert-ebike event '{}'", addedEBike.toJsonString());
         this.vertx.eventBus().publish("insert-ebike", addedEBike.toJsonString());

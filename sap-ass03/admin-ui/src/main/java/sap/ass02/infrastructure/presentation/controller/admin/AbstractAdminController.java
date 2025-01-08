@@ -98,6 +98,11 @@ public abstract class AbstractAdminController extends AbstractVerticle implement
             this.view.addEBikeToShow(JsonUtils.fromJsonStringToEBike(message));
             LOGGER.trace("Refreshing view");
             this.view.refresh();
+        } else if (obj.containsKey(JsonFieldKey.ABIKE_ID_KEY)) {
+            LOGGER.trace("Adding aBike to view");
+            this.view.addABikeToShow(JsonUtils.fromJsonStringToABike(message));
+            LOGGER.trace("Refreshing view");
+            this.view.refresh();
         } else if (obj.containsKey(JsonFieldKey.USER_ID_KEY)) {
             LOGGER.trace("Adding user to view");
             this.view.addUserToShow(JsonUtils.fromJsonStringToUser(message));

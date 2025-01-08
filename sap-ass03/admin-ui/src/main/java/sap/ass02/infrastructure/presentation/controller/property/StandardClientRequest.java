@@ -8,6 +8,7 @@ import io.vertx.ext.web.client.WebClient;
 import io.vertx.ext.web.codec.BodyCodec;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import sap.ass02.domain.AbstractBike;
 import sap.ass02.domain.utils.EndpointPath;
 import sap.ass02.domain.utils.JsonFieldKey;
 import sap.ass02.domain.EBike;
@@ -333,7 +334,7 @@ public final class StandardClientRequest implements ClientRequest {
                             EBike e = new EBike(ebikeJson.getString(JsonFieldKey.EBIKE_ID_KEY));
                             e.updateSpeed(ebikeJson.getInteger(JsonFieldKey.EBIKE_SPEED_KEY));
                             e.updateDirection(ebikeJson.getDouble(JsonFieldKey.EBIKE_X_DIRECTION_KEY), ebikeJson.getDouble(JsonFieldKey.EBIKE_Y_DIRECTION_KEY));
-                            e.updateState(EBike.EBikeState.valueOf(ebikeJson.getString(JsonFieldKey.EBIKE_STATE_KEY)));
+                            e.updateState(AbstractBike.BikeState.valueOf(ebikeJson.getString(JsonFieldKey.EBIKE_STATE_KEY)));
                             e.updateLocation(ebikeJson.getDouble(JsonFieldKey.EBIKE_X_LOCATION_KEY), ebikeJson.getDouble(JsonFieldKey.EBIKE_Y_LOCATION_KEY));
                             e.rechargeBattery();
                             e.decreaseBatteryLevel(100 - ebikeJson.getInteger(JsonFieldKey.EBIKE_BATTERY_KEY));
@@ -447,7 +448,7 @@ public final class StandardClientRequest implements ClientRequest {
                         EBike ebike = new EBike(response.getString(JsonFieldKey.EBIKE_ID_KEY));
                         ebike.updateSpeed(response.getInteger(JsonFieldKey.EBIKE_SPEED_KEY));
                         ebike.updateDirection(response.getDouble(JsonFieldKey.EBIKE_X_DIRECTION_KEY), response.getDouble(JsonFieldKey.EBIKE_Y_DIRECTION_KEY));
-                        ebike.updateState(EBike.EBikeState.valueOf(response.getString(JsonFieldKey.EBIKE_STATE_KEY)));
+                        ebike.updateState(AbstractBike.BikeState.valueOf(response.getString(JsonFieldKey.EBIKE_STATE_KEY)));
                         ebike.updateLocation(response.getDouble(JsonFieldKey.EBIKE_X_LOCATION_KEY), response.getDouble(JsonFieldKey.EBIKE_Y_LOCATION_KEY));
                         ebike.rechargeBattery();
                         ebike.decreaseBatteryLevel(100 - response.getInteger(JsonFieldKey.EBIKE_BATTERY_KEY));
@@ -458,5 +459,30 @@ public final class StandardClientRequest implements ClientRequest {
                     }
                 });
         return promise.future();
+    }
+    
+    @Override
+    public Future<Object> addAgentBike(String aBikeId) {
+        LOGGER.trace("about to POST add agent bike with id '{}'", aBikeId);
+        Promise<Object> result = Promise.promise();
+        JsonObject request = new JsonObject()
+                .put(JsonFieldKey.EBIKE_ID_KEY, aBikeId)
+                .put(JsonFieldKey.BIKE_TYPE_KEY, "agent");
+        
+        LOGGER.trace("Sending request to endpoint '" + EndpointPath.EBIKE + "':\n{}", request.encodePrettily());
+        this.webClient.post(this.port, this.host, EndpointPath.EBIKE)
+                .putHeader("content-type", "application/json")
+                .as(BodyCodec.string())
+                .sendJsonObject(request, ar -> {
+                    if (ar.succeeded()) {
+                        LOGGER.trace("Received response with status code {}", ar.result().statusCode());
+                        LOGGER.trace("Response: {}", ar.result().body());
+                        result.complete(true);
+                    } else {
+                        LOGGER.error("Failed to send request: {}", ar.cause().getMessage());
+                        result.fail(ar.cause());
+                    }
+                });
+        return result.future();
     }
 }

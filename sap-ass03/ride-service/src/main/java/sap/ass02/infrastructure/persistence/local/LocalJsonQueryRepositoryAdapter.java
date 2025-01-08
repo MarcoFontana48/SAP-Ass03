@@ -27,7 +27,7 @@ public final class LocalJsonQueryRepositoryAdapter extends AbstractLocalJsonRepo
             
             EBikeDTO ebike = new EBikeDTO(
                     obj.getString(JsonFieldKey.EBIKE_ID_KEY),
-                    EBikeDTO.EBikeStateDTO.AVAILABLE,
+                    BikeStateDTO.AVAILABLE,
                     new P2dDTO(
                             0,
                             0
@@ -65,7 +65,7 @@ public final class LocalJsonQueryRepositoryAdapter extends AbstractLocalJsonRepo
             
             EBikeDTO ebike = new EBikeDTO(
                     obj.getString(JsonFieldKey.RIDE_EBIKE_ID_KEY),
-                    EBikeDTO.EBikeStateDTO.valueOf(obj.getString(JsonFieldKey.EBIKE_STATE_KEY)),
+                    BikeStateDTO.valueOf(obj.getString(JsonFieldKey.EBIKE_STATE_KEY)),
                     new P2dDTO(
                             obj.getInteger(JsonFieldKey.EBIKE_X_LOCATION_KEY),
                             obj.getInteger(JsonFieldKey.EBIKE_Y_LOCATION_KEY)

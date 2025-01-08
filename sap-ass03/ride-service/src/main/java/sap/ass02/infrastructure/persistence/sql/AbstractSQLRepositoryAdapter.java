@@ -154,7 +154,7 @@ public abstract class AbstractSQLRepositoryAdapter extends AbstractVerticleRepos
             if (resultSet.next()) {
                 LOGGER.trace("Ride found in result set");
                 UserDTO user = new UserDTO(resultSet.getString(SQLColumnNames.TABLE_RIDE_COLUMN_USER_ID), -1);
-                EBikeDTO ebike = new EBikeDTO(resultSet.getString(SQLColumnNames.TABLE_RIDE_COLUMN_EBIKE_ID), EBikeDTO.EBikeStateDTO.AVAILABLE, new P2dDTO(0, 0), new V2dDTO(0, 0), 0, 0);
+                EBikeDTO ebike = new EBikeDTO(resultSet.getString(SQLColumnNames.TABLE_RIDE_COLUMN_EBIKE_ID), BikeStateDTO.AVAILABLE, new P2dDTO(0, 0), new V2dDTO(0, 0), 0, 0);
                 Date startDate = resultSet.getDate(SQLColumnNames.TABLE_RIDE_COLUMN_START_DATE);
                 Optional<Date> endDate;
                 if (resultSet.getString(SQLColumnNames.TABLE_RIDE_COLUMN_END_DATE) == null) {
@@ -195,7 +195,7 @@ public abstract class AbstractSQLRepositoryAdapter extends AbstractVerticleRepos
             if (resultSet.next()) {
                 LOGGER.trace("Ride found in result set");
                 UserDTO user = new UserDTO(userId, -1);
-                EBikeDTO ebike = new EBikeDTO(ebikeId, EBikeDTO.EBikeStateDTO.AVAILABLE, new P2dDTO(0, 0), new V2dDTO(0, 0), 0, 0);
+                EBikeDTO ebike = new EBikeDTO(ebikeId, BikeStateDTO.AVAILABLE, new P2dDTO(0, 0), new V2dDTO(0, 0), 0, 0);
                 Date startDate = resultSet.getDate(SQLColumnNames.TABLE_RIDE_COLUMN_START_DATE);
                 Optional<Date> endDate;
                 if (resultSet.getString(SQLColumnNames.TABLE_RIDE_COLUMN_END_DATE) == null) {
@@ -236,7 +236,7 @@ public abstract class AbstractSQLRepositoryAdapter extends AbstractVerticleRepos
             if (resultSet.next()) {
                 LOGGER.trace("Ride found in result set");
                 UserDTO user = new UserDTO(userId, -1);
-                EBikeDTO ebike = new EBikeDTO(ebikeId, EBikeDTO.EBikeStateDTO.AVAILABLE, new P2dDTO(0, 0), new V2dDTO(0, 0), 0, 0);
+                EBikeDTO ebike = new EBikeDTO(ebikeId, BikeStateDTO.AVAILABLE, new P2dDTO(0, 0), new V2dDTO(0, 0), 0, 0);
                 Date startDate = resultSet.getDate(SQLColumnNames.TABLE_RIDE_COLUMN_START_DATE);
                 Optional<Date> endDate;
                 if (resultSet.getString(SQLColumnNames.TABLE_RIDE_COLUMN_END_DATE) == null) {
@@ -275,7 +275,7 @@ public abstract class AbstractSQLRepositoryAdapter extends AbstractVerticleRepos
             while (resultSet.next()) {
                 LOGGER.trace("Extracting ride from result set: '{}'", resultSet);
                 UserDTO user = new UserDTO(resultSet.getString(SQLColumnNames.TABLE_RIDE_COLUMN_USER_ID), -1);
-                EBikeDTO ebike = new EBikeDTO(resultSet.getString(SQLColumnNames.TABLE_RIDE_COLUMN_EBIKE_ID), EBikeDTO.EBikeStateDTO.AVAILABLE, new P2dDTO(0, 0), new V2dDTO(0, 0), 0, 0);
+                EBikeDTO ebike = new EBikeDTO(resultSet.getString(SQLColumnNames.TABLE_RIDE_COLUMN_EBIKE_ID), BikeStateDTO.AVAILABLE, new P2dDTO(0, 0), new V2dDTO(0, 0), 0, 0);
                 Date startDate = resultSet.getDate(SQLColumnNames.TABLE_RIDE_COLUMN_START_DATE);
                 Optional<Date> endDate;
                 if (resultSet.getString(SQLColumnNames.TABLE_RIDE_COLUMN_END_DATE) == null) {

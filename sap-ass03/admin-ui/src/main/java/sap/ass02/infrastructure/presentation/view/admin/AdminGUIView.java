@@ -2,6 +2,8 @@ package sap.ass02.infrastructure.presentation.view.admin;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import sap.ass02.domain.ABike;
+import sap.ass02.domain.AbstractBike;
 import sap.ass02.domain.EBike;
 import sap.ass02.domain.User;
 import sap.ass02.infrastructure.presentation.listener.admin.AdminAddEBikeListener;
@@ -10,7 +12,7 @@ import sap.ass02.infrastructure.presentation.listener.admin.AdminStartRideListen
 import sap.ass02.infrastructure.presentation.listener.item.plugin.AddPluginListener;
 import sap.ass02.infrastructure.presentation.view.AbstractGUIView;
 import sap.ass02.infrastructure.presentation.view.VisualiserPanel;
-import sap.ass02.infrastructure.presentation.view.dialog.AddEBikeView;
+import sap.ass02.infrastructure.presentation.view.dialog.AddBikeView;
 import sap.ass02.infrastructure.presentation.view.dialog.AddRideView;
 import sap.ass02.infrastructure.presentation.view.dialog.AddUserView;
 
@@ -31,7 +33,7 @@ public final class AdminGUIView extends AbstractGUIView<AdminView> implements Ad
     private final JButton addEBikeButton = new JButton("Add EBike");
     private final JButton startRideButton = new JButton("Start Ride");
     private final AddUserView addUserDialog = new AddUserView();
-    private final AddEBikeView addEBikeDialog = new AddEBikeView();
+    private final AddBikeView addEBikeDialog = new AddBikeView();
     private AdminVisualiserPanel centralPanel;
     private final AddRideView addRideDialog = new AddRideView();
     private final JPanel topPanel = new JPanel();
@@ -85,7 +87,7 @@ public final class AdminGUIView extends AbstractGUIView<AdminView> implements Ad
      * gets the add ebike dialog.
      */
     @Override
-    public AddEBikeView getAddEBikeDialog() {
+    public AddBikeView getAddEBikeDialog() {
         return this.addEBikeDialog;
     }
     
@@ -175,6 +177,16 @@ public final class AdminGUIView extends AbstractGUIView<AdminView> implements Ad
     }
     
     /**
+     * adds an abike to show.
+     *
+     * @param abike the ebike
+     */
+    @Override
+    public void addABikeToShow(ABike abike) {
+        this.centralPanel.addBikeToShow(abike);
+    }
+    
+    /**
      * adds a user to show.
      *
      * @param user the user
@@ -223,7 +235,7 @@ public final class AdminGUIView extends AbstractGUIView<AdminView> implements Ad
      * class of the admin visualizer panel.
      */
     public static class AdminVisualiserPanel extends JPanel implements VisualiserPanel {
-        private final Map<String, EBike> bikes = new HashMap<>();
+        private final Map<String, AbstractBike> bikes = new HashMap<>();
         private final Map<String, User> users = new HashMap<>();
         private final long dx;
         private final long dy;
@@ -258,7 +270,7 @@ public final class AdminGUIView extends AbstractGUIView<AdminView> implements Ad
             g2.clearRect(0, 0, this.getWidth(), this.getHeight());
             
             if (this.bikes != null) {
-                for (EBike b : this.bikes.values()) {
+                for (AbstractBike b : this.bikes.values()) {
                     var p = b.getLocation();
                     int x0 = (int) (this.dx + p.getX());
                     int y0 = (int) (this.dy - p.getY());
@@ -280,7 +292,6 @@ public final class AdminGUIView extends AbstractGUIView<AdminView> implements Ad
                     }
                     
                     g2.drawOval(x0, y0, 20, 20);
-//                    g2.drawOval(x0, y0, 101, 101);  // perception radius
                     g2.drawString(b.getId(), x0, y0 + 35);
                     g2.drawString("(" + (int) p.getX() + "," + (int) p.getY() + ")", x0, y0 + 50);
                 }
@@ -310,7 +321,7 @@ public final class AdminGUIView extends AbstractGUIView<AdminView> implements Ad
          *
          * @param ebike the ebike
          */
-        public void addBikeToShow(EBike ebike) {
+        public void addBikeToShow(AbstractBike ebike) {
             this.bikes.put(ebike.getId(), ebike);
         }
         

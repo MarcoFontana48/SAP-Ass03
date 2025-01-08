@@ -1,6 +1,8 @@
 package sap.ass02.domain.utils;
 
 import io.vertx.core.json.JsonObject;
+import sap.ass02.domain.ABike;
+import sap.ass02.domain.AbstractBike;
 import sap.ass02.domain.EBike;
 import sap.ass02.domain.User;
 
@@ -16,7 +18,7 @@ public final class JsonUtils {
     public static EBike fromJsonStringToEBike(String eBikeJsonString) {
         JsonObject eBikeJson = new JsonObject(eBikeJsonString);
         EBike eBike = new EBike(eBikeJson.getString(JsonFieldKey.EBIKE_ID_KEY));
-        eBike.updateState(EBike.EBikeState.valueOf(eBikeJson.getString(JsonFieldKey.EBIKE_STATE_KEY)));
+        eBike.updateState(AbstractBike.BikeState.valueOf(eBikeJson.getString(JsonFieldKey.EBIKE_STATE_KEY)));
         eBike.updateSpeed(eBikeJson.getDouble(JsonFieldKey.EBIKE_SPEED_KEY));
         eBike.updateLocation(eBikeJson.getDouble(JsonFieldKey.EBIKE_X_LOCATION_KEY), eBikeJson.getDouble(JsonFieldKey.EBIKE_Y_LOCATION_KEY));
         eBike.updateDirection(eBikeJson.getDouble(JsonFieldKey.EBIKE_X_DIRECTION_KEY), eBikeJson.getDouble(JsonFieldKey.EBIKE_Y_DIRECTION_KEY));
@@ -63,5 +65,17 @@ public final class JsonUtils {
         User user = new User(userJson.getString(JsonFieldKey.USER_ID_KEY));
         user.rechargeCredit(userJson.getInteger(JsonFieldKey.USER_CREDIT_KEY));
         return user;
+    }
+    
+    public static ABike fromJsonStringToABike(String abikeJsonString) {
+        JsonObject bikeJson = new JsonObject(abikeJsonString);
+        ABike bike = new ABike(bikeJson.getString(JsonFieldKey.ABIKE_ID_KEY));
+        bike.updateState(AbstractBike.BikeState.valueOf(bikeJson.getString(JsonFieldKey.ABIKE_STATE_KEY)));
+        bike.updateSpeed(bikeJson.getDouble(JsonFieldKey.ABIKE_SPEED_KEY));
+        bike.updateLocation(bikeJson.getDouble(JsonFieldKey.ABIKE_X_LOCATION_KEY), bikeJson.getDouble(JsonFieldKey.ABIKE_Y_LOCATION_KEY));
+        bike.updateDirection(bikeJson.getDouble(JsonFieldKey.ABIKE_X_DIRECTION_KEY), bikeJson.getDouble(JsonFieldKey.ABIKE_Y_DIRECTION_KEY));
+        bike.rechargeBattery();
+        bike.decreaseBatteryLevel(100 - bikeJson.getInteger(JsonFieldKey.ABIKE_BATTERY_KEY));
+        return bike;
     }
 }

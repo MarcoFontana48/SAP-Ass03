@@ -4,7 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import sap.ass02.infrastructure.presentation.controller.item.AddEBikeWebController;
 import sap.ass02.infrastructure.presentation.listener.ViewListener;
-import sap.ass02.infrastructure.presentation.view.dialog.AddEBikeView;
+import sap.ass02.infrastructure.presentation.view.dialog.AddBikeView;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,7 +12,7 @@ import java.awt.event.ActionListener;
 /**
  * Listener for the cancel button in the add e-bike dialog.
  */
-public final class AddEBikeCancelListener implements ActionListener, ViewListener<AddEBikeWebController, AddEBikeView> {
+public final class AddEBikeCancelListener implements ActionListener, ViewListener<AddEBikeWebController, AddBikeView> {
     private static final Logger LOGGER = LogManager.getLogger(AddEBikeCancelListener.class);
     private AddEBikeWebController controller;
 

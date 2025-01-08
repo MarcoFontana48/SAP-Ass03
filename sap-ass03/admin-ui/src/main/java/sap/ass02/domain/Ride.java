@@ -170,6 +170,18 @@ public class Ride implements Entity<RideDTO> {
         return json.encode();
     }
     
+    @Override
+    public JsonObject toJsonObject() {
+        JsonObject json = new JsonObject();
+        json.put(JsonFieldKey.JSON_RIDE_ID_KEY, this.id)
+                .put(JsonFieldKey.JSON_RIDE_USER_ID_KEY, this.user.toJsonObject())
+                .put(JsonFieldKey.JSON_RIDE_EBIKE_ID_KEY, this.ebike.toJsonObject())
+                .put(JsonFieldKey.JSON_RIDE_START_DATE_KEY, this.startedDate.toString())
+                .put(JsonFieldKey.JSON_RIDE_ONGONING_KEY, this.ongoing)
+                .put(JsonFieldKey.JSON_RIDE_END_DATE_KEY, this.endDate.toString());
+        return json;
+    }
+    
     /**
      * Converts the ride to a string
      *

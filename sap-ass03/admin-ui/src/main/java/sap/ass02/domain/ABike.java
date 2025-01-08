@@ -1,8 +1,8 @@
 package sap.ass02.domain;
 
 import io.vertx.core.json.JsonObject;
+import sap.ass02.domain.dto.ABikeDTO;
 import sap.ass02.domain.dto.BikeStateDTO;
-import sap.ass02.domain.dto.EBikeDTO;
 import sap.ass02.domain.dto.P2dDTO;
 import sap.ass02.domain.dto.V2dDTO;
 import sap.ass02.domain.utils.JsonFieldKey;
@@ -10,29 +10,30 @@ import sap.ddd.Entity;
 
 import java.util.Objects;
 
-public final class EBike extends AbstractBike implements Entity<EBikeDTO> {
-    public EBike(String id) {
+public final class ABike extends AbstractBike implements Entity<ABikeDTO> {
+    
+    public ABike(String id) {
         super(id);
     }
-    
-    public EBike(String id, BikeState state, P2d location, V2d direction, double speed, int batteryLevel) {
+
+    public ABike(String id, BikeState state, P2d location, V2d direction, double speed, int batteryLevel) {
         super(id, state, location, direction, speed, batteryLevel);
     }
     
-    public EBike(JsonObject asJsonObject) {
+    public ABike(JsonObject asJsonObject) {
         this(
-                asJsonObject.getString(JsonFieldKey.EBIKE_ID_KEY),
-                BikeState.valueOf(asJsonObject.getString(JsonFieldKey.EBIKE_STATE_KEY)),
-                new P2d(asJsonObject.getDouble(JsonFieldKey.EBIKE_X_LOCATION_KEY), asJsonObject.getDouble(JsonFieldKey.EBIKE_Y_LOCATION_KEY)),
-                new V2d(asJsonObject.getDouble(JsonFieldKey.EBIKE_X_DIRECTION_KEY), asJsonObject.getDouble(JsonFieldKey.EBIKE_Y_DIRECTION_KEY)),
-                asJsonObject.getDouble(JsonFieldKey.EBIKE_SPEED_KEY),
-                asJsonObject.getInteger(JsonFieldKey.EBIKE_BATTERY_KEY)
+                asJsonObject.getString(JsonFieldKey.ABIKE_ID_KEY),
+                BikeState.valueOf(asJsonObject.getString(JsonFieldKey.ABIKE_STATE_KEY)),
+                new P2d(asJsonObject.getDouble(JsonFieldKey.ABIKE_X_LOCATION_KEY), asJsonObject.getDouble(JsonFieldKey.ABIKE_Y_LOCATION_KEY)),
+                new V2d(asJsonObject.getDouble(JsonFieldKey.ABIKE_X_DIRECTION_KEY), asJsonObject.getDouble(JsonFieldKey.ABIKE_Y_DIRECTION_KEY)),
+                asJsonObject.getDouble(JsonFieldKey.ABIKE_SPEED_KEY),
+                asJsonObject.getInteger(JsonFieldKey.ABIKE_BATTERY_KEY)
         );
     }
     
     @Override
-    public EBikeDTO toDTO() {
-        return new EBikeDTO(
+    public ABikeDTO toDTO() {
+        return new ABikeDTO(
                 this.id,
                 BikeStateDTO.valueOf(this.state.toString()),
                 new P2dDTO(this.location.getX(), this.location.getY()),
@@ -45,14 +46,14 @@ public final class EBike extends AbstractBike implements Entity<EBikeDTO> {
     @Override
     public JsonObject toJsonObject() {
         return new JsonObject()
-                .put(JsonFieldKey.EBIKE_ID_KEY, this.id)
-                .put(JsonFieldKey.EBIKE_STATE_KEY, this.state.toString())
-                .put(JsonFieldKey.EBIKE_X_LOCATION_KEY, this.location.getX())
-                .put(JsonFieldKey.EBIKE_Y_LOCATION_KEY, this.location.getY())
-                .put(JsonFieldKey.EBIKE_X_DIRECTION_KEY, this.direction.x())
-                .put(JsonFieldKey.EBIKE_Y_DIRECTION_KEY, this.direction.y())
-                .put(JsonFieldKey.EBIKE_SPEED_KEY, this.speed)
-                .put(JsonFieldKey.EBIKE_BATTERY_KEY, this.batteryLevel);
+                .put(JsonFieldKey.ABIKE_ID_KEY, this.id)
+                .put(JsonFieldKey.ABIKE_STATE_KEY, this.state.toString())
+                .put(JsonFieldKey.ABIKE_X_LOCATION_KEY, this.location.getX())
+                .put(JsonFieldKey.ABIKE_Y_LOCATION_KEY, this.location.getY())
+                .put(JsonFieldKey.ABIKE_X_DIRECTION_KEY, this.direction.x())
+                .put(JsonFieldKey.ABIKE_Y_DIRECTION_KEY, this.direction.y())
+                .put(JsonFieldKey.ABIKE_SPEED_KEY, this.speed)
+                .put(JsonFieldKey.ABIKE_BATTERY_KEY, this.batteryLevel);
     }
     
     @Override
@@ -64,7 +65,7 @@ public final class EBike extends AbstractBike implements Entity<EBikeDTO> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || this.getClass() != o.getClass()) return false;
-        EBike eBike = (EBike) o;
+        ABike eBike = (ABike) o;
         return Double.compare(this.getSpeed(), eBike.getSpeed()) == 0 && this.getBatteryLevel() == eBike.getBatteryLevel() && Objects.equals(this.getId(), eBike.getId()) && this.getState() == eBike.getState() && Objects.equals(this.getLocation(), eBike.getLocation()) && Objects.equals(this.getDirection(), eBike.getDirection());
     }
     

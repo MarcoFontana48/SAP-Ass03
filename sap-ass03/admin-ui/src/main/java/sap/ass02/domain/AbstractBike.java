@@ -1,5 +1,7 @@
 package sap.ass02.domain;
 
+import io.vertx.core.json.JsonObject;
+
 public abstract class AbstractBike {
     protected final String id;
     protected BikeState state;
@@ -31,6 +33,8 @@ public abstract class AbstractBike {
             this.batteryLevel = batteryLevel;
         }
     }
+    
+    public abstract JsonObject toJsonObject();
     
     public enum BikeState {AVAILABLE, IN_USE, MAINTENANCE}
     

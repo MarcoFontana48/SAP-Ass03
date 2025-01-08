@@ -31,4 +31,16 @@ public final class JsonFieldKey {
     public static final String RIDE_USER_KEY = "user";
     public static final String RIDE_EBIKE_KEY = "ebike";
     public static final String RIDE_ACTION = "action";
+    
+    /**
+     * JSON keys for aBike
+     */
+    public static final String ABIKE_ID_KEY = "abike_id";
+    public static final String ABIKE_STATE_KEY = "state";
+    public static final String ABIKE_X_LOCATION_KEY = "x_location";
+    public static final String ABIKE_Y_LOCATION_KEY = "y_location";
+    public static final String ABIKE_X_DIRECTION_KEY = "x_direction";
+    public static final String ABIKE_Y_DIRECTION_KEY = "y_direction";
+    public static final String ABIKE_SPEED_KEY = "speed";
+    public static final String ABIKE_BATTERY_KEY = "battery";
 }

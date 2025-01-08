@@ -10,7 +10,6 @@ public final class RideSimulation extends Thread {
     private static final int THREAD_SLEEP_MILLIS = 20;
     private final Ride ride;
     private final User user;
-    
     private final Service service;
     private volatile boolean stopped;
     
@@ -24,10 +23,10 @@ public final class RideSimulation extends Thread {
     public void run() {
         LOGGER.trace("Starting ride simulation for ride '{}'", this.ride);
         
-        LOGGER.trace("Starting ride simulation for eBike '{}'", this.ride.getEBike().toString());
+        LOGGER.trace("Starting ride simulation for bike '{}'", this.ride.getBike().toString());
         int ebikeSpeed = 1;
-        LOGGER.trace("Setting eBike '{}' speed to '{}'", this.ride.getEBike().getId(), ebikeSpeed);
-        this.ride.getEBike().updateSpeed(ebikeSpeed);
+        LOGGER.trace("Setting bike '{}' speed to '{}'", this.ride.getBike().getBikeId(), ebikeSpeed);
+        this.ride.getBike().updateSpeed(ebikeSpeed);
         
         var lastTimeDecreasedCredit = System.currentTimeMillis();
         int decreaseCreditAmount = 1;
@@ -40,14 +39,14 @@ public final class RideSimulation extends Thread {
         while (!this.stopped) {
             
             /* update position */
-            LOGGER.trace("Updating eBike '{}' position to '{}'", this.ride.getEBike().getId(), this.ride.getEBike().getLocation());
-            var direction = this.updatePosition(this.ride.getEBike());
+            LOGGER.trace("Updating bike '{}' position to '{}'", this.ride.getBike().getBikeId(), this.ride.getBike().getLocation());
+            var direction = this.updatePosition(this.ride.getBike());
             
             /* change direction randomly */
-            LOGGER.trace("Changing eBike '{}' direction to '{}'", this.ride.getEBike().getId(), this.ride.getEBike().getDirection());
-            this.changeDirectionRandomly(lastTimeChangedDir, this.ride.getEBike(), direction);
+            LOGGER.trace("Changing bike '{}' direction to '{}'", this.ride.getBike().getBikeId(), this.ride.getBike().getDirection());
+            this.changeDirectionRandomly(lastTimeChangedDir, this.ride.getBike(), direction);
             
-            LOGGER.trace("Updating eBike '{}' in repository", this.ride.getEBike().getId());
+            LOGGER.trace("Updating bike '{}' in repository", this.ride.getBike().getBikeId());
             this.service.updateEBike(this.ride);
             
             /* update credit */
@@ -55,18 +54,21 @@ public final class RideSimulation extends Thread {
             lastTimeDecreasedCredit = this.updateCredit(lastTimeDecreasedCredit);
             
             /* decrease battery level */
-            LOGGER.trace("Decreasing eBike '{}' battery level to '{}'", this.ride.getEBike().getId(), this.ride.getEBike().getBatteryLevel());
+            LOGGER.trace("Decreasing bike '{}' battery level to '{}'", this.ride.getBike().getBikeId(), this.ride.getBike().getBatteryLevel());
             lastTimeDecreasedBattery = this.updateBattery(lastTimeDecreasedBattery);
             
-            if (this.ride.getEBike().getState() == EBike.EBikeState.MAINTENANCE || this.user.getCredit() <= 0) {
+            if (this.ride.getBike().getBikeState() == AbstractBike.BikeState.MAINTENANCE || this.user.getCredit() <= 0) {
                 if (this.user.getCredit() <= 0) {
-                    this.ride.getEBike().updateState(EBike.EBikeState.AVAILABLE);
+                    this.ride.getBike().updateState(AbstractBike.BikeState.AVAILABLE);
                     this.service.updateEBike(this.ride);
                 }
                 this.service.stopRide(this.ride.getId());
-                this.stopSimulation();
+                if (this.ride.getBike() instanceof ABike) {
+                    ((ABike) this.ride.getBike()).start();
+                }
+//                this.stopSimulation();
             }
-
+            
 //            this.app.refreshView();
             
             try {
@@ -80,52 +82,52 @@ public final class RideSimulation extends Thread {
     private long updateBattery(long lastTimeDecreasedBattery) {
         var elapsedTimeSinceLastDecBattery = System.currentTimeMillis() - lastTimeDecreasedBattery;
         if (elapsedTimeSinceLastDecBattery > 3000) {
-            this.ride.getEBike().decreaseBatteryLevel(1);
+            this.ride.getBike().decreaseBatteryLevel(1);
             lastTimeDecreasedBattery = System.currentTimeMillis();
-            LOGGER.trace("Updating eBike '{}' in repository", this.ride.getEBike().getId());
+            LOGGER.trace("Updating bike '{}' in repository", this.ride.getBike().getBikeId());
             this.service.updateEBike(this.ride);
         }
         return lastTimeDecreasedBattery;
     }
     
-    private V2d updatePosition(EBike eBike) {
-        var eBikeLocation = eBike.getLocation();
-        var eBikeDirection = eBike.getDirection();
-        var eBikeSpeed = eBike.getSpeed();
-        eBike.updateLocation(eBikeLocation.sum(eBikeDirection.mul(eBikeSpeed)));
-        eBikeLocation = eBike.getLocation();
-        this.updateXPosition(eBike, eBikeLocation, eBikeDirection);
-        this.updateYPosition(eBike, eBikeLocation, eBikeDirection);
+    private V2d updatePosition(AbstractBike bike) {
+        var eBikeLocation = bike.getLocation();
+        var eBikeDirection = bike.getDirection();
+        var eBikeSpeed = bike.getSpeed();
+        bike.updateLocation(eBikeLocation.sum(eBikeDirection.mul(eBikeSpeed)));
+        eBikeLocation = bike.getLocation();
+        this.updateXPosition(bike, eBikeLocation, eBikeDirection);
+        this.updateYPosition(bike, eBikeLocation, eBikeDirection);
         return eBikeDirection;
     }
     
-    private void updateYPosition(EBike eBike, P2d currentEBikePosition, V2d currentEBikeDirection) {
+    private void updateYPosition(AbstractBike bike, P2d currentEBikePosition, V2d currentEBikeDirection) {
         if (currentEBikePosition.getY() > MAX_EBIKE_POSITION || currentEBikePosition.getY() < -MAX_EBIKE_POSITION) {
-            eBike.updateDirection(new V2d(currentEBikeDirection.x(), -currentEBikeDirection.y()));
+            bike.updateDirection(new V2d(currentEBikeDirection.x(), -currentEBikeDirection.y()));
             if (currentEBikePosition.getY() > MAX_EBIKE_POSITION) {
-                eBike.updateLocation(new P2d(currentEBikePosition.getX(), MAX_EBIKE_POSITION));
+                bike.updateLocation(new P2d(currentEBikePosition.getX(), MAX_EBIKE_POSITION));
             } else {
-                eBike.updateLocation(new P2d(currentEBikePosition.getX(), -MAX_EBIKE_POSITION));
+                bike.updateLocation(new P2d(currentEBikePosition.getX(), -MAX_EBIKE_POSITION));
             }
         }
     }
     
-    private void updateXPosition(EBike eBike, P2d currentEBikePosition, V2d currentEBikeDirection) {
+    private void updateXPosition(AbstractBike bike, P2d currentEBikePosition, V2d currentEBikeDirection) {
         if (currentEBikePosition.getX() > MAX_EBIKE_POSITION || currentEBikePosition.getX() < -MAX_EBIKE_POSITION) {
-            eBike.updateDirection(new V2d(-currentEBikeDirection.x(), currentEBikeDirection.y()));
+            bike.updateDirection(new V2d(-currentEBikeDirection.x(), currentEBikeDirection.y()));
             if (currentEBikePosition.getX() > MAX_EBIKE_POSITION) {
-                eBike.updateLocation(new P2d(MAX_EBIKE_POSITION, currentEBikePosition.getY()));
+                bike.updateLocation(new P2d(MAX_EBIKE_POSITION, currentEBikePosition.getY()));
             } else {
-                eBike.updateLocation(new P2d(-MAX_EBIKE_POSITION, currentEBikePosition.getY()));
+                bike.updateLocation(new P2d(-MAX_EBIKE_POSITION, currentEBikePosition.getY()));
             }
         }
     }
     
-    private void changeDirectionRandomly(long lastTimeChangedDir, EBike eBike, V2d direction) {
+    private void changeDirectionRandomly(long lastTimeChangedDir, AbstractBike bike, V2d direction) {
         var elapsedTimeSinceLastChangeDir = System.currentTimeMillis() - lastTimeChangedDir;
         if (elapsedTimeSinceLastChangeDir > 500) {
             double angle = Math.random() * 60 - 30;
-            eBike.updateDirection(direction.rotate(angle));
+            bike.updateDirection(direction.rotate(angle));
             elapsedTimeSinceLastChangeDir = System.currentTimeMillis();
         }
     }

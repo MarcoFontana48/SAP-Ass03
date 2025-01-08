@@ -1,6 +1,6 @@
 package sap.ass02.infrastructure.presentation.view.property;
 
-import sap.ass02.infrastructure.presentation.view.dialog.AddEBikeView;
+import sap.ass02.infrastructure.presentation.view.dialog.AddBikeView;
 
 /**
  * Interface for classes that can add an e-bike
@@ -22,6 +22,6 @@ public interface AddEBikeCapable<L> {
      * Get the add e-bike dialog
      * @return the add e-bike dialog
      */
-    AddEBikeView getAddEBikeDialog();
+    AddBikeView getAddEBikeDialog();
     
 }

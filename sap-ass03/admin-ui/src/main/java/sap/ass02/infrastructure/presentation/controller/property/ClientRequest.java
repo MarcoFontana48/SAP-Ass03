@@ -96,4 +96,6 @@ public interface ClientRequest {
      * @return a future that will be completed with the ride
      */
     Future<String> getOngoingRide(String userId, String eBikeId);
+    
+    Future<Object> addAgentBike(String aBikeId);
 }

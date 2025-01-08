@@ -1,5 +1,6 @@
 package sap.ass02.infrastructure.presentation.view;
 
+import sap.ass02.domain.ABike;
 import sap.ass02.infrastructure.presentation.listener.item.plugin.AddPluginListener;
 import sap.ass02.infrastructure.presentation.view.AppView;
 import sap.ass02.infrastructure.presentation.view.property.AddPluginCapable;

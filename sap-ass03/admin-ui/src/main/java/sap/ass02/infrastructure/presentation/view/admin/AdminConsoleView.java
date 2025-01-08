@@ -1,5 +1,7 @@
 package sap.ass02.infrastructure.presentation.view.admin;
 
+import sap.ass02.domain.ABike;
+import sap.ass02.domain.AbstractBike;
 import sap.ass02.domain.EBike;
 import sap.ass02.domain.User;
 import sap.ass02.infrastructure.presentation.listener.admin.AdminAddEBikeListener;
@@ -7,7 +9,7 @@ import sap.ass02.infrastructure.presentation.listener.admin.AdminAddUserListener
 import sap.ass02.infrastructure.presentation.listener.admin.AdminStartRideListener;
 import sap.ass02.infrastructure.presentation.listener.item.plugin.AddPluginListener;
 import sap.ass02.infrastructure.presentation.view.VisualiserPanel;
-import sap.ass02.infrastructure.presentation.view.dialog.AddEBikeView;
+import sap.ass02.infrastructure.presentation.view.dialog.AddBikeView;
 import sap.ass02.infrastructure.presentation.view.dialog.AddRideView;
 import sap.ass02.infrastructure.presentation.view.dialog.AddUserView;
 
@@ -20,7 +22,7 @@ import java.util.Optional;
  */
 public final class AdminConsoleView implements AdminView {
     private final Map<String, User> users = new HashMap<>();
-    private final Map<String, EBike> ebikes = new HashMap<>();
+    private final Map<String, AbstractBike> bikes = new HashMap<>();
     
     /**
      * Logs a message
@@ -54,7 +56,12 @@ public final class AdminConsoleView implements AdminView {
      */
     @Override
     public void addEBikeToShow(EBike ebike) {
-        this.ebikes.put(ebike.getId(), ebike);
+        this.bikes.put(ebike.getId(), ebike);
+    }
+    
+    @Override
+    public void addABikeToShow(ABike abike) {
+        this.bikes.put(abike.getId(), abike);
     }
     
     /**
@@ -72,7 +79,7 @@ public final class AdminConsoleView implements AdminView {
      */
     @Override
     public void refresh() {
-        this.logMessage("current state:\n" + "global users:" + this.users + "\nglobal eBikes:" + this.ebikes);
+        this.logMessage("current state:\n" + "global users:" + this.users + "\nglobal eBikes:" + this.bikes);
     }
     
     /**
@@ -119,7 +126,7 @@ public final class AdminConsoleView implements AdminView {
      * @return the add ebike dialog
      */
     @Override
-    public AddEBikeView getAddEBikeDialog() {
+    public AddBikeView getAddEBikeDialog() {
         throw new UnsupportedOperationException();
     }
     

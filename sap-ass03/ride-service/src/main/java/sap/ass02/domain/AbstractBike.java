@@ -1,6 +1,16 @@
 package sap.ass02.domain;
 
-public abstract class AbstractBike {
+import io.vertx.core.json.JsonObject;
+import sap.ass02.domain.dto.BikeStateDTO;
+import sap.ass02.domain.dto.EBikeDTO;
+import sap.ass02.domain.dto.P2dDTO;
+import sap.ass02.domain.dto.V2dDTO;
+import sap.ass02.domain.utils.JsonFieldKey;
+import sap.ddd.Entity;
+
+import java.util.Objects;
+
+public abstract class AbstractBike implements Entity<EBikeDTO> {
     protected final String id;
     protected BikeState state;
     protected P2d location;
@@ -32,13 +42,13 @@ public abstract class AbstractBike {
         }
     }
     
-    public enum BikeState {AVAILABLE, IN_USE, MAINTENANCE}
+    public enum BikeState {AVAILABLE, IN_USE, MOVING_TO_STATION, AT_STATION, MAINTENANCE}
     
-    public String getId() {
+    public String getBikeId() {
         return this.id;
     }
     
-    public BikeState getState() {
+    public BikeState getBikeState() {
         return this.state;
     }
     
@@ -106,4 +116,46 @@ public abstract class AbstractBike {
         return "{ id: " + this.id + ", loc: " + this.location + ", batteryLevel: " + this.batteryLevel + ", state: " + this.state + " }";
     }
     
+    @Override
+    public EBikeDTO toDTO() {
+        return new EBikeDTO(
+                this.id,
+                BikeStateDTO.valueOf(this.state.toString()),
+                new P2dDTO(this.location.getX(), this.location.getY()),
+                new V2dDTO(this.direction.x(), this.direction.y()),
+                this.speed,
+                this.batteryLevel
+        );
+    }
+    
+    @Override
+    public JsonObject toJsonObject() {
+        return new JsonObject()
+                .put(JsonFieldKey.EBIKE_ID_KEY, this.id)
+                .put(JsonFieldKey.EBIKE_STATE_KEY, this.state.toString())
+                .put(JsonFieldKey.EBIKE_X_LOCATION_KEY, this.location.getX())
+                .put(JsonFieldKey.EBIKE_Y_LOCATION_KEY, this.location.getY())
+                .put(JsonFieldKey.EBIKE_X_DIRECTION_KEY, this.direction.x())
+                .put(JsonFieldKey.EBIKE_Y_DIRECTION_KEY, this.direction.y())
+                .put(JsonFieldKey.EBIKE_SPEED_KEY, this.speed)
+                .put(JsonFieldKey.EBIKE_BATTERY_KEY, this.batteryLevel);
+    }
+    
+    @Override
+    public String toJsonString() {
+        return this.toJsonObject().encode();
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || this.getClass() != obj.getClass()) return false;
+        EBike eBike = (EBike) obj;
+        return Double.compare(this.getSpeed(), eBike.getSpeed()) == 0 && this.getBatteryLevel() == eBike.getBatteryLevel() && Objects.equals(this.getBikeId(), eBike.getBikeId()) && this.getBikeState() == eBike.getBikeState() && Objects.equals(this.getLocation(), eBike.getLocation()) && Objects.equals(this.getDirection(), eBike.getDirection());
+    }
+    
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.getBikeId(), this.getBikeState(), this.getLocation(), this.getDirection(), this.getSpeed(), this.getBatteryLevel());
+    }
 }
