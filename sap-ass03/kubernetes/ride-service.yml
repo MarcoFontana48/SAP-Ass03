@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ride-service
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ride-service
+  template:
+    metadata:
+      labels:
+        app: ride-service
+    spec:
+      containers:
+        - name: ride-service
+          image: marcofontana/sap-ass-03:ride-service
+          env:
+            - name: CONFIG_SERVER_HOST_NAME
+              value: "config-server"
+          ports:
+            - containerPort: 8080
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 40
+            periodSeconds: 90
+            timeoutSeconds: 10
+            failureThreshold: 3
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ride-service
+  namespace: default
+spec:
+  selector:
+    app: ride-service
+  ports:
+    - protocol: TCP
+      port: 8084
+      targetPort: 8080

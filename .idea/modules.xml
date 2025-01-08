@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/sap-ass03/admin-ui/admin-ui.iml" filepath="$PROJECT_DIR$/sap-ass03/admin-ui/admin-ui.iml" />
-      <module fileurl="file://$PROJECT_DIR$/sap-ass03/sap-ass03.iml" filepath="$PROJECT_DIR$/sap-ass03/sap-ass03.iml" />
     </modules>
   </component>
 </project>

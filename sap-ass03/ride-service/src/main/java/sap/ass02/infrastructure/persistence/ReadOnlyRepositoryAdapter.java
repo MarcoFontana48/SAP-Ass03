@@ -29,7 +29,6 @@ public final class ReadOnlyRepositoryAdapter extends AbstractVerticleReadOnlyRep
             LOGGER.trace("Received vertx insert-ride event '{}'", message.body());
             JsonObject rideJsonObject = new JsonObject(String.valueOf(message.body()));
             RideDTO ride = new Ride(rideJsonObject).toDTO();
-            //! already inserts the user and ebike that are part of the ride
             this.insertRide(ride);
             LOGGER.trace("Inserted ride '{}'", ride);
         });
@@ -55,6 +54,20 @@ public final class ReadOnlyRepositoryAdapter extends AbstractVerticleReadOnlyRep
             JsonObject userJsonObject = new JsonObject(String.valueOf(message.body()));
             this.readWriteRepository.updateUser(new User(userJsonObject).toDTO());
             LOGGER.trace("Updated user '{}'", userJsonObject);
+        });
+        
+        this.vertx.eventBus().consumer("insert-user", message -> {
+            LOGGER.trace("Received vertx insert-user event '{}'", message.body());
+            JsonObject userJsonObject = new JsonObject(String.valueOf(message.body()));
+            this.readWriteRepository.insertUser(new User(userJsonObject).toDTO());
+            LOGGER.trace("Inserted user '{}'", userJsonObject);
+        });
+        
+        this.vertx.eventBus().consumer("insert-ebike", message -> {
+            LOGGER.trace("Received vertx insert-ebike event '{}'", message.body());
+            JsonObject ebikeJsonObject = new JsonObject(String.valueOf(message.body()));
+            this.readWriteRepository.insertEbike(new EBike(ebikeJsonObject).toDTO());
+            LOGGER.trace("Inserted ebike '{}'", ebikeJsonObject);
         });
     }
     

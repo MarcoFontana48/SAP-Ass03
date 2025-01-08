@@ -35,3 +35,10 @@ You can also manually send http requests using `curl` cmd, in both cases the api
 - add a ride to ride-service: `curl -X POST http://localhost:8080/app/ride/ -H "Content-Type: application/json" -d '{"ride_id": 1, "user_id": 1, "ebike_id": 1, "action":"start"}'`
 - stop a ride to ride-service: `curl -X PUT http://localhost:8080/app/ride/ -H "Content-Type: application/json" -d '{"ride_id": 1, "user_id": 1, "ebike_id": 1, "action":"stop"}'`
 - get a ride from ride-service: `curl -X GET http://localhost:8080/app/ride/`
+
+kubectl delete all --all -n ebike-app
+kubectl get pods -n ebike-app
+kubectl describe pod <podname> -n ebike-app
+kubectl apply -f kubernetes/
+minikube start --no-vtx-check
+minikube start --driver=docker --no-vtx-check

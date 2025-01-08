@@ -221,4 +221,32 @@ public abstract class AbstractMongoRepositoryAdapter extends AbstractVerticleRep
             }
         }
     }
+    
+    @Override
+    public void insertUser(UserDTO user) {
+        LOGGER.trace("Preparing document to insert user '{}' to MongoDB database", user.id());
+        Document userDoc = new Document(JsonFieldKey.USER_ID_KEY, user.id())
+                .append(JsonFieldKey.USER_CREDIT_KEY, user.credit());
+        
+        LOGGER.trace("Document prepared: '{}'", userDoc.toJson());
+        this.ridesCollection.insertOne(userDoc);
+        LOGGER.trace("User inserted: '{}'", user.id());
+    }
+    
+    @Override
+    public void insertEbike(EBikeDTO ebike) {
+        LOGGER.trace("Preparing document to insert ebike '{}' to MongoDB database", ebike.id());
+        Document ebikeDoc = new Document(JsonFieldKey.EBIKE_ID_KEY, ebike.id())
+                .append(JsonFieldKey.EBIKE_STATE_KEY, ebike.state().toString())
+                .append(JsonFieldKey.EBIKE_X_LOCATION_KEY, ebike.location().x())
+                .append(JsonFieldKey.EBIKE_Y_LOCATION_KEY, ebike.location().y())
+                .append(JsonFieldKey.EBIKE_X_DIRECTION_KEY, ebike.direction().x())
+                .append(JsonFieldKey.EBIKE_Y_DIRECTION_KEY, ebike.direction().y())
+                .append(JsonFieldKey.EBIKE_SPEED_KEY, ebike.speed())
+                .append(JsonFieldKey.EBIKE_BATTERY_KEY, ebike.batteryLevel());
+        
+        LOGGER.trace("Document prepared: '{}'", ebikeDoc.toJson());
+        this.ridesCollection.insertOne(ebikeDoc);
+        LOGGER.trace("EBike inserted: '{}'", ebike.id());
+    }
 }

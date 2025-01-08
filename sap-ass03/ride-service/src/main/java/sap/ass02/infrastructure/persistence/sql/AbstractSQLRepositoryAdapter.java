@@ -88,7 +88,8 @@ public abstract class AbstractSQLRepositoryAdapter extends AbstractVerticleRepos
             throw new RuntimeException(e);
         }
     }
-
+    
+    @Override
     public void insertUser(UserDTO user) {
         LOGGER.trace("Preparing statement to insert user '{}' to SQL database", user);
         try (PreparedStatement statement = prepareStatement(
@@ -103,6 +104,7 @@ public abstract class AbstractSQLRepositoryAdapter extends AbstractVerticleRepos
         }
     }
     
+    @Override
     public void insertEbike(EBikeDTO ebike) {
         LOGGER.trace("Preparing statement to insert ebike '{}' to SQL database", ebike);
         try (PreparedStatement statement = prepareStatement(

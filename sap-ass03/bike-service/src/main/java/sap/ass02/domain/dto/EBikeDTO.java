@@ -5,11 +5,7 @@ import sap.ass02.domain.property.Jsonifyable;
 import sap.ass02.domain.utils.JsonFieldKey;
 import sap.ddd.ValueObject;
 
-public record EBikeDTO(String id, EBikeStateDTO state, P2dDTO location, V2dDTO direction, double speed, int batteryLevel) implements Jsonifyable, ValueObject {
-    public enum EBikeStateDTO {
-        AVAILABLE, IN_USE, MAINTENANCE
-    }
-    
+public record EBikeDTO(String id, BikeStateDTO state, P2dDTO location, V2dDTO direction, double speed, int batteryLevel) implements Jsonifyable, ValueObject {
     /**
      * @return
      */

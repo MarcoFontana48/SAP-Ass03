@@ -8,6 +8,7 @@ import io.vertx.ext.web.client.WebClientOptions;
 import io.vertx.ext.web.codec.BodyCodec;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import sap.ass02.domain.dto.BikeStateDTO;
 import sap.ass02.domain.dto.EBikeDTO;
 import sap.ass02.domain.dto.P2dDTO;
 import sap.ass02.domain.dto.V2dDTO;
@@ -133,7 +134,7 @@ public abstract class AbstractSQLRepositoryAdapter extends AbstractVerticleRepos
                 LOGGER.trace("Ebike found in result set");
                 EBikeDTO retrievedEbike = new EBikeDTO(
                         resultSet.getString(SQLColumnNames.TABLE_EBIKE_COLUMN_EBIKE_ID),
-                        EBikeDTO.EBikeStateDTO.valueOf(resultSet.getString(SQLColumnNames.TABLE_EBIKE_COLUMN_STATE)),
+                        BikeStateDTO.valueOf(resultSet.getString(SQLColumnNames.TABLE_EBIKE_COLUMN_STATE)),
                         new P2dDTO(resultSet.getDouble(SQLColumnNames.TABLE_EBIKE_COLUMN_X_LOCATION), resultSet.getDouble(SQLColumnNames.TABLE_EBIKE_COLUMN_Y_LOCATION)),
                         new V2dDTO(resultSet.getDouble(SQLColumnNames.TABLE_EBIKE_COLUMN_X_DIRECTION), resultSet.getDouble(SQLColumnNames.TABLE_EBIKE_COLUMN_Y_DIRECTION)),
                         resultSet.getDouble(SQLColumnNames.TABLE_EBIKE_COLUMN_SPEED),
@@ -162,7 +163,7 @@ public abstract class AbstractSQLRepositoryAdapter extends AbstractVerticleRepos
                 LOGGER.trace("Extracting ebike from result set: '{}'", resultSet);
                 EBikeDTO retrievedEbike = new EBikeDTO(
                         resultSet.getString(SQLColumnNames.TABLE_EBIKE_COLUMN_EBIKE_ID),
-                        EBikeDTO.EBikeStateDTO.valueOf(resultSet.getString(SQLColumnNames.TABLE_EBIKE_COLUMN_STATE)),
+                        BikeStateDTO.valueOf(resultSet.getString(SQLColumnNames.TABLE_EBIKE_COLUMN_STATE)),
                         new P2dDTO(resultSet.getDouble(SQLColumnNames.TABLE_EBIKE_COLUMN_X_LOCATION), resultSet.getDouble(SQLColumnNames.TABLE_EBIKE_COLUMN_Y_LOCATION)),
                         new V2dDTO(resultSet.getDouble(SQLColumnNames.TABLE_EBIKE_COLUMN_X_DIRECTION), resultSet.getDouble(SQLColumnNames.TABLE_EBIKE_COLUMN_Y_DIRECTION)),
                         resultSet.getDouble(SQLColumnNames.TABLE_EBIKE_COLUMN_SPEED),

@@ -119,7 +119,7 @@ public final class RESTRideServiceControllerVerticle extends AbstractVerticle im
                 this.service.startRide(ride, user, eBike);
                 
                 promise.complete();
-                }
+            }
         }).onComplete(res -> {
             PERFORMANCE_MEASURER.stopTimer(latencyTimer);
             if (res.succeeded()) {

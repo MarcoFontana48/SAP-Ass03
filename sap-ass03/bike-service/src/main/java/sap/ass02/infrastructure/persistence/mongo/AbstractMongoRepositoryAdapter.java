@@ -13,6 +13,7 @@ import io.vertx.ext.web.codec.BodyCodec;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.bson.Document;
+import sap.ass02.domain.dto.BikeStateDTO;
 import sap.ass02.domain.dto.EBikeDTO;
 import sap.ass02.domain.dto.P2dDTO;
 import sap.ass02.domain.dto.V2dDTO;
@@ -112,8 +113,8 @@ public abstract class AbstractMongoRepositoryAdapter extends AbstractVerticleRep
         if (ebikeDoc != null) {
             LOGGER.trace("EBike found: '{}'", ebikeDoc);
             EBikeDTO retrievedEBike = new EBikeDTO(
-                    ebikeDoc.getString("id"), 
-                    EBikeDTO.EBikeStateDTO.valueOf(ebikeDoc.getString("state")),
+                    ebikeDoc.getString("id"),
+                    BikeStateDTO.valueOf(ebikeDoc.getString("state")),
                     new P2dDTO(ebikeDoc.getDouble("x_location"), ebikeDoc.getDouble("y_location")),
                     new V2dDTO(ebikeDoc.getDouble("x_direction"), ebikeDoc.getDouble("y_direction")),
                     ebikeDoc.getDouble("speed"),
@@ -132,7 +133,7 @@ public abstract class AbstractMongoRepositoryAdapter extends AbstractVerticleRep
         for (Document ebikeDoc : this.ebikeCollection.find()) {
             EBikeDTO eBikeDTO = new EBikeDTO(
                     ebikeDoc.getString("id"),
-                    EBikeDTO.EBikeStateDTO.valueOf(ebikeDoc.getString("state")),
+                    BikeStateDTO.valueOf(ebikeDoc.getString("state")),
                     new P2dDTO(ebikeDoc.getDouble("x_location"), ebikeDoc.getDouble("y_location")),
                     new V2dDTO(ebikeDoc.getDouble("x_direction"), ebikeDoc.getDouble("y_direction")),
                     ebikeDoc.getDouble("speed"),

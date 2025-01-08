@@ -11,6 +11,7 @@ import sap.ass02.domain.EventManager;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class KafkaUserServiceEventManagerVerticle extends AbstractVerticle implements EventManager {
     private static final Logger LOGGER = LogManager.getLogger(KafkaUserServiceEventManagerVerticle.class);
@@ -24,7 +25,8 @@ public class KafkaUserServiceEventManagerVerticle extends AbstractVerticle imple
         this.consumerConfig.put("bootstrap.servers", "kafka:9092");
         this.consumerConfig.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
         this.consumerConfig.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
-        this.consumerConfig.put("group.id", "ebike-consumer-group");
+        this.consumerConfig.put("group.id", "ebike-user-consumer-group");
+        this.consumerConfig.put("client.id", "ebike-user-consumer-" + UUID.randomUUID());
         this.consumerConfig.put("auto.offset.reset", "earliest");
         
         this.producerConfig.put("bootstrap.servers", "kafka:9092");
@@ -39,7 +41,7 @@ public class KafkaUserServiceEventManagerVerticle extends AbstractVerticle imple
             if (ar.succeeded()) {
                 LOGGER.trace("Subscribed to topic user-service");
             } else {
-                LOGGER.trace("Could not subscribe to topic user-service. Cause: {}", ar.cause().getMessage());
+                LOGGER.error("Could not subscribe to topic user-service. Cause: {}", ar.cause().getMessage());
             }
         });
         

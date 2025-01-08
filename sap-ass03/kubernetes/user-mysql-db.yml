@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-user-db
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql-user-db
+  template:
+    metadata:
+      labels:
+        app: mysql-user-db
+    spec:
+      containers:
+        - name: mysql-user-db
+          image: marcofontana/sap-ass-03:user-sql-db
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: "password"
+            - name: MYSQL_DATABASE
+              value: "ebike"
+          ports:
+            - containerPort: 3306
+          livenessProbe:
+            exec:
+              command:
+                - mysqladmin
+                - ping
+                - -h
+                - localhost
+            initialDelaySeconds: 40
+            periodSeconds: 90
+            timeoutSeconds: 10
+            failureThreshold: 3
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-user-db
+  namespace: default
+spec:
+  selector:
+    app: mysql-user-db
+  ports:
+    - protocol: TCP
+      port: 3308
+      targetPort: 3306

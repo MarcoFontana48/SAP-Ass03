@@ -13,12 +13,9 @@ import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.BodyHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import sap.ass02.domain.EBike;
-import sap.ass02.domain.P2d;
-import sap.ass02.domain.V2d;
+import sap.ass02.domain.*;
 import sap.ass02.domain.utils.JsonFieldKey;
 import sap.ass02.domain.utils.JsonUtils;
-import sap.ass02.domain.Controller;
 import sap.ddd.Service;
 import sap.ass02.infrastructure.utils.PrometheusPerformanceMeasurer;
 import sap.ass02.infrastructure.utils.PrometheusRequestsCounter;
@@ -123,7 +120,7 @@ public final class RESTEBikeServiceControllerVerticle extends AbstractVerticle i
     private boolean updateEBikeHandler(JsonObject jsonBody) {
         EBike ebike = new EBike(
                 jsonBody.getString(JsonFieldKey.EBIKE_ID_KEY),
-                EBike.EBikeState.valueOf(jsonBody.getString(JsonFieldKey.EBIKE_STATE_KEY)),
+                AbstractBike.BikeState.valueOf(jsonBody.getString(JsonFieldKey.EBIKE_STATE_KEY)),
                 new P2d(jsonBody.getDouble(JsonFieldKey.EBIKE_X_LOCATION_KEY), jsonBody.getDouble(JsonFieldKey.EBIKE_Y_LOCATION_KEY)),
                 new V2d(jsonBody.getDouble(JsonFieldKey.EBIKE_X_DIRECTION_KEY), jsonBody.getDouble(JsonFieldKey.EBIKE_Y_DIRECTION_KEY)),
                 jsonBody.getDouble(JsonFieldKey.EBIKE_SPEED_KEY),

@@ -22,6 +22,8 @@ import java.util.Optional;
 public abstract class AbstractLocalJsonRepositoryAdapter extends AbstractVerticleRepository {
     private static final Logger LOGGER = LogManager.getLogger(AbstractLocalJsonRepositoryAdapter.class);
     private final String RIDE_PATH = "rides";
+    private final String USER_PATH = "users";
+    private final String EBIKE_PATH = "ebikes";
     private final String databaseFolder;
     
     public AbstractLocalJsonRepositoryAdapter() {
@@ -33,29 +35,45 @@ public abstract class AbstractLocalJsonRepositoryAdapter extends AbstractVerticl
     public void init() {
         this.makeDir(this.databaseFolder);
         this.makeDir(this.databaseFolder + File.separator + this.RIDE_PATH);
+        this.makeDir(this.databaseFolder + File.separator + this.USER_PATH);
+        this.makeDir(this.databaseFolder + File.separator + this.EBIKE_PATH);
         LOGGER.trace("LocalJsonRepositoryAdapter initialized");
     }
     
     @Override
     public Optional<EBikeDTO> getEBikeById(final String ebikeId) {
         LOGGER.trace("Retrieving eBike with ID: {}", ebikeId);
-        for (RideDTO ride : this.getAllRides()) {
-            if (ride.ebike().id().equals(ebikeId)) {
-                return Optional.of(ride.ebike());
+        File ebikeFile = new File(this.databaseFolder + File.separator + this.EBIKE_PATH + File.separator + ebikeId + ".json");
+        if (ebikeFile.exists()) {
+            LOGGER.trace("EBikeDTO file found: {}", ebikeFile.getAbsolutePath());
+            try {
+                JsonObject jsonEBike = new JsonObject(new String(Files.readAllBytes(ebikeFile.toPath())));
+                return Optional.of(EBikeDTO.fromJson(jsonEBike));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
+        } else {
+            LOGGER.trace("EBikeDTO file '{}' not found, returning Optional.empty()", ebikeFile.getAbsolutePath());
+            return Optional.empty();
         }
-        return Optional.empty();
     }
     
     @Override
     public Optional<UserDTO> getUserById(String userId) {
         LOGGER.trace("Retrieving user with ID: {}", userId);
-        for (RideDTO ride : this.getAllRides()) {
-            if (ride.user().id().equals(userId)) {
-                return Optional.of(ride.user());
+        File userFile = new File(this.databaseFolder + File.separator + this.USER_PATH + File.separator + userId + ".json");
+        if (userFile.exists()) {
+            LOGGER.trace("UserDTO file found: {}", userFile.getAbsolutePath());
+            try {
+                JsonObject jsonUser = new JsonObject(new String(Files.readAllBytes(userFile.toPath())));
+                return Optional.of(UserDTO.fromJson(jsonUser));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
+        } else {
+            LOGGER.trace("UserDTO file '{}' not found, returning Optional.empty()", userFile.getAbsolutePath());
+            return Optional.empty();
         }
-        return Optional.empty();
     }
     
     @Override
@@ -115,7 +133,7 @@ public abstract class AbstractLocalJsonRepositoryAdapter extends AbstractVerticl
                 
                 Date startDate = DateFormatUtils.toSqlDate(obj.getString(JsonFieldKey.RIDE_START_DATE_KEY));
                 Optional<Date> endDate;
-                if (obj.getString(JsonFieldKey.RIDE_END_DATE_KEY).isBlank()) {
+                if (obj.getString(JsonFieldKey.RIDE_END_DATE_KEY) == null || obj.getString(JsonFieldKey.RIDE_END_DATE_KEY).isBlank()) {
                     endDate = Optional.empty();
                 } else {
                     endDate = Optional.of(DateFormatUtils.toSqlDate(obj.getString(JsonFieldKey.RIDE_END_DATE_KEY)));
@@ -226,6 +244,11 @@ public abstract class AbstractLocalJsonRepositoryAdapter extends AbstractVerticl
     }
     
     public void updateEBike(EBikeDTO dto) {
+        try {
+            this.saveObj(this.EBIKE_PATH, dto.id(), dto.toJsonObject());
+        } catch (FileAlreadyExistsException e) {
+            throw new RuntimeException(e);
+        }
         this.getAllRides().forEach(ride -> {
             if (ride.ebike().id().equals(dto.id())) {
                 try {
@@ -239,6 +262,11 @@ public abstract class AbstractLocalJsonRepositoryAdapter extends AbstractVerticl
     }
     
     public void updateUser(UserDTO dto) {
+        try {
+            this.saveObj(this.USER_PATH, dto.id(), dto.toJsonObject());
+        } catch (FileAlreadyExistsException e) {
+            throw new RuntimeException(e);
+        }
         this.getAllRides().forEach(ride -> {
             if (ride.user().id().equals(dto.id())) {
                 try {
@@ -249,5 +277,21 @@ public abstract class AbstractLocalJsonRepositoryAdapter extends AbstractVerticl
                 }
             }
         });
+    }
+    
+    public void insertUser(UserDTO user) {
+        try {
+            this.saveObj(this.USER_PATH, user.id(), user.toJsonObject());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void insertEbike(EBikeDTO ebike) {
+        try {
+            this.saveObj(this.EBIKE_PATH, ebike.id(), ebike.toJsonObject());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

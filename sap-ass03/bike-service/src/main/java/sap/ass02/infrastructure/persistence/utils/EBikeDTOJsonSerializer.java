@@ -4,6 +4,7 @@ import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.JsonObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import sap.ass02.domain.dto.BikeStateDTO;
 import sap.ass02.domain.dto.EBikeDTO;
 import sap.ass02.domain.dto.P2dDTO;
 import sap.ass02.domain.dto.V2dDTO;
@@ -17,7 +18,7 @@ public final class EBikeDTOJsonSerializer {
         LOGGER.trace("retrieved {}: '{}'", obj.getClass().getSimpleName(), obj);
         return new EBikeDTO(
                 obj.getString(JsonFieldKey.EBIKE_ID_KEY),
-                EBikeDTO.EBikeStateDTO.valueOf(obj.getString(JsonFieldKey.EBIKE_STATE_KEY)),
+                BikeStateDTO.valueOf(obj.getString(JsonFieldKey.EBIKE_STATE_KEY)),
                 new P2dDTO(obj.getDouble(JsonFieldKey.EBIKE_X_LOCATION_KEY), obj.getDouble(JsonFieldKey.EBIKE_Y_LOCATION_KEY)),
                 new V2dDTO(obj.getDouble(JsonFieldKey.EBIKE_X_DIRECTION_KEY), obj.getDouble(JsonFieldKey.EBIKE_Y_DIRECTION_KEY)),
                 obj.getDouble(JsonFieldKey.EBIKE_SPEED_KEY),

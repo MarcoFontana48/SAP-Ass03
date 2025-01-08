@@ -28,4 +28,9 @@ public interface ReadWriteRepository extends Repository {
     void updateEBike(EBikeDTO dto);
     
     void updateUser(UserDTO dto);
+    
+    void insertUser(UserDTO user);
+    
+    void insertEbike(EBikeDTO ebike);
+    
 }

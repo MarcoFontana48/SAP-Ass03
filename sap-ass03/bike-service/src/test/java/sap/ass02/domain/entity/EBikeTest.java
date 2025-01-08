@@ -3,6 +3,7 @@ package sap.ass02.domain.entity;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import sap.ass02.domain.AbstractBike;
 import sap.ass02.domain.EBike;
 import sap.ass02.domain.dto.EBikeDTO;
 import sap.ass02.domain.utils.JsonFieldKey;
@@ -24,7 +25,7 @@ class EBikeTest {
         EBike eBike = new EBike("id");
         assertAll(
                 () -> assertEquals("id", eBike.getId()),
-                () -> assertEquals(EBike.EBikeState.AVAILABLE, eBike.getState()),
+                () -> assertEquals(AbstractBike.BikeState.AVAILABLE, eBike.getState()),
                 () -> assertEquals(100, eBike.getBatteryLevel()),
                 () -> assertEquals(0, eBike.getSpeed()),
                 () -> assertEquals(0, eBike.getSpeed())
@@ -60,7 +61,7 @@ class EBikeTest {
         eBike.decreaseBatteryLevel(110);
         assertAll(
                 () -> assertEquals(0, eBike.getBatteryLevel()),
-                () -> assertEquals(EBike.EBikeState.MAINTENANCE, eBike.getState())
+                () -> assertEquals(AbstractBike.BikeState.MAINTENANCE, eBike.getState())
         );
     }
     
@@ -70,7 +71,7 @@ class EBikeTest {
         EBikeDTO eBikeDTO = eBike.toDTO();
         assertAll(
                 () -> assertEquals("id", eBikeDTO.id()),
-                () -> assertEquals(EBikeDTO.EBikeStateDTO.AVAILABLE, eBikeDTO.state()),
+                () -> assertEquals(AbstractBike.BikeState.AVAILABLE, eBikeDTO.state()),
                 () -> assertEquals(100, eBikeDTO.batteryLevel()),
                 () -> assertEquals(0, eBikeDTO.speed())
         );

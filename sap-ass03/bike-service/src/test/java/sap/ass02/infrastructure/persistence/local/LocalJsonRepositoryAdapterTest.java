@@ -3,9 +3,11 @@ package sap.ass02.infrastructure.persistence.local;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import sap.ass02.domain.AbstractBike;
 import sap.ass02.domain.EBike;
 import sap.ass02.domain.P2d;
 import sap.ass02.domain.V2d;
+import sap.ass02.domain.dto.BikeStateDTO;
 import sap.ass02.domain.dto.EBikeDTO;
 import sap.ass02.domain.dto.P2dDTO;
 import sap.ass02.domain.dto.V2dDTO;
@@ -82,12 +84,12 @@ class LocalJsonRepositoryAdapterTest {
     void updatesEbikeBatteryCorrectly() {
         this.repo.insertEbike(new EBike(this.testEbikeId).toDTO());
         var ebikeBeforeUpdate = this.repo.getEbikeById(this.testEbikeId);
-        this.repo.updateEBike(new EBike(this.testEbikeId, EBike.EBikeState.MAINTENANCE, new P2d(1,2), new V2d(3,4), 9, 5).toDTO());
+        this.repo.updateEBike(new EBike(this.testEbikeId, AbstractBike.BikeState.MAINTENANCE, new P2d(1,2), new V2d(3,4), 9, 5).toDTO());
         var ebikeAfterUpdate = this.repo.getEbikeById(this.testEbikeId);
         if (ebikeAfterUpdate.isPresent() && ebikeBeforeUpdate.isPresent()) {
             assertAll(
                     () -> assertEquals(ebikeBeforeUpdate.get().id(), ebikeAfterUpdate.get().id(), "Should update user credits correctly"),
-                    () -> assertEquals(EBikeDTO.EBikeStateDTO.MAINTENANCE, ebikeAfterUpdate.get().state(), "Should update user credits correctly"),
+                    () -> assertEquals(BikeStateDTO.MAINTENANCE, ebikeAfterUpdate.get().state(), "Should update user credits correctly"),
                     () -> assertEquals(new P2dDTO(1,2), ebikeAfterUpdate.get().location(), "Should update user credits correctly"),
                     () -> assertEquals(new V2dDTO(3,4), ebikeAfterUpdate.get().direction(), "Should update user credits correctly"),
                     () -> assertEquals(9, ebikeAfterUpdate.get().speed(), "Should update user credits correctly"),

@@ -6,6 +6,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import sap.ass02.domain.dto.BikeStateDTO;
 import sap.ass02.domain.dto.EBikeDTO;
 import sap.ass02.domain.dto.P2dDTO;
 import sap.ass02.domain.dto.V2dDTO;
@@ -60,7 +61,7 @@ class MongoRepositoryAdapterTest {
     
     @Test
     void insertsEBike() {
-        var eBike = new EBikeDTO("1", EBikeDTO.EBikeStateDTO.AVAILABLE, new P2dDTO(0, 0), new V2dDTO(1, 0), 1, 100);
+        var eBike = new EBikeDTO("1", BikeStateDTO.AVAILABLE, new P2dDTO(0, 0), new V2dDTO(1, 0), 1, 100);
         this.repository.insertEbike(eBike);
         Optional<EBikeDTO> ebikeById = this.repository.getEbikeById("1");
         assertAll(
@@ -76,9 +77,9 @@ class MongoRepositoryAdapterTest {
     
     @Test
     void updatesEBike() {
-        var eBike = new EBikeDTO("1", EBikeDTO.EBikeStateDTO.AVAILABLE, new P2dDTO(0, 0), new V2dDTO(1, 0), 1, 100);
+        var eBike = new EBikeDTO("1", BikeStateDTO.AVAILABLE, new P2dDTO(0, 0), new V2dDTO(1, 0), 1, 100);
         this.repository.insertEbike(eBike);
-        var updatedEBike = new EBikeDTO("1", EBikeDTO.EBikeStateDTO.MAINTENANCE, new P2dDTO(1, 1), new V2dDTO(0, 1), 2, 50);
+        var updatedEBike = new EBikeDTO("1", BikeStateDTO.MAINTENANCE, new P2dDTO(1, 1), new V2dDTO(0, 1), 2, 50);
         this.repository.updateEBike(updatedEBike);
         Optional<EBikeDTO> ebikeById = this.repository.getEbikeById("1");
         assertAll(
@@ -94,8 +95,8 @@ class MongoRepositoryAdapterTest {
     
     @Test
     void retrievesAllEBikes() {
-        var eBike1 = new EBikeDTO("1", EBikeDTO.EBikeStateDTO.AVAILABLE, new P2dDTO(0, 0), new V2dDTO(1, 0), 1, 100);
-        var eBike2 = new EBikeDTO("2", EBikeDTO.EBikeStateDTO.MAINTENANCE, new P2dDTO(1, 1), new V2dDTO(0, 1), 2, 50);
+        var eBike1 = new EBikeDTO("1", BikeStateDTO.AVAILABLE, new P2dDTO(0, 0), new V2dDTO(1, 0), 1, 100);
+        var eBike2 = new EBikeDTO("2", BikeStateDTO.MAINTENANCE, new P2dDTO(1, 1), new V2dDTO(0, 1), 2, 50);
         this.repository.insertEbike(eBike1);
         this.repository.insertEbike(eBike2);
         Iterable<EBikeDTO> ebikes = this.repository.getAllEBikes();

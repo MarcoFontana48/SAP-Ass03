@@ -3,6 +3,7 @@ package sap.ass02.domain.application;
 import io.vertx.core.AbstractVerticle;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import sap.ass02.domain.AbstractBike;
 import sap.ass02.domain.EBike;
 import sap.ass02.domain.P2d;
 import sap.ass02.domain.V2d;
@@ -47,7 +48,7 @@ public final class BikeServiceVerticle extends AbstractVerticle implements Servi
         var ebike = this.queryOnlyRepository.getEbikeById(eBikeId);
         return ebike.map(eBikeDTO -> new EBike(
                 eBikeDTO.id(),
-                EBike.EBikeState.valueOf(eBikeDTO.state().toString()),
+                AbstractBike.BikeState.valueOf(eBikeDTO.state().toString()),
                 new P2d(eBikeDTO.location().x(), eBikeDTO.location().y()),
                 new V2d(eBikeDTO.direction().x(), eBikeDTO.direction().y()),
                 eBikeDTO.speed(),
