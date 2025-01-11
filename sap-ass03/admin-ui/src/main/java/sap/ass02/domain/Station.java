@@ -13,6 +13,11 @@ public record Station(P2d location) implements Place, Entity<StationDTO>, Jsonif
     }
     
     @Override
+    public StationDTO toDTO() {
+        return new StationDTO(new P2dDTO(this.location.getX(), this.location.getY()));
+    }
+    
+    @Override
     public String toJsonString() {
         return this.toJsonObject().encode();
     }
@@ -20,12 +25,7 @@ public record Station(P2d location) implements Place, Entity<StationDTO>, Jsonif
     @Override
     public JsonObject toJsonObject() {
         return new JsonObject()
-                .put("x", this.location.getX())
-                .put("y", this.location.getY());
-    }
-    
-    @Override
-    public StationDTO toDTO() {
-        return new StationDTO(new P2dDTO(this.location.getX(), this.location.getY()));
+            .put("x", this.location.getX())
+            .put("y", this.location.getY());
     }
 }

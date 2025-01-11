@@ -67,7 +67,6 @@ public final class RESTEBikeServiceControllerVerticle extends AbstractVerticle i
             
             LOGGER.info("Received POST request with body: {}", jsonBody);
             
-            String bikeType = jsonBody.getString(JsonFieldKey.BIKE_TYPE_KEY);
             String ebikeId = jsonBody.getString(JsonFieldKey.EBIKE_ID_KEY);
             boolean ebikeWasAdded = this.service.addBike(ebikeId);
             

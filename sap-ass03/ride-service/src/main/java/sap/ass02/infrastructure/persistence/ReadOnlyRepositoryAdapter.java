@@ -3,7 +3,7 @@ package sap.ass02.infrastructure.persistence;
 import io.vertx.core.json.JsonObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import sap.ass02.domain.EBike;
+import sap.ass02.domain.EBikeImpl;
 import sap.ass02.domain.Ride;
 import sap.ass02.domain.User;
 import sap.ass02.domain.dto.EBikeDTO;
@@ -45,7 +45,7 @@ public final class ReadOnlyRepositoryAdapter extends AbstractVerticleReadOnlyRep
         this.vertx.eventBus().consumer("ebike-update", message -> {
             LOGGER.trace("Received vertx ebike-update event '{}'", message.body());
             JsonObject ebikeJsonObject = new JsonObject(String.valueOf(message.body()));
-            this.readWriteRepository.updateEBike(new EBike(ebikeJsonObject).toDTO());
+            this.readWriteRepository.updateEBike(new EBikeImpl(ebikeJsonObject).toDTO());
             LOGGER.trace("Updated ebike '{}'", ebikeJsonObject);
         });
         
@@ -66,7 +66,7 @@ public final class ReadOnlyRepositoryAdapter extends AbstractVerticleReadOnlyRep
         this.vertx.eventBus().consumer("insert-ebike", message -> {
             LOGGER.trace("Received vertx insert-ebike event '{}'", message.body());
             JsonObject ebikeJsonObject = new JsonObject(String.valueOf(message.body()));
-            this.readWriteRepository.insertEbike(new EBike(ebikeJsonObject).toDTO());
+            this.readWriteRepository.insertEbike(new EBikeImpl(ebikeJsonObject).toDTO());
             LOGGER.trace("Inserted ebike '{}'", ebikeJsonObject);
         });
     }

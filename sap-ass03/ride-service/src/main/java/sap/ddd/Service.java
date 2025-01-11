@@ -1,6 +1,5 @@
 package sap.ddd;
 
-import io.vertx.core.eventbus.EventBus;
 import sap.ass02.domain.EBike;
 import sap.ass02.domain.Ride;
 import sap.ass02.domain.User;
@@ -17,6 +16,8 @@ public interface Service {
     void updateUserCredits(Ride ride);
     
     void updateEBike(Ride ride);
+    
+    void updateEBike(EBike bike);
     
     User getUser(String userId);
     

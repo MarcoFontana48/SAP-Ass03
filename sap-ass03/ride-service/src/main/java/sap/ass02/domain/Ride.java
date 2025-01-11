@@ -13,7 +13,7 @@ import java.util.Optional;
 public final class Ride implements Aggregate<RideDTO> {
     private static final Logger LOGGER = LogManager.getLogger(Ride.class);
     private final User user;
-    private final AbstractBike bike;
+    private final EBike bike;
     private final String id;
     private Date startedDate;
     private Optional<Date> endDate;
@@ -31,7 +31,7 @@ public final class Ride implements Aggregate<RideDTO> {
         this(
                 asJsonObject.getString(JsonFieldKey.RIDE_ID_KEY),
                 new User(asJsonObject.getJsonObject(JsonFieldKey.RIDE_USER_KEY)),
-                new EBike(asJsonObject.getJsonObject(JsonFieldKey.RIDE_EBIKE_KEY))
+                new EBikeImpl(asJsonObject.getJsonObject(JsonFieldKey.RIDE_EBIKE_KEY))
         );
     }
     
@@ -81,7 +81,7 @@ public final class Ride implements Aggregate<RideDTO> {
         return this.user;
     }
     
-    public AbstractBike getBike() {
+    public EBike getBike() {
         return this.bike;
     }
     

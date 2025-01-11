@@ -1,23 +1,25 @@
-package sap.ass02.domain;
+package sap.ass02.domain.application;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import sap.ass02.domain.*;
 import sap.ddd.Service;
 
 public final class RideSimulation extends Thread {
     private static final Logger LOGGER = LogManager.getLogger(RideSimulation.class);
-    private static final int MAX_EBIKE_POSITION = 200;
     private static final int THREAD_SLEEP_MILLIS = 20;
     private final Ride ride;
     private final User user;
+    private final VerticleAgent aBikeAgent;
     private final Service service;
     private volatile boolean stopped;
     
-    public RideSimulation(Ride ride, User user, Service service) {
+    public RideSimulation(Ride ride, User user, Service service, VerticleAgent agent) {
         this.ride = ride;
         this.user = user;
         this.service = service;
         this.stopped = false;
+        this.aBikeAgent = agent;
     }
     
     public void run() {
@@ -40,7 +42,7 @@ public final class RideSimulation extends Thread {
             
             /* update position */
             LOGGER.trace("Updating bike '{}' position to '{}'", this.ride.getBike().getBikeId(), this.ride.getBike().getLocation());
-            var direction = this.updatePosition(this.ride.getBike());
+            var direction = BikePositionLogic.updatePosition(this.ride.getBike());
             
             /* change direction randomly */
             LOGGER.trace("Changing bike '{}' direction to '{}'", this.ride.getBike().getBikeId(), this.ride.getBike().getDirection());
@@ -57,16 +59,14 @@ public final class RideSimulation extends Thread {
             LOGGER.trace("Decreasing bike '{}' battery level to '{}'", this.ride.getBike().getBikeId(), this.ride.getBike().getBatteryLevel());
             lastTimeDecreasedBattery = this.updateBattery(lastTimeDecreasedBattery);
             
-            if (this.ride.getBike().getBikeState() == AbstractBike.BikeState.MAINTENANCE || this.user.getCredit() <= 0) {
+            if (this.ride.getBike().getBikeState() == EBikeImpl.BikeState.MAINTENANCE || this.user.getCredit() <= 0) {
                 if (this.user.getCredit() <= 0) {
-                    this.ride.getBike().updateState(AbstractBike.BikeState.AVAILABLE);
+                    this.ride.getBike().updateState(EBikeImpl.BikeState.AVAILABLE);
                     this.service.updateEBike(this.ride);
                 }
+                this.aBikeAgent.startToAutonomouslyReachNearestStation();
                 this.service.stopRide(this.ride.getId());
-                if (this.ride.getBike() instanceof ABike) {
-                    ((ABike) this.ride.getBike()).start();
-                }
-//                this.stopSimulation();
+                this.stopSimulation();
             }
             
 //            this.app.refreshView();
@@ -90,40 +90,7 @@ public final class RideSimulation extends Thread {
         return lastTimeDecreasedBattery;
     }
     
-    private V2d updatePosition(AbstractBike bike) {
-        var eBikeLocation = bike.getLocation();
-        var eBikeDirection = bike.getDirection();
-        var eBikeSpeed = bike.getSpeed();
-        bike.updateLocation(eBikeLocation.sum(eBikeDirection.mul(eBikeSpeed)));
-        eBikeLocation = bike.getLocation();
-        this.updateXPosition(bike, eBikeLocation, eBikeDirection);
-        this.updateYPosition(bike, eBikeLocation, eBikeDirection);
-        return eBikeDirection;
-    }
-    
-    private void updateYPosition(AbstractBike bike, P2d currentEBikePosition, V2d currentEBikeDirection) {
-        if (currentEBikePosition.getY() > MAX_EBIKE_POSITION || currentEBikePosition.getY() < -MAX_EBIKE_POSITION) {
-            bike.updateDirection(new V2d(currentEBikeDirection.x(), -currentEBikeDirection.y()));
-            if (currentEBikePosition.getY() > MAX_EBIKE_POSITION) {
-                bike.updateLocation(new P2d(currentEBikePosition.getX(), MAX_EBIKE_POSITION));
-            } else {
-                bike.updateLocation(new P2d(currentEBikePosition.getX(), -MAX_EBIKE_POSITION));
-            }
-        }
-    }
-    
-    private void updateXPosition(AbstractBike bike, P2d currentEBikePosition, V2d currentEBikeDirection) {
-        if (currentEBikePosition.getX() > MAX_EBIKE_POSITION || currentEBikePosition.getX() < -MAX_EBIKE_POSITION) {
-            bike.updateDirection(new V2d(-currentEBikeDirection.x(), currentEBikeDirection.y()));
-            if (currentEBikePosition.getX() > MAX_EBIKE_POSITION) {
-                bike.updateLocation(new P2d(MAX_EBIKE_POSITION, currentEBikePosition.getY()));
-            } else {
-                bike.updateLocation(new P2d(-MAX_EBIKE_POSITION, currentEBikePosition.getY()));
-            }
-        }
-    }
-    
-    private void changeDirectionRandomly(long lastTimeChangedDir, AbstractBike bike, V2d direction) {
+    private void changeDirectionRandomly(long lastTimeChangedDir, EBike bike, V2d direction) {
         var elapsedTimeSinceLastChangeDir = System.currentTimeMillis() - lastTimeChangedDir;
         if (elapsedTimeSinceLastChangeDir > 500) {
             double angle = Math.random() * 60 - 30;

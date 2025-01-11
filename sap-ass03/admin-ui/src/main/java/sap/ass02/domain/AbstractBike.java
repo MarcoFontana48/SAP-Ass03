@@ -36,7 +36,7 @@ public abstract class AbstractBike {
     
     public abstract JsonObject toJsonObject();
     
-    public enum BikeState {AVAILABLE, IN_USE, MAINTENANCE}
+    public enum BikeState {AVAILABLE, IN_USE, MOVING_TO_STATION, AT_STATION, MAINTENANCE, START_AUTONOMOUSLY_REACH_STATION}
     
     public String getId() {
         return this.id;

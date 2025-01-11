@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class RideServiceVerticle extends AbstractVerticle implements ServiceVerticle {
+public final class RideServiceVerticle extends AbstractVerticle implements ServiceVerticle {
     private static final Logger LOGGER = LogManager.getLogger(RideServiceVerticle.class);
     private ReadOnlyRepository repository;
     private final Map<String, RideSimulation> currentlyActiveSimulations = new ConcurrentHashMap<>();
@@ -24,14 +24,15 @@ public class RideServiceVerticle extends AbstractVerticle implements ServiceVert
     @Override
     public boolean startRide(Ride ride, User user, EBike ebike) {
         LOGGER.trace("Starting ride for user with id '{}' and eBike with id '{}'", user.getId(), ebike.getBikeId());
-        ebike.updateState(AbstractBike.BikeState.IN_USE);
+        ebike.updateState(EBikeImpl.BikeState.IN_USE);
         this.vertx.eventBus().publish("ebike-update", ebike.toJsonString());
         ride.start();
         
         this.vertx.eventBus().publish("insert-ride", ride.toDTO().toJsonString());
         LOGGER.trace("About to start ride simulation '{}'", ride);
-        
-        RideSimulation rideSimulation = new RideSimulation(ride, user, this);
+        VerticleAgent aBikeAgentVerticle = new ABikeAgentMovementVerticle(ride, this);
+        this.vertx.deployVerticle(aBikeAgentVerticle);
+        RideSimulation rideSimulation = new RideSimulation(ride, user, this, aBikeAgentVerticle);
         rideSimulation.start();
         LOGGER.trace("Started ride simulation for ride '{}'", ride.getId());
         
@@ -90,7 +91,7 @@ public class RideServiceVerticle extends AbstractVerticle implements ServiceVert
         
         JsonObject jsonObject = new JsonObject()
                 .put(JsonFieldKey.EBIKE_ID_KEY, rideId)
-                .put(JsonFieldKey.EBIKE_STATE_KEY, AbstractBike.BikeState.AVAILABLE.toString()
+                .put(JsonFieldKey.EBIKE_STATE_KEY, EBikeImpl.BikeState.AVAILABLE.toString()
                 );
         
         LOGGER.trace("About to publish event 'ebike-update' with payload '{}'", jsonObject.encode());
@@ -105,6 +106,11 @@ public class RideServiceVerticle extends AbstractVerticle implements ServiceVert
     @Override
     public void updateEBike(Ride ride) {
         this.vertx.eventBus().publish("ebike-update", ride.getBike().toJsonString());
+    }
+    
+    @Override
+    public void updateEBike(EBike bike) {
+        this.vertx.eventBus().publish("ebike-update", bike.toJsonString());
     }
     
     @Override

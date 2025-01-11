@@ -2,10 +2,7 @@ package sap.ass02.infrastructure.presentation.view.admin;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import sap.ass02.domain.ABike;
-import sap.ass02.domain.AbstractBike;
-import sap.ass02.domain.EBike;
-import sap.ass02.domain.User;
+import sap.ass02.domain.*;
 import sap.ass02.infrastructure.presentation.listener.admin.AdminAddEBikeListener;
 import sap.ass02.infrastructure.presentation.listener.admin.AdminAddUserListener;
 import sap.ass02.infrastructure.presentation.listener.admin.AdminStartRideListener;
@@ -18,7 +15,9 @@ import sap.ass02.infrastructure.presentation.view.dialog.AddUserView;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -237,6 +236,12 @@ public final class AdminGUIView extends AbstractGUIView<AdminView> implements Ad
     public static class AdminVisualiserPanel extends JPanel implements VisualiserPanel {
         private final Map<String, AbstractBike> bikes = new HashMap<>();
         private final Map<String, User> users = new HashMap<>();
+        private final List<Station> stations = List.of(     //assuming the environment won't change over time and the stations are fixed
+            new Station(new P2d(100, -100)),
+            new Station(new P2d(-100, -100)),
+            new Station(new P2d(100, 100)),
+            new Station(new P2d(-100, 100))
+        );
         private final long dx;
         private final long dy;
         private Color ebikesAvailableColor = Color.BLACK;
@@ -312,6 +317,18 @@ public final class AdminGUIView extends AbstractGUIView<AdminView> implements Ad
                     g2.drawRect(10, y, 20, 20);
                     g2.drawString(u.getId() + " - credit: " + u.getCredit(), 35, y + 15);
                     y += 25;
+                }
+            }
+            
+            if (this.stations != null) {
+                for (Station s : this.stations) {
+                    var p = s.location();
+                    int x0 = (int) (this.dx + p.getX());
+                    int y0 = (int) (this.dy - p.getY());
+                    g2.setColor(Color.RED);
+                    g2.draw(new Rectangle(x0, y0, 10, 10));
+                    g2.drawString("Station", x0, y0 + 35);
+                    g2.drawString("(" + (int) p.getX() + "," + (int) p.getY() + ")", x0, y0 + 50);
                 }
             }
         }

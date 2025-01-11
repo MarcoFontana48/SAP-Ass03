@@ -1,6 +1,7 @@
 package sap.ass02.infrastructure.presentation.view.user;
 
 import sap.ass02.domain.EBike;
+import sap.ass02.domain.Station;
 import sap.ass02.infrastructure.presentation.listener.item.plugin.AddPluginListener;
 import sap.ass02.infrastructure.presentation.listener.user.UserStartRideListener;
 import sap.ass02.infrastructure.presentation.view.AbstractGUIView;
@@ -13,6 +14,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
 import java.util.Optional;
 
 public final class UserGUIView extends AbstractGUIView<UserView> implements UserView {
@@ -113,6 +115,12 @@ public final class UserGUIView extends AbstractGUIView<UserView> implements User
         private Color ebikesMantainanceColor = Color.BLACK;
         private Color userOutOfCreditsColor = Color.BLACK;
         private Color userDefaultColor = Color.BLACK;
+        private final List<Station> stations = List.of(
+                new Station(-100, -100),
+                new Station(100, -100),
+                new Station(-100, 100),
+                new Station(100, 100)
+        );
         
         public UserVisualiserPanel(int w, int h) {
             this.setSize(w, h);
@@ -153,6 +161,16 @@ public final class UserGUIView extends AbstractGUIView<UserView> implements User
                     g2.drawOval(x0, y0, 20, 20);
                     g2.drawString(b.getId(), x0, y0 + 35);
                     g2.drawString("(" + (int) p.getX() + "," + (int) p.getY() + ")", x0, y0 + 50);
+                }
+            }
+            
+            if (this.stations != null) {
+                for (Station station : this.stations) {
+                    int x0 = (int) (this.dx + station.x());
+                    int y0 = (int) (this.dy - station.y());
+                    g2.setColor(Color.RED);
+                    g2.drawRect(x0, y0, 20, 20);
+                    g2.drawString("(" + (int) station.x() + "," + (int) station.y() + ")", x0, y0 + 50);
                 }
             }
         }

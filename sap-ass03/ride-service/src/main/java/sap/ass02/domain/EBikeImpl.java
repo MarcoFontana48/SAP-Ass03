@@ -6,19 +6,18 @@ import sap.ass02.domain.dto.EBikeDTO;
 import sap.ass02.domain.dto.P2dDTO;
 import sap.ass02.domain.dto.V2dDTO;
 import sap.ass02.domain.utils.JsonFieldKey;
-import sap.ddd.Entity;
 
 import java.util.Objects;
 
-public abstract class AbstractBike implements Entity<EBikeDTO> {
-    protected final String id;
-    protected BikeState state;
-    protected P2d location;
-    protected V2d direction;
-    protected double speed;
-    protected int batteryLevel;
+public final class EBikeImpl implements EBike {
+    private final String id;
+    private BikeState state;
+    private P2d location;
+    private V2d direction;
+    private double speed;
+    private int batteryLevel;
     
-    public AbstractBike(String id) {
+    public EBikeImpl(String id) {
         this.id = id;
         this.state = BikeState.AVAILABLE;
         this.location = new P2d(0, 0);
@@ -27,7 +26,7 @@ public abstract class AbstractBike implements Entity<EBikeDTO> {
         this.batteryLevel = 1;
     }
     
-    public AbstractBike(String id, BikeState state, P2d location, V2d direction, double speed, int batteryLevel) {
+    public EBikeImpl(String id, BikeState state, P2d location, V2d direction, double speed, int batteryLevel) {
         this.id = id;
         this.state = state;
         this.location = location;
@@ -42,24 +41,38 @@ public abstract class AbstractBike implements Entity<EBikeDTO> {
         }
     }
     
-    public enum BikeState {AVAILABLE, IN_USE, MOVING_TO_STATION, AT_STATION, MAINTENANCE}
+    public EBikeImpl(JsonObject asJsonObject) {
+        this(
+            asJsonObject.getString(JsonFieldKey.EBIKE_ID_KEY),
+            BikeState.valueOf(asJsonObject.getString(JsonFieldKey.EBIKE_STATE_KEY)),
+            new P2d(asJsonObject.getDouble(JsonFieldKey.EBIKE_X_LOCATION_KEY), asJsonObject.getDouble(JsonFieldKey.EBIKE_Y_LOCATION_KEY)),
+            new V2d(asJsonObject.getDouble(JsonFieldKey.EBIKE_X_DIRECTION_KEY), asJsonObject.getDouble(JsonFieldKey.EBIKE_Y_DIRECTION_KEY)),
+            asJsonObject.getDouble(JsonFieldKey.EBIKE_SPEED_KEY),
+            asJsonObject.getInteger(JsonFieldKey.EBIKE_BATTERY_KEY)
+        );
+    }
     
+    @Override
     public String getBikeId() {
         return this.id;
     }
     
+    @Override
     public BikeState getBikeState() {
         return this.state;
     }
     
+    @Override
     public void rechargeBattery() {
         this.batteryLevel = 100;
     }
     
+    @Override
     public int getBatteryLevel() {
         return this.batteryLevel;
     }
     
+    @Override
     public void decreaseBatteryLevel(int delta) {
         this.batteryLevel -= delta;
         if (this.batteryLevel < 0) {
@@ -68,50 +81,62 @@ public abstract class AbstractBike implements Entity<EBikeDTO> {
         }
     }
     
+    @Override
     public boolean isAvailable() {
         return this.state.equals(BikeState.AVAILABLE);
     }
     
+    @Override
     public void updateState(BikeState state) {
         this.state = state;
     }
     
+    @Override
     public void updateLocation(P2d newLoc) {
         this.location = newLoc;
     }
     
+    @Override
     public void updateLocation(double x, double y) {
         this.location = new P2d(x, y);
     }
     
+    @Override
     public void updateSpeed(double speed) {
         this.speed = speed;
     }
     
+    @Override
     public void updateDirection(V2d dir) {
         this.direction = dir;
     }
     
+    @Override
     public void updateDirection(double x, double y) {
         this.direction = new V2d(x, y);
     }
     
+    @Override
     public void updateBatteryLevel(int batteryLevel) {
         this.batteryLevel = batteryLevel;
     }
     
+    @Override
     public double getSpeed() {
         return this.speed;
     }
     
+    @Override
     public V2d getDirection() {
         return new V2d(this.direction.x(), this.direction.y());
     }
     
+    @Override
     public P2d getLocation() {
         return new P2d(this.location.getX(), this.location.getY());
     }
     
+    @Override
     public String toString() {
         return "{ id: " + this.id + ", loc: " + this.location + ", batteryLevel: " + this.batteryLevel + ", state: " + this.state + " }";
     }
