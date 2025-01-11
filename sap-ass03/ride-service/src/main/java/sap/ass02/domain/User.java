@@ -8,9 +8,10 @@ import sap.ddd.Entity;
 import java.util.Objects;
 
 public final class User implements Entity<UserDTO> {
-
     private final String id;
     private int credit;
+    private double xLocation = 0;
+    private double yLocation = 0;
 
     public User(String id) {
         this.id = id;
@@ -28,10 +29,18 @@ public final class User implements Entity<UserDTO> {
         }
     }
     
+    public User(String id, int credit, double xLocation, double yLocation) {
+        this(id, credit);
+        this.xLocation = xLocation;
+        this.yLocation = yLocation;
+    }
+    
     public User(JsonObject asJsonObject) {
         this(
                 asJsonObject.getString(JsonFieldKey.USER_ID_KEY),
-                asJsonObject.getInteger(JsonFieldKey.USER_CREDIT_KEY)
+                asJsonObject.getInteger(JsonFieldKey.USER_CREDIT_KEY),
+                asJsonObject.getDouble(JsonFieldKey.USER_X_LOCATION_KEY),
+                asJsonObject.getDouble(JsonFieldKey.USER_Y_LOCATION_KEY)
         );
     }
 
@@ -67,17 +76,28 @@ public final class User implements Entity<UserDTO> {
     public String toString() {
         return "{ id: " + this.id + ", credit: " + this.credit + " }";
     }
-
+    
+    public double getXLocation() {
+        return this.xLocation;
+    }
+    
+    public double getYLocation() {
+        return this.yLocation;
+    }
+    
     @Override
     public UserDTO toDTO() {
-        return new UserDTO(this.id, this.credit);
+        return new UserDTO(this.id, this.credit, this.xLocation, this.yLocation);
     }
     
     @Override
     public JsonObject toJsonObject() {
         JsonObject jsonObject = new JsonObject();
-        jsonObject.put(JsonFieldKey.USER_ID_KEY, this.id)
-                .put(JsonFieldKey.USER_CREDIT_KEY, this.credit);
+        jsonObject
+                .put(JsonFieldKey.USER_ID_KEY, this.id)
+                .put(JsonFieldKey.USER_CREDIT_KEY, this.credit)
+                .put(JsonFieldKey.USER_X_LOCATION_KEY, this.xLocation)
+                .put(JsonFieldKey.USER_Y_LOCATION_KEY, this.yLocation);
         return jsonObject;
     }
     
@@ -99,4 +119,3 @@ public final class User implements Entity<UserDTO> {
         return Objects.hash(this.getId(), this.getCredit());
     }
 }
-

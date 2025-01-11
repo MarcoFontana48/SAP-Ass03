@@ -68,7 +68,7 @@ class SQLRepositoryAdapterTest {
     
     @Test
     void insertsRide() {
-        UserDTO user = new UserDTO("user_id", -1);
+        UserDTO user = new UserDTO("user_id", -1, 0, 0);
         EBikeDTO ebike = new EBikeDTO("ebike_id", BikeStateDTO.AVAILABLE, new P2dDTO(0, 0), new V2dDTO(0, 0), 0, 0);
         RideDTO ride = new RideDTO(
                 Date.valueOf("2021-01-01"),

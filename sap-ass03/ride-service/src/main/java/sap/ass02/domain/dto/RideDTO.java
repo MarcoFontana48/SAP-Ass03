@@ -33,7 +33,7 @@ public record RideDTO(java.sql.Date startedDate, Optional<java.sql.Date> endDate
         return new RideDTO(
                 java.sql.Date.valueOf(json.getString(JsonFieldKey.RIDE_START_DATE_KEY)),
                 Optional.ofNullable(json.getString(JsonFieldKey.RIDE_END_DATE_KEY)).map(java.sql.Date::valueOf),
-                new UserDTO(userJsonObject.getString(JsonFieldKey.USER_ID_KEY), userJsonObject.getInteger(JsonFieldKey.USER_CREDIT_KEY)),
+                new UserDTO(userJsonObject.getString(JsonFieldKey.USER_ID_KEY), userJsonObject.getInteger(JsonFieldKey.USER_CREDIT_KEY), userJsonObject.getDouble(JsonFieldKey.USER_X_LOCATION_KEY), userJsonObject.getDouble(JsonFieldKey.USER_Y_LOCATION_KEY)),
                 new EBikeDTO(ebikeJsonObject.getString(JsonFieldKey.EBIKE_ID_KEY), BikeStateDTO.valueOf(ebikeJsonObject.getString(JsonFieldKey.EBIKE_STATE_KEY)), new P2dDTO(ebikeJsonObject.getDouble(JsonFieldKey.EBIKE_X_LOCATION_KEY), ebikeJsonObject.getDouble(JsonFieldKey.EBIKE_Y_LOCATION_KEY)), new V2dDTO(ebikeJsonObject.getDouble(JsonFieldKey.EBIKE_X_DIRECTION_KEY), ebikeJsonObject.getDouble(JsonFieldKey.EBIKE_Y_DIRECTION_KEY)), ebikeJsonObject.getDouble(JsonFieldKey.EBIKE_SPEED_KEY), ebikeJsonObject.getInteger(JsonFieldKey.EBIKE_BATTERY_KEY)),
                 json.getBoolean(JsonFieldKey.RIDE_ONGONING_KEY),
                 json.getString(JsonFieldKey.RIDE_ID_KEY)

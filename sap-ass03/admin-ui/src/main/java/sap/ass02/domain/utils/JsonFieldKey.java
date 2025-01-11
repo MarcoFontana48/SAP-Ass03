@@ -45,4 +45,6 @@ public final class JsonFieldKey {
     public static final String ABIKE_Y_DIRECTION_KEY = "y_direction";
     public static final String ABIKE_SPEED_KEY = "speed";
     public static final String ABIKE_BATTERY_KEY = "battery";
+    public static final String USER_X_LOCATION_KEY = "x_location";
+    public static final String USER_Y_LOCATION_KEY = "y_location";
 }

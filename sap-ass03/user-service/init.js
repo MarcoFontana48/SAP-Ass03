@@ -15,6 +15,14 @@ db.createCollection("users", {
                 credit: {
                     bsonType: "int",
                     description: "must be an int and is required"
+                },
+                x_location: {
+                    bsonType: "double",
+                    description: "must be a double"
+                },
+                y_location: {
+                    bsonType: "double",
+                    description: "must be a double"
                 }
             }
         }

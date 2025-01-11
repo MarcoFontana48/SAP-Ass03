@@ -15,8 +15,7 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Optional;
 
-import static sap.ass02.domain.utils.JsonFieldKey.USER_CREDIT_KEY;
-import static sap.ass02.domain.utils.JsonFieldKey.USER_ID_KEY;
+import static sap.ass02.domain.utils.JsonFieldKey.*;
 
 public abstract class AbstractLocalJsonRepositoryAdapter extends AbstractVerticleRepository {
     private static final Logger LOGGER = LogManager.getLogger(AbstractLocalJsonRepositoryAdapter.class);
@@ -60,7 +59,7 @@ public abstract class AbstractLocalJsonRepositoryAdapter extends AbstractVerticl
                 LOGGER.trace("UserDTO file content: {}", content);
                 JsonObject obj = new JsonObject(content);
                 LOGGER.trace("UserDTO file content parsed: {}", obj.encodePrettily());
-                UserDTO retrievedUser = new UserDTO(obj.getString(USER_ID_KEY), obj.getInteger(USER_CREDIT_KEY));
+                UserDTO retrievedUser = new UserDTO(obj.getString(USER_ID_KEY), obj.getInteger(USER_CREDIT_KEY), obj.getDouble(USER_X_LOCATION_KEY), obj.getDouble(USER_Y_LOCATION_KEY));
                 LOGGER.trace("UserDTO retrieved: {}", retrievedUser.toString());
                 return Optional.of(retrievedUser);
             } catch (IOException e) {

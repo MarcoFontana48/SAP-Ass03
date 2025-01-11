@@ -7,4 +7,7 @@ public class SQLColumnNames {
     public static final String TABLE_RIDE_COLUMN_START_DATE = "start_date";
     public static final String TABLE_RIDE_COLUMN_END_DATE = "end_date";
     public static final String TABLE_RIDE_COLUMN_ONGOING = "ongoing";
+    public static final String TABLE_RIDE_COLUMN_CREDIT = "credit";
+    public static final String TABLE_RIDE_COLUMN_X_LOCATION = "x_location";
+    public static final String TABLE_RIDE_COLUMN_Y_LOCATION = "y_location";
 }

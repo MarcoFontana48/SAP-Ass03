@@ -16,14 +16,14 @@ public class MongoQueryRepositoryAdapter extends AbstractMongoRepositoryAdapter 
             LOGGER.trace("Received insert-user event '{}'", message.body());
             JsonObject obj = new JsonObject(String.valueOf(message.body()));
             LOGGER.trace("retrieved {}: '{}'", obj.getClass().getSimpleName(), obj);
-            UserDTO user = new UserDTO(obj.getString("id"), obj.getInteger("credit"));
+            UserDTO user = new UserDTO(obj.getString("id"), obj.getInteger("credit"), obj.getDouble("x_location"), obj.getDouble("y_location"));
             this.mongoRepositoryAdapter.insertUser(user);
         });
         this.vertx.eventBus().consumer("update-user-credits", message -> {
             LOGGER.trace("Received update-user-credits event '{}'", message.body());
             JsonObject obj = new JsonObject(String.valueOf(message.body()));
             LOGGER.trace("retrieved {}: '{}'", obj.getClass().getSimpleName(), obj);
-            UserDTO user = new UserDTO(obj.getString("id"), obj.getInteger("credit"));
+            UserDTO user = new UserDTO(obj.getString("id"), obj.getInteger("credit"), obj.getDouble("x_location"), obj.getDouble("y_location"));
             this.mongoRepositoryAdapter.updateUserCredits(user.id(), user.credit());
         });
     }

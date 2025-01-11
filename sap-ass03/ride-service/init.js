@@ -35,6 +35,14 @@ db.createCollection("rides", {
                         credit: {
                             bsonType: "int",
                             description: "must be an integer and is required"
+                        },
+                        x_location: {
+                            bsonType: "double",
+                            description: "must be a double"
+                        },
+                        y_location: {
+                            bsonType: "double",
+                            description: "must be a double"
                         }
                     }
                 },

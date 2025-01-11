@@ -97,7 +97,7 @@ public abstract class AbstractMongoRepositoryAdapter extends AbstractVerticleRep
         Document userDoc = this.userCollection.find(eq("id", userId)).first();
         if (userDoc != null) {
             LOGGER.trace("User found: '{}'", userDoc);
-            UserDTO retrievedUser = new UserDTO(userDoc.getString("id"), userDoc.getInteger("credit"));
+            UserDTO retrievedUser = new UserDTO(userDoc.getString("id"), userDoc.getInteger("credit"), userDoc.getDouble("x_location"), userDoc.getDouble("y_location"));
             return Optional.of(retrievedUser);
         } else {
             LOGGER.trace("User not found");
@@ -110,7 +110,7 @@ public abstract class AbstractMongoRepositoryAdapter extends AbstractVerticleRep
         LOGGER.trace("Preparing query to retrieve all users from MongoDB database");
         ArrayList<UserDTO> users = new ArrayList<>();
         for (Document userDoc : this.userCollection.find()) {
-            UserDTO user = new UserDTO(userDoc.getString("id"), userDoc.getInteger("credit"));
+            UserDTO user = new UserDTO(userDoc.getString("id"), userDoc.getInteger("credit"), userDoc.getDouble("x_location"), userDoc.getDouble("y_location"));
             users.add(user);
         }
         LOGGER.trace("Users retrieved: '{}'", users);

@@ -10,4 +10,10 @@ public final class JsonFieldKey {
      * User's json credit key
      */
     public static final String USER_CREDIT_KEY = "credit";
+    
+    /**
+     * User's json location key
+     */
+    public static final String USER_X_LOCATION_KEY = "x_location";
+    public static final String USER_Y_LOCATION_KEY = "y_location";
 }

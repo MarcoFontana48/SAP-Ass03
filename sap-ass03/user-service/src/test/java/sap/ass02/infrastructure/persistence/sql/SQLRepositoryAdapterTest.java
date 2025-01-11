@@ -58,13 +58,13 @@ class SQLRepositoryAdapterTest {
     
     @Test
     void throwsExceptionWhenInsertingUserWithInvalidId() {
-        var user = new UserDTO("not_a_valid_id", 100);
+        var user = new UserDTO("not_a_valid_id", 100, 0, 0);
         assertThrows(Exception.class, () -> this.repository.insertUser(user));
     }
     
     @Test
     void insertsEBike() {
-        var userDTO = new UserDTO("1", 100);
+        var userDTO = new UserDTO("1", 100, 0, 0);
         this.repository.insertUser(userDTO);
         Optional<UserDTO> ebikeById = this.repository.getUserById("1");
         assertAll(
@@ -76,9 +76,9 @@ class SQLRepositoryAdapterTest {
     
     @Test
     void updatesUser() {
-        var userDTO = new UserDTO("1", 100);
+        var userDTO = new UserDTO("1", 100, 0, 0);
         this.repository.insertUser(userDTO);
-        var updatedUser = new UserDTO("1", 50);
+        var updatedUser = new UserDTO("1", 50, 0, 0);
         this.repository.updateUserCredits(updatedUser.id(), updatedUser.credit());
         Optional<UserDTO> ebikeById = this.repository.getUserById("1");
         assertAll(
@@ -90,8 +90,8 @@ class SQLRepositoryAdapterTest {
     
     @Test
     void retrievesAllEBikes() {
-        var user1 = new UserDTO("1", 100);
-        var user2 = new UserDTO("2", 50);
+        var user1 = new UserDTO("1", 100, 0, 0);
+        var user2 = new UserDTO("2", 50, 0, 0);
         this.repository.insertUser(user1);
         this.repository.insertUser(user2);
         Iterable<UserDTO> users = this.repository.getAllUsers();

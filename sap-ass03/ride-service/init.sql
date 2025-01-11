@@ -1,6 +1,8 @@
 CREATE TABLE users (
                        user_id VARCHAR(255) PRIMARY KEY,
                        credit INT
+                       x_location DOUBLE,
+                       y_location DOUBLE
 );
 
 CREATE TABLE ebikes (

@@ -31,4 +31,6 @@ public final class JsonFieldKey {
     public static final String RIDE_USER_KEY = "user";
     public static final String RIDE_EBIKE_KEY = "ebike";
     public static final String RIDE_ACTION = "action";
+    public static final String USER_X_LOCATION_KEY = "x_location";
+    public static final String USER_Y_LOCATION_KEY = "y_location";
 }

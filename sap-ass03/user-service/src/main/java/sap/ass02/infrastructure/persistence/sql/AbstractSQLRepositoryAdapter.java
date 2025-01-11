@@ -120,7 +120,9 @@ public abstract class AbstractSQLRepositoryAdapter extends AbstractVerticleRepos
                 LOGGER.trace("User found in result set");
                 UserDTO retrievedUser = new UserDTO(
                         resultSet.getString(SQLColumnNames.TABLE_USER_COLUMN_USER_ID),
-                        resultSet.getInt(SQLColumnNames.TABLE_USER_COLUMN_CREDIT));
+                        resultSet.getInt(SQLColumnNames.TABLE_USER_COLUMN_CREDIT),
+                        resultSet.getDouble(SQLColumnNames.TABLE_USER_COLUMN_X_LOCATION),
+                        resultSet.getDouble(SQLColumnNames.TABLE_USER_COLUMN_Y_LOCATION));
                 LOGGER.trace("Extracted user: '{}'", retrievedUser);
                 return Optional.of(retrievedUser);
             } else {
@@ -145,7 +147,9 @@ public abstract class AbstractSQLRepositoryAdapter extends AbstractVerticleRepos
                 LOGGER.trace("Extracting user from result set: '{}'", resultSet);
                 UserDTO retrievedUser = new UserDTO(
                         resultSet.getString(SQLColumnNames.TABLE_USER_COLUMN_USER_ID),
-                        resultSet.getInt(SQLColumnNames.TABLE_USER_COLUMN_CREDIT));
+                        resultSet.getInt(SQLColumnNames.TABLE_USER_COLUMN_CREDIT),
+                        resultSet.getDouble(SQLColumnNames.TABLE_USER_COLUMN_X_LOCATION),
+                        resultSet.getDouble(SQLColumnNames.TABLE_USER_COLUMN_Y_LOCATION));
                 LOGGER.trace("Extracted user: '{}'", retrievedUser);
                 retrievedUsersArrayList.add(retrievedUser);
                 LOGGER.trace("Added user to list: '{}'", retrievedUser);

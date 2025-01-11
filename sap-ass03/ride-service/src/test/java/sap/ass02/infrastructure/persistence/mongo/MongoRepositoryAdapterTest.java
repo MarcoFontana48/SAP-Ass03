@@ -24,7 +24,7 @@ class MongoRepositoryAdapterTest {
     private final String testUserId = "test_user";
     private final String testEBikeId = "test_ebike";
     private final AbstractMongoRepositoryAdapter repository = new MongoRepositoryAdapter();
-    private final UserDTO user = new UserDTO(this.testUserId, 100);
+    private final UserDTO user = new UserDTO(this.testUserId, 100, 0, 0);
     private final EBikeDTO ebike = new EBikeDTO(this.testEBikeId, BikeStateDTO.AVAILABLE, new P2dDTO(0, 0), new V2dDTO(0, 0), 0, 100);
     
     @BeforeAll

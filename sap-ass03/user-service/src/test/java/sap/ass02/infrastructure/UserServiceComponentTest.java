@@ -16,8 +16,8 @@ import static org.mockito.Mockito.when;
 
 //! COMPONENT tests
 public class UserServiceComponentTest {
-    private final UserDTO user1 = new UserDTO("1", 0);
-    private final UserDTO user2 = new UserDTO("2", 0);
+    private final UserDTO user1 = new UserDTO("1", 0, 0, 0);
+    private final UserDTO user2 = new UserDTO("2", 0, 0, 0);
     private UserService userService;
     
     @BeforeEach

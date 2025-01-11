@@ -1,96 +1,111 @@
 package sap.ass02.domain;
 
 import io.vertx.core.json.JsonObject;
-import sap.ass02.domain.utils.JsonFieldKey;
 import sap.ass02.domain.dto.UserDTO;
-import sap.ass02.domain.utils.JsonUtils;
+import sap.ass02.domain.utils.JsonFieldKey;
 import sap.ddd.Entity;
 
 import java.util.Objects;
 
-/**
- * User entity
- */
-public class User implements Entity<UserDTO> {
+public final class User implements Entity<UserDTO> {
     private final String id;
     private int credit;
-    
-    /**
-     * Creates a new user
-     *
-     * @param id the user id
-     */
+    private double xLocation = 0;
+    private double yLocation = 0;
+
     public User(String id) {
         this.id = id;
         this.credit = 0;
     }
     
-    /**
-     * @return the user id
-     */
+    public User(String id, int credit) {
+        this.id = id;
+        if (credit < 0) {
+            this.credit = 0;
+        } else if (credit > 100) {
+            this.credit = 100;
+        } else {
+            this.credit = credit;
+        }
+    }
+    
+    public User(String id, int credit, double xLocation, double yLocation) {
+        this(id, credit);
+        this.xLocation = xLocation;
+        this.yLocation = yLocation;
+    }
+    
+    public User(JsonObject asJsonObject) {
+        this(
+                asJsonObject.getString(JsonFieldKey.USER_ID_KEY),
+                asJsonObject.getInteger(JsonFieldKey.USER_CREDIT_KEY),
+                asJsonObject.getDouble(JsonFieldKey.USER_X_LOCATION_KEY),
+                asJsonObject.getDouble(JsonFieldKey.USER_Y_LOCATION_KEY)
+        );
+    }
+
     public String getId() {
         return this.id;
     }
-    
-    /**
-     * @return the user credit
-     */
+
     public int getCredit() {
         return this.credit;
     }
-    
-    /**
-     * Recharges the user credit
-     *
-     * @param deltaCredit the amount to recharge
-     */
+
     public void rechargeCredit(int deltaCredit) {
-        this.credit += deltaCredit;
+        if (deltaCredit < 0) {
+            return;
+        }
+        if (this.credit + deltaCredit > 100) {
+            this.credit = 100;
+        } else {
+            this.credit += deltaCredit;
+        }
     }
-    
-    /**
-     * Decreases the user credit
-     *
-     * @param amount the amount to decrease
-     */
+
     public void decreaseCredit(int amount) {
+        if (amount < 0) {
+            return;
+        }
         this.credit -= amount;
         if (this.credit < 0) {
             this.credit = 0;
         }
     }
-    
-    /**
-     * @return the user as a string
-     */
-    @Override
+
     public String toString() {
-        return "{ id: " + this.id + ", credit: " + this.credit + " }";
+        return "{ id: " + this.id + ", credit: " + this.credit + ", location: (" + this.xLocation + "," + this.yLocation + ") }";
     }
     
-    /**
-     * @return the user as a DTO
-     */
+    public double getXLocation() {
+        return this.xLocation;
+    }
+    
+    public double getYLocation() {
+        return this.yLocation;
+    }
+    
     @Override
     public UserDTO toDTO() {
-        return new UserDTO(this.id, this.credit);
+        return new UserDTO(this.id, this.credit, this.xLocation, this.yLocation);
     }
     
-    /**
-     * @return the user as a JSON string
-     */
+    @Override
+    public JsonObject toJsonObject() {
+        JsonObject jsonObject = new JsonObject();
+        jsonObject
+                .put(JsonFieldKey.USER_ID_KEY, this.id)
+                .put(JsonFieldKey.USER_CREDIT_KEY, this.credit)
+                .put(JsonFieldKey.USER_X_LOCATION_KEY, this.xLocation)
+                .put(JsonFieldKey.USER_Y_LOCATION_KEY, this.yLocation);
+        return jsonObject;
+    }
+    
     @Override
     public String toJsonString() {
-        JsonObject jsonObject = new JsonObject();
-        jsonObject.put(JsonFieldKey.USER_ID_KEY, this.id)
-                    .put(JsonFieldKey.USER_CREDIT_KEY, this.credit);
-        return jsonObject.encode();
+        return this.toJsonObject().encode();
     }
-    
-    /**
-     * @param o the object to compare
-     * @return true if the objects are equal, false otherwise
-     */
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -98,17 +113,10 @@ public class User implements Entity<UserDTO> {
         User user = (User) o;
         return this.getCredit() == user.getCredit() && Objects.equals(this.getId(), user.getId());
     }
-    
-    /**
-     * @return the hash code of the user
-     */
+
     @Override
     public int hashCode() {
         return Objects.hash(this.getId(), this.getCredit());
     }
-    
-    @Override
-    public JsonObject toJsonObject() {
-        return JsonUtils.fromUserToJsonObject(this);
-    }
 }
+
