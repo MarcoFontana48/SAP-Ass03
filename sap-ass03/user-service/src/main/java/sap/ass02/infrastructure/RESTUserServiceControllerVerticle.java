@@ -89,8 +89,16 @@ public final class RESTUserServiceControllerVerticle extends AbstractVerticle im
             
             String userId = jsonBody.getString(JsonFieldKey.USER_ID_KEY);
             int credit = jsonBody.getInteger(JsonFieldKey.USER_CREDIT_KEY);
+            Double xLocation = jsonBody.getDouble(JsonFieldKey.USER_X_LOCATION_KEY);
+            Double yLocation = jsonBody.getDouble(JsonFieldKey.USER_Y_LOCATION_KEY);
             
-            boolean userWasAdded = this.service.addUser(userId, credit);
+            boolean userWasAdded;
+            if (xLocation != null && yLocation != null) {
+                userWasAdded = this.service.addUser(userId, credit, xLocation, yLocation);
+                promise.complete();
+            } else {
+                userWasAdded = this.service.addUser(userId, credit);
+            }
             
             if (userWasAdded) {
                 promise.complete();

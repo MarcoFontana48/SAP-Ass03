@@ -9,6 +9,7 @@ public interface Service {
      * @param credits the user credits
      */
     boolean addUser(final String userId, final int credits);
+    boolean addUser(final String userId, final int credits, final double xLocation, final double yLocation);
     
     /**
      * Get a user from the repository

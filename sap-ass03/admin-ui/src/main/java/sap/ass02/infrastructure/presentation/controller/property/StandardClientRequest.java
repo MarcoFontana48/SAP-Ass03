@@ -74,6 +74,42 @@ public final class StandardClientRequest implements ClientRequest {
     }
     
     /**
+     * Adds a user to the repository
+     *
+     * @param userId the user id
+     * @param credits the user credits
+     * @param xLocation the x location
+     * @param yLocation the y location
+     * @return a future that will be completed with a boolean indicating the success of the operation
+     */
+    @Override
+    public Future<Boolean> addUser(String userId, int credits, double xLocation, double yLocation) {
+        LOGGER.trace("about to POST add user with id '{}', credits '{}' and location '{}'", userId, credits, xLocation, yLocation);
+        Promise<Boolean> result = Promise.promise();
+        JsonObject request = new JsonObject()
+                .put(JsonFieldKey.USER_ID_KEY, userId)
+                .put(JsonFieldKey.USER_CREDIT_KEY, credits)
+                .put(JsonFieldKey.USER_X_LOCATION_KEY, xLocation)
+                .put(JsonFieldKey.USER_Y_LOCATION_KEY, yLocation);
+        
+        LOGGER.trace("Sending request to endpoint '" + EndpointPath.USER + "':\n{}", request.encodePrettily());
+        this.webClient.post(this.port, this.host, EndpointPath.USER)
+                .putHeader("content-type", "application/json")
+                .as(BodyCodec.string())
+                .sendJsonObject(request, ar -> {
+                    if (ar.succeeded()) {
+                        LOGGER.trace("Received response with status code {}", ar.result().statusCode());
+                        LOGGER.trace("Response: {}", ar.result().body());
+                        result.complete(true);
+                    } else {
+                        LOGGER.error("Failed to send request: {}", ar.cause().getMessage());
+                        result.fail(ar.cause());
+                    }
+                });
+        return result.future();
+    }
+    
+    /**
      * Adds an eBike to the repository
      *
      * @param eBikeId the eBike id

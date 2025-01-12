@@ -62,9 +62,12 @@ public final class JsonUtils {
      */
     public static User fromJsonStringToUser(String userJsonString) {
         JsonObject userJson = new JsonObject(userJsonString);
-        User user = new User(userJson.getString(JsonFieldKey.USER_ID_KEY));
-        user.rechargeCredit(userJson.getInteger(JsonFieldKey.USER_CREDIT_KEY));
-        return user;
+        return new User(
+                userJson.getString(JsonFieldKey.USER_ID_KEY),
+                userJson.getInteger(JsonFieldKey.USER_CREDIT_KEY),
+                userJson.getDouble(JsonFieldKey.USER_X_LOCATION_KEY),
+                userJson.getDouble(JsonFieldKey.USER_Y_LOCATION_KEY)
+        );
     }
     
     public static ABike fromJsonStringToABike(String abikeJsonString) {

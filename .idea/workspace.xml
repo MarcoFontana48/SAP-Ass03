@@ -4,25 +4,25 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c36b0785-90ba-474f-8b00-43f3f30ac046" name="Changes" comment="refactor: add initial user location logic">
-      <change afterPath="$PROJECT_DIR$/sap-ass03/admin-ui/src/main/java/sap/ass02/infrastructure/presentation/listener/item/ride/AddReachUserListener.java" afterDir="false" />
+    <list default="true" id="c36b0785-90ba-474f-8b00-43f3f30ac046" name="Changes" comment="feat: add abike reaches user when requested">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sap-ass03/admin-ui/src/main/java/sap/ass02/domain/AbstractBike.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/admin-ui/src/main/java/sap/ass02/domain/AbstractBike.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sap-ass03/admin-ui/src/main/java/sap/ass02/domain/utils/EndpointPath.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/admin-ui/src/main/java/sap/ass02/domain/utils/EndpointPath.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sap-ass03/admin-ui/src/main/java/sap/ass02/infrastructure/presentation/controller/item/AddRideWebController.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/admin-ui/src/main/java/sap/ass02/infrastructure/presentation/controller/item/AddRideWebController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/admin-ui/src/main/java/sap/ass02/domain/utils/JsonUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/admin-ui/src/main/java/sap/ass02/domain/utils/JsonUtils.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sap-ass03/admin-ui/src/main/java/sap/ass02/infrastructure/presentation/controller/property/ClientRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/admin-ui/src/main/java/sap/ass02/infrastructure/presentation/controller/property/ClientRequest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sap-ass03/admin-ui/src/main/java/sap/ass02/infrastructure/presentation/controller/property/StandardClientRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/admin-ui/src/main/java/sap/ass02/infrastructure/presentation/controller/property/StandardClientRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sap-ass03/admin-ui/src/main/java/sap/ass02/infrastructure/presentation/view/admin/AdminGUIView.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/admin-ui/src/main/java/sap/ass02/infrastructure/presentation/view/admin/AdminGUIView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sap-ass03/admin-ui/src/main/java/sap/ass02/infrastructure/presentation/view/dialog/AddRideView.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/admin-ui/src/main/java/sap/ass02/infrastructure/presentation/view/dialog/AddRideView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sap-ass03/ride-service/src/main/java/sap/ass02/domain/EBike.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/ride-service/src/main/java/sap/ass02/domain/EBike.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sap-ass03/ride-service/src/main/java/sap/ass02/domain/VerticleAgent.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/ride-service/src/main/java/sap/ass02/domain/VerticleAgent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/admin-ui/src/main/java/sap/ass02/infrastructure/presentation/listener/item/user/AddUserOkListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/admin-ui/src/main/java/sap/ass02/infrastructure/presentation/listener/item/user/AddUserOkListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/admin-ui/src/main/java/sap/ass02/infrastructure/presentation/view/dialog/AddUserView.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/admin-ui/src/main/java/sap/ass02/infrastructure/presentation/view/dialog/AddUserView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/domain/AbstractBike.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/domain/AbstractBike.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/domain/dto/BikeStateDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/domain/dto/BikeStateDTO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sap-ass03/ride-service/src/main/java/sap/ass02/domain/application/ABikeAgentMovementVerticle.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/ride-service/src/main/java/sap/ass02/domain/application/ABikeAgentMovementVerticle.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sap-ass03/ride-service/src/main/java/sap/ass02/domain/application/RideServiceVerticle.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/ride-service/src/main/java/sap/ass02/domain/application/RideServiceVerticle.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sap-ass03/ride-service/src/main/java/sap/ass02/domain/dto/BikeStateDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/ride-service/src/main/java/sap/ass02/domain/dto/BikeStateDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sap-ass03/ride-service/src/main/java/sap/ass02/infrastructure/EndpointPath.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/ride-service/src/main/java/sap/ass02/infrastructure/EndpointPath.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sap-ass03/ride-service/src/main/java/sap/ass02/infrastructure/RESTRideServiceControllerVerticle.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/ride-service/src/main/java/sap/ass02/infrastructure/RESTRideServiceControllerVerticle.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sap-ass03/ride-service/src/main/java/sap/ddd/Service.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/ride-service/src/main/java/sap/ddd/Service.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sap-ass03/user-ui/src/main/java/sap/ass02/domain/EBike.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/user-ui/src/main/java/sap/ass02/domain/EBike.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/ride-service/src/main/java/sap/ass02/domain/dto/DTOUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/ride-service/src/main/java/sap/ass02/domain/dto/DTOUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/user-service/init.sql" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/user-service/init.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/user-service/src/main/java/sap/ass02/domain/application/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/user-service/src/main/java/sap/ass02/domain/application/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/user-service/src/main/java/sap/ass02/domain/application/UserServiceVerticle.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/user-service/src/main/java/sap/ass02/domain/application/UserServiceVerticle.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/user-service/src/main/java/sap/ass02/infrastructure/RESTUserServiceControllerVerticle.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/user-service/src/main/java/sap/ass02/infrastructure/RESTUserServiceControllerVerticle.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/user-service/src/main/java/sap/ass02/infrastructure/persistence/local/AbstractLocalJsonRepositoryAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/user-service/src/main/java/sap/ass02/infrastructure/persistence/local/AbstractLocalJsonRepositoryAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/user-service/src/main/java/sap/ass02/infrastructure/persistence/sql/AbstractSQLRepositoryAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/user-service/src/main/java/sap/ass02/infrastructure/persistence/sql/AbstractSQLRepositoryAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/user-service/src/main/java/sap/ddd/Service.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/user-service/src/main/java/sap/ddd/Service.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -295,7 +295,7 @@
       <workItem from="1736519830814" duration="1709000" />
       <workItem from="1736580316156" duration="20000" />
       <workItem from="1736593501707" duration="6438000" />
-      <workItem from="1736665710579" duration="5058000" />
+      <workItem from="1736665710579" duration="14142000" />
     </task>
     <task id="LOCAL-00001" summary="uploaded ass-02 refactorized to jvm21">
       <option name="closed" value="true" />
@@ -609,14 +609,21 @@
       <option name="project" value="LOCAL" />
       <updated>1736619132312</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL-00040" summary="feat: add abike reaches user when requested">
+      <option name="closed" value="true" />
+      <created>1736671091030</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1736671091030</updated>
+    </task>
+    <option name="localTasksCounter" value="41" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="docs(admin-ui): add documentation to controllers property" />
     <MESSAGE value="docs(admin-ui): add documentation to controller's WebController" />
     <MESSAGE value="docs(admin-ui): fix documentation of controller's AbstractAdminController" />
     <MESSAGE value="docs(admin-ui): add documentation of listener classes" />
@@ -641,7 +648,8 @@
     <MESSAGE value="refactor: add AbstractBike class" />
     <MESSAGE value="refactor: add AbstractBike class to admin ui" />
     <MESSAGE value="refactor: add initial user location logic" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactor: add initial user location logic" />
+    <MESSAGE value="feat: add abike reaches user when requested" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: add abike reaches user when requested" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

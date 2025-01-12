@@ -39,6 +39,8 @@ public abstract class AbstractLocalJsonRepositoryAdapter extends AbstractVerticl
         JsonObject obj = new JsonObject();
         obj.put(USER_ID_KEY, user.id());
         obj.put(USER_CREDIT_KEY, user.credit());
+        obj.put(USER_X_LOCATION_KEY, user.xLocation());
+        obj.put(USER_Y_LOCATION_KEY, user.yLocation());
         try {
             this.saveObj(this.userFolder, user.id(), obj);
         } catch (RuntimeException | FileAlreadyExistsException e) {

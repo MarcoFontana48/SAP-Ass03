@@ -9,7 +9,7 @@ import sap.ddd.Service;
 public final class ABikeAgentMovementVerticle extends AbstractVerticle implements VerticleAgent {
     private static final Logger LOGGER = LogManager.getLogger(ABikeAgentMovementVerticle.class);
     private final ABike aBike;
-    private final double perceptionRadius = 101;
+    private final double perceptionRadius = 200;
     private final Service service;
     private final User user;
     
@@ -45,16 +45,26 @@ public final class ABikeAgentMovementVerticle extends AbstractVerticle implement
             switch (EBike.BikeState.valueOf(message.body().toString())) {
                 case START_AUTONOMOUSLY_REACH_STATION, MAINTENANCE:
                     Station station = this.evaluateNearestStation();
-                    this.changeDirectionTowards(station);
+                    if (station == null) {
+                        this.stopMoving();
+                        this.stop();
+                    } else {
+                        this.changeDirectionTowards(station);
+                    }
                     break;
                 case MOVING_TO_STATION:
                     this.stepForward();
                     Station newStation = this.evaluateNearestStation(); // evaluates if a new nearest station is closer than the current one
-                    this.changeDirectionTowards(newStation);
-                    this.evaluateAgentPositionRelativeTo(newStation);
+                    if (newStation != null) {
+                        this.changeDirectionTowards(newStation);
+                        this.evaluateAgentPositionRelativeTo(newStation);
+                    } else {
+                        this.updateStateTo(ABikeImpl.BikeState.MOVING_TO_STATION);
+                    }
                     break;
                 case AT_STATION:
                     this.rechargeBike();
+                    this.updateStateTo(ABikeImpl.BikeState.AVAILABLE);
                     this.stop();
                     break;
                 case START_AUTONOMOUSLY_REACH_USER:
@@ -75,12 +85,23 @@ public final class ABikeAgentMovementVerticle extends AbstractVerticle implement
         });
     }
     
+    private void updateStateTo(EBike.BikeState bikeState) {
+        this.aBike.updateState(bikeState);
+        this.service.updateEBike(this.aBike);
+        this.vertx.eventBus().publish("abike-state-update-" + this.aBike.getBikeId(), bikeState.toString());
+        
+    }
+    
+    private void stopMoving() {
+        this.aBike.updateState(ABikeImpl.BikeState.MAINTENANCE);
+        this.service.updateEBike(this.aBike);
+    }
+    
     private User findUser() {
         return this.service.getUser(this.user.getId());
     }
     
     private void rechargeBike() {
-        this.aBike.updateState(ABikeImpl.BikeState.AVAILABLE);
         this.aBike.rechargeBattery();
         this.service.updateEBike(this.aBike);
     }
@@ -88,18 +109,14 @@ public final class ABikeAgentMovementVerticle extends AbstractVerticle implement
     private void evaluateAgentPositionRelativeTo(Place place) {
         if (this.aBike.getLocation().getX() == place.location().getX() && this.aBike.getLocation().getY() == place.location().getY()) {
             if (place instanceof Station) {
-                this.aBike.updateState(ABikeImpl.BikeState.AT_STATION);
-                this.service.updateEBike(this.aBike);
-                this.vertx.eventBus().publish("abike-state-update-" + this.aBike.getBikeId(), ABikeImpl.BikeState.AT_STATION.toString());
+                this.updateStateTo(ABikeImpl.BikeState.AT_STATION);
             }
         }
     }
     
     private void evaluateAgentPositionRelativeTo(User user) {
         if (this.aBike.getLocation().getX() == user.getXLocation() && this.aBike.getLocation().getY() == user.getYLocation()) {
-            this.aBike.updateState(ABikeImpl.BikeState.AT_USER);
-            this.service.updateEBike(this.aBike);
-            this.vertx.eventBus().publish("abike-state-update-" + this.aBike.getBikeId(), ABikeImpl.BikeState.AT_USER.toString());
+            this.updateStateTo(ABikeImpl.BikeState.AT_USER);
         }
     }
     

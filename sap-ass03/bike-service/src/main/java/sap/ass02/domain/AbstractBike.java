@@ -32,7 +32,7 @@ public abstract class AbstractBike {
         }
     }
     
-    public enum BikeState {AVAILABLE, IN_USE, MAINTENANCE}
+    public enum BikeState {AVAILABLE, IN_USE, MOVING_TO_STATION, AT_STATION, MAINTENANCE, START_AUTONOMOUSLY_REACH_STATION, START_AUTONOMOUSLY_REACH_USER, MOVING_TO_USER, AT_USER}
     
     public String getId() {
         return this.id;

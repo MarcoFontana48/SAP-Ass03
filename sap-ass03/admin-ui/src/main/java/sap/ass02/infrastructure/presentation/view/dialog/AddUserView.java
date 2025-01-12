@@ -15,6 +15,8 @@ import java.util.Optional;
 public final class AddUserView extends JDialog implements AppView {
     private JTextField idField, errorField;
     private JTextField creditsField;
+    private JTextField xLocationField;
+    private JTextField yLocationField;
     private JButton okButton;
     private JButton cancelButton;
     
@@ -33,6 +35,8 @@ public final class AddUserView extends JDialog implements AppView {
     private void initializeComponents() {
         this.idField = new JTextField(15);
         this.creditsField = new JTextField(15);
+        this.xLocationField = new JTextField(25);
+        this.yLocationField = new JTextField(25);
         this.errorField = new JTextField(25);
         this.okButton = new JButton("Ok");
         this.cancelButton = new JButton("Cancel");
@@ -42,11 +46,15 @@ public final class AddUserView extends JDialog implements AppView {
      * Sets up the layout
      */
     private void setupLayout() {
-        JPanel inputPanel = new JPanel(new GridLayout(3, 2, 10, 10));
+        JPanel inputPanel = new JPanel(new GridLayout(4, 2, 10, 10));
         inputPanel.add(new JLabel("User ID:"));
         inputPanel.add(this.idField);
         inputPanel.add(new JLabel("Credits:"));
         inputPanel.add(this.creditsField);
+        inputPanel.add(new JLabel("X Location:"));
+        inputPanel.add(this.xLocationField);
+        inputPanel.add(new JLabel("Y Location:"));
+        inputPanel.add(this.yLocationField);
         
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(this.okButton);
@@ -98,6 +106,22 @@ public final class AddUserView extends JDialog implements AppView {
             return -1;
         }
         return Integer.parseInt(this.creditsField.getText());
+    }
+    
+    public int getUserXLocation() {
+        if (this.xLocationField.getText().isEmpty()) {
+            this.errorField.setText("Please enter location");
+            return -1;
+        }
+        return Integer.parseInt(this.xLocationField.getText());
+    }
+    
+    public int getUserYLocation() {
+        if (this.yLocationField.getText().isEmpty()) {
+            this.errorField.setText("Please enter location");
+            return -1;
+        }
+        return Integer.parseInt(this.yLocationField.getText());
     }
     
     /**

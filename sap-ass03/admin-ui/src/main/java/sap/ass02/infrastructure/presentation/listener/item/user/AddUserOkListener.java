@@ -54,7 +54,10 @@ public final class AddUserOkListener implements ActionListener, ViewListener<Add
             return;
         }
         
-        this.controller.makeClientRequest().addUser(userId, credits).onComplete(r -> {
+        double xLocation = this.controller.getView().getUserXLocation();
+        double yLocation = this.controller.getView().getUserYLocation();
+        
+        this.controller.makeClientRequest().addUser(userId, credits, xLocation, yLocation).onComplete(r -> {
             if (r.succeeded()) {
                 LOGGER.trace("User '{}' created successfully", userId);
             } else {

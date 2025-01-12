@@ -86,6 +86,7 @@ public final class RideServiceVerticle extends AbstractVerticle implements Servi
             LOGGER.trace("Retrieved ride '{}'", retrievedRide);
             retrievedRide.end();
         } else {
+            LOGGER.error("Ride simulation not found for ride '{}'", rideId);
             throw new RuntimeException("Ride not found");
         }
         
@@ -141,10 +142,17 @@ public final class RideServiceVerticle extends AbstractVerticle implements Servi
     @Override
     public void reachUser(Ride ride) {
         if (this.currentlyActiveSimulations.get(ride.getId()) == null) {
+            LOGGER.error("Ride simulation not found for ride '{}'", ride.getId());
             throw new RuntimeException("Ride not found");
         }
         VerticleAgent aBikeAgentVerticle = new ABikeAgentMovementVerticle(ride, this);
-        this.vertx.deployVerticle(aBikeAgentVerticle);
+        this.vertx.deployVerticle(aBikeAgentVerticle).onComplete(ar -> {
+            if (ar.succeeded()) {
+                LOGGER.trace("Successfully deployed ABikeAgentMovementVerticle for ride '{}'", ride.getId());
+            } else {
+                LOGGER.error("Failed to deploy ABikeAgentMovementVerticle for ride '{}'", ride.getId());
+            }
+        });
         
         aBikeAgentVerticle.reachUserAutonomously();
     }

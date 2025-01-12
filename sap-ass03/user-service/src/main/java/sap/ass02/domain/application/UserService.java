@@ -24,6 +24,14 @@ public final class UserService implements Service {
     }
     
     @Override
+    public boolean addUser(String userId, int credits, double xLocation, double yLocation) {
+        User user = new User(userId, credits, xLocation, yLocation);
+        LOGGER.trace("Adding user with id '{}', credits '{}', xLocation '{}' and yLocation '{}'", userId, credits, xLocation, yLocation);
+        this.repository.insertUser(user.toDTO());
+        return true;
+    }
+    
+    @Override
     public User getUser(String userId) {
         LOGGER.trace("Getting user with id '{}'", userId);
         var user = this.repository.getUserById(userId);

@@ -7,8 +7,8 @@ import java.util.Optional;
 public class DTOUtils {
     
     public static User toUser(UserDTO userDTO) {
-        User user = new User(userDTO.id());
-        user.rechargeCredit(userDTO.credit());
+        User user = new User(userDTO.id(), userDTO.credit(), userDTO.xLocation(), userDTO.yLocation());
+//        user.rechargeCredit(userDTO.credit());
         return user;
     }
     

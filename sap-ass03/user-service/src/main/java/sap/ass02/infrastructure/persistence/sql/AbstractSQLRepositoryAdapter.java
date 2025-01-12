@@ -80,7 +80,9 @@ public abstract class AbstractSQLRepositoryAdapter extends AbstractVerticleRepos
                 this.connection,
                 INSERT_USER,
                 user.id(),
-                user.credit())) {
+                user.credit(),
+                user.xLocation(),
+                user.yLocation())) {
             LOGGER.trace("Executing statement:\n'{}'", statement);
             statement.executeUpdate();
         } catch (SQLException e) {

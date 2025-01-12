@@ -23,6 +23,7 @@ public interface ClientRequest {
      * @return a future that will be completed with the result of the operation
      */
     Future<Boolean> addUser(final String userId, final int credits);
+    Future<Boolean> addUser(final String userId, final int credits, final double xLocation, final double yLocation);
     
     /**
      * Get a user from the system.

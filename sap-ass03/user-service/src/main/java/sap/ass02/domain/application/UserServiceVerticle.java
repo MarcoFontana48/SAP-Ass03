@@ -32,6 +32,16 @@ public final class UserServiceVerticle extends AbstractVerticle implements Servi
     }
     
     @Override
+    public boolean addUser(String userId, int credits, double xLocation, double yLocation) {
+        LOGGER.trace("Adding user with id '{}', credits '{}', xLocation '{}' and yLocation '{}'", userId, credits, xLocation, yLocation);
+        this.userService.addUser(userId, credits, xLocation, yLocation);
+        UserDTO addedUser = new User(userId, credits, xLocation, yLocation).toDTO();
+        LOGGER.trace("Publishing insert-user event '{}'", addedUser.toJsonString());
+        this.vertx.eventBus().publish("insert-user", addedUser.toJsonString());
+        return true;
+    }
+    
+    @Override
     public User getUser(String userId) {
         LOGGER.trace("Getting user with id '{}'", userId);
         var user = this.queryOnlyRepository.getUserById(userId);
