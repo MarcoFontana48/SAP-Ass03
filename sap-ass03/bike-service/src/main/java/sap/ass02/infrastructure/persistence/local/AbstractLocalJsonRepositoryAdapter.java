@@ -36,8 +36,6 @@ public abstract class AbstractLocalJsonRepositoryAdapter implements Repository {
 
     /**
      * Instantiates a new Abstract local json repository adapter.
-     *
-     * @param databaseFolder the database folder
      */
     @Override
     public void init() {
