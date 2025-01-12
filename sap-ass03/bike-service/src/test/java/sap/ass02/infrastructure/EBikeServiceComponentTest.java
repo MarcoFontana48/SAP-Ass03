@@ -7,8 +7,8 @@ import sap.ass02.domain.application.BikeService;
 import sap.ass02.domain.EBike;
 import sap.ass02.domain.P2d;
 import sap.ass02.domain.V2d;
-import sap.ddd.ReadOnlyRepository;
-import sap.ddd.ReadWriteRepository;
+import sap.ddd.Repository;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.*;
@@ -21,7 +21,7 @@ public class EBikeServiceComponentTest {
     
     @BeforeEach
     public void setUp() {
-        ReadWriteRepository repository = mock(ReadWriteRepository.class);
+        Repository repository = mock(Repository.class);
         when(repository.getEbikeById("1")).thenReturn(java.util.Optional.of(this.eBike1.toDTO()));
         when(repository.getEbikeById("2")).thenReturn(java.util.Optional.of(this.eBike2.toDTO()));
         this.eBikeService = new BikeService();

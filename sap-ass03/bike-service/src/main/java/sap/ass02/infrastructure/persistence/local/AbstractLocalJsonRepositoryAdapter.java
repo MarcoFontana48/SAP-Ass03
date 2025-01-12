@@ -8,7 +8,7 @@ import sap.ass02.domain.dto.EBikeDTO;
 import sap.ass02.domain.dto.P2dDTO;
 import sap.ass02.domain.dto.V2dDTO;
 import sap.ass02.domain.utils.JsonFieldKey;
-import sap.ass02.infrastructure.persistence.AbstractVerticleRepository;
+import sap.ddd.Repository;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -19,15 +19,26 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Optional;
 
-public abstract class AbstractLocalJsonRepositoryAdapter extends AbstractVerticleRepository {
+/**
+ * Abstract class for local JSON repository adapters.
+ */
+public abstract class AbstractLocalJsonRepositoryAdapter implements Repository {
     private static final Logger LOGGER = LogManager.getLogger(AbstractLocalJsonRepositoryAdapter.class);
     private final String ebikeFolder = "ebike";
     private final String databaseFolder = "./database";
 
+    /**
+     * Constructor.
+     */
     public AbstractLocalJsonRepositoryAdapter() {
         LOGGER.trace("AbstractLocalJsonRepositoryAdapter instantiated (remember to initialize it before using it!)");
     }
 
+    /**
+     * Instantiates a new Abstract local json repository adapter.
+     *
+     * @param databaseFolder the database folder
+     */
     @Override
     public void init() {
         this.makeDir(this.databaseFolder);
@@ -35,6 +46,12 @@ public abstract class AbstractLocalJsonRepositoryAdapter extends AbstractVerticl
         LOGGER.trace("AbstractLocalJsonRepositoryAdapter initialized");
     }
 
+    /**
+     * Insert a new ebike into the repository.
+     *
+     * @param eBike the ebike to be inserted
+     * @return true if the ebike was inserted successfully
+     */
     @Override
     public boolean insertEbike(EBikeDTO eBike) {
         LOGGER.trace("Inserting eBike: {}", eBike.toString());
@@ -56,6 +73,12 @@ public abstract class AbstractLocalJsonRepositoryAdapter extends AbstractVerticl
         return true;
     }
     
+    /**
+     * Retrieves an ebike from the repository given its id.
+     *
+     * @param ebikeId the ebike id
+     * @return Optionally found ebike
+     */
     @Override
     public Optional<EBikeDTO> getEbikeById(String ebikeId) {
         LOGGER.trace("Retrieving ebike with ID: {}", ebikeId);
@@ -86,6 +109,12 @@ public abstract class AbstractLocalJsonRepositoryAdapter extends AbstractVerticl
         return Optional.empty();
     }
     
+    /**
+     * Updates an ebike in the repository.
+     *
+     * @param eBike the ebike to be updated
+     * @return true if the ebike was updated successfully
+     */
     @Override
     public boolean updateEBike(EBikeDTO eBike) {
         LOGGER.trace("Updating eBike: {}", eBike.toString());
@@ -115,6 +144,11 @@ public abstract class AbstractLocalJsonRepositoryAdapter extends AbstractVerticl
         return true;
     }
     
+    /**
+     * Retrieves all ebikes from the repository.
+     *
+     * @return all ebikes
+     */
     @Override
     public Iterable<EBikeDTO> getAllEBikes() {
         LOGGER.trace("Retrieving all ebikes");
@@ -136,6 +170,11 @@ public abstract class AbstractLocalJsonRepositoryAdapter extends AbstractVerticl
         return ebikes;
     }
 
+    /**
+     * Makes a directory.
+     *
+     * @param name the name of the directory
+     */
     private void makeDir(final String name) {
         LOGGER.trace("Creating directory: {}", name);
         File dir = new File(name);
@@ -147,6 +186,14 @@ public abstract class AbstractLocalJsonRepositoryAdapter extends AbstractVerticl
         }
     }
 
+    /**
+     * Saves an object.
+     *
+     * @param db the database
+     * @param id the id
+     * @param obj the object
+     * @throws FileAlreadyExistsException if the file already exists
+     */
     private void saveObj(final String db, final String id, final JsonObject obj) throws FileAlreadyExistsException {
         File file = new File(this.databaseFolder + File.separator + db + File.separator + id + ".json");
 

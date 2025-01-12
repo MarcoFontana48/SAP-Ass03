@@ -4,6 +4,9 @@ import io.vertx.core.json.JsonObject;
 import sap.ass02.domain.AbstractBike;
 import sap.ass02.domain.EBike;
 
+/**
+ * Utility class for converting domain objects to JSON objects and vice versa.
+ */
 public final class JsonUtils {
     public static EBike fromJsonStringToEBike(String eBikeJsonString) {
         JsonObject eBikeJson = new JsonObject(eBikeJsonString);
@@ -17,6 +20,11 @@ public final class JsonUtils {
         return eBike;
     }
 
+    /**
+     * Converts a JSON string to a User object.
+     * @param eBike the JSON string to convert
+     * @return the User object
+     */
     public static JsonObject fromEBikeToJsonObject(EBike eBike) {
         return new JsonObject()
                 .put(JsonFieldKey.EBIKE_ID_KEY, eBike.getId())

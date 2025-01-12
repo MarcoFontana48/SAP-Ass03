@@ -18,19 +18,25 @@ import sap.ass02.domain.dto.EBikeDTO;
 import sap.ass02.domain.dto.P2dDTO;
 import sap.ass02.domain.dto.V2dDTO;
 import sap.ass02.infrastructure.EndpointPath;
-import sap.ass02.infrastructure.persistence.AbstractVerticleRepository;
 import sap.ass02.infrastructure.persistence.properties.Connectable;
+import sap.ddd.Repository;
 
 import java.util.ArrayList;
 import java.util.Optional;
 
 import static com.mongodb.client.model.Filters.eq;
 
-public abstract class AbstractMongoRepositoryAdapter extends AbstractVerticleRepository implements Connectable {
+/**
+ * Abstract class for MongoDB repository adapters.
+ */
+public abstract class AbstractMongoRepositoryAdapter implements Connectable, Repository {
     private static final Logger LOGGER = LogManager.getLogger(AbstractMongoRepositoryAdapter.class);
     private MongoCollection<Document> ebikeCollection;
     private WebClient webClient;
     
+    /**
+     * Instantiates a new Abstract mongo repository adapter.
+     */
     @Override
     public void init() {
         LOGGER.debug("Initializing SQLRepositoryAdapter...");
@@ -53,6 +59,12 @@ public abstract class AbstractMongoRepositoryAdapter extends AbstractVerticleRep
         }).onFailure(err -> LOGGER.error("Failed to fetch configuration", err));
     }
     
+    /**
+     * Fetch configuration on endpoint future.
+     *
+     * @param endpoint the endpoint
+     * @return the future
+     */
     private Future<JsonObject> fetchConfigurationOnEndpoint(String endpoint) {
         return this.webClient.get(endpoint)
                 .as(BodyCodec.jsonObject())
@@ -66,6 +78,15 @@ public abstract class AbstractMongoRepositoryAdapter extends AbstractVerticleRep
                 });
     }
     
+    /**
+     * Connect to the MongoDB database.
+     *
+     * @param host     the host
+     * @param port     the port
+     * @param database the database
+     * @param username the username
+     * @param password the password
+     */
     @Override
     public void connect(String host, String port, String database, String username, String password) {
         LOGGER.trace("Connecting to MongoDB database with arguments: host: {}, port: {}, dbName: {}, dbUsername: {}, dbPassword: {}", host, port, database, username, password);
@@ -75,6 +96,12 @@ public abstract class AbstractMongoRepositoryAdapter extends AbstractVerticleRep
         LOGGER.debug("{} initialized", this.getClass().getSimpleName());
     }
     
+    /**
+     * Insert ebike boolean.
+     *
+     * @param eBike the ebike
+     * @return the boolean
+     */
     @Override
     public boolean insertEbike(final EBikeDTO eBike) {
         LOGGER.trace("Preparing document to insert eBike '{}' to MongoDB database", eBike);
@@ -91,6 +118,12 @@ public abstract class AbstractMongoRepositoryAdapter extends AbstractVerticleRep
         return true;
     }
     
+    /**
+     * Updates ebike.
+     *
+     * @param ebike the ebike
+     * @return true if the ebike was updated successfully, false otherwise
+     */
     @Override
     public boolean updateEBike(EBikeDTO ebike) {
         LOGGER.trace("Preparing document to update ebike '{}' credits in MongoDB database", ebike);
@@ -106,6 +139,12 @@ public abstract class AbstractMongoRepositoryAdapter extends AbstractVerticleRep
         return true;
     }
     
+    /**
+     * Gets ebike by id.
+     *
+     * @param ebikeId the ebike id
+     * @return the ebike by id
+     */
     @Override
     public Optional<EBikeDTO> getEbikeById(final String ebikeId) {
         LOGGER.trace("Preparing query to retrieve ebike with id: '{}' from MongoDB database", ebikeId);
@@ -126,6 +165,11 @@ public abstract class AbstractMongoRepositoryAdapter extends AbstractVerticleRep
         }
     }
     
+    /**
+     * Gets all ebikes.
+     *
+     * @return the all ebikes
+     */
     @Override
     public Iterable<EBikeDTO> getAllEBikes() {
         LOGGER.trace("Preparing query to retrieve all ebikes from MongoDB database");

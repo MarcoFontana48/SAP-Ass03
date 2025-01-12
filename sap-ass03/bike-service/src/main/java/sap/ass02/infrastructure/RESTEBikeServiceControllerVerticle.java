@@ -24,6 +24,9 @@ import sap.ass02.infrastructure.utils.RequestsCounter;
 import java.io.IOException;
 import java.io.StringWriter;
 
+/**
+ * Controller for the REST API of the eBike service.
+ */
 public final class RESTEBikeServiceControllerVerticle extends AbstractVerticle implements Controller {
     private static final Logger LOGGER = LogManager.getLogger(RESTEBikeServiceControllerVerticle.class);
     private static final int HTTP_PORT = 8080;
@@ -34,10 +37,17 @@ public final class RESTEBikeServiceControllerVerticle extends AbstractVerticle i
     private Service service;
     private CircuitBreaker circuitBreaker;
     
+    /**
+     * Attaches a service to the controller
+     * @param service the service
+     */
     public void attachService(Service service) {
         this.service = service;
     }
     
+    /**
+     * Starts the controller.
+     */
     @Override
     public void start() {
         this.circuitBreaker = CircuitBreaker.create("bike-service-circuit-breaker", this.vertx,
@@ -60,6 +70,9 @@ public final class RESTEBikeServiceControllerVerticle extends AbstractVerticle i
         this.vertx.createHttpServer().requestHandler(router).listen(HTTP_PORT);
     }
     
+    /**
+     * handles POST requests for ebikes
+     */
     private void postEbikeHandler(RoutingContext routingContext) {
         Histogram.Timer timer = PERFORMANCE_MEASURER.startTimer();
         this.circuitBreaker.execute(promise -> {
@@ -89,6 +102,9 @@ public final class RESTEBikeServiceControllerVerticle extends AbstractVerticle i
         });
     }
     
+    /**
+     * handles PUT requests for ebikes
+     */
     private void putEbikeHandler(RoutingContext routingContext) {
         Histogram.Timer timer = PERFORMANCE_MEASURER.startTimer();
         this.circuitBreaker.execute(promise -> {
@@ -116,6 +132,11 @@ public final class RESTEBikeServiceControllerVerticle extends AbstractVerticle i
         });
     }
     
+    /**
+     * Updates an ebike in the repository given the JSON body of the request.
+     * @param jsonBody the JSON body of the request
+     * @return true if the ebike was updated successfully
+     */
     private boolean updateEBikeHandler(JsonObject jsonBody) {
         EBike ebike = new EBike(
                 jsonBody.getString(JsonFieldKey.EBIKE_ID_KEY),
@@ -129,6 +150,9 @@ public final class RESTEBikeServiceControllerVerticle extends AbstractVerticle i
         return this.service.updateEBike(ebike);
     }
     
+    /**
+     * handles GET requests for ebikes
+     */
     private void getEbikeHandler(RoutingContext routingContext) {
         Histogram.Timer latencyTimer = PERFORMANCE_MEASURER.startTimer();
         this.circuitBreaker.execute(promise -> {
@@ -170,6 +194,9 @@ public final class RESTEBikeServiceControllerVerticle extends AbstractVerticle i
         });
     }
     
+    /**
+     * handles GET requests for health checks
+     */
     private void getHealthCheckHandler(RoutingContext routingContext) {
         Histogram.Timer timer = PERFORMANCE_MEASURER.startTimer();
         this.circuitBreaker.execute(promise -> {
@@ -196,6 +223,9 @@ public final class RESTEBikeServiceControllerVerticle extends AbstractVerticle i
         });
     }
     
+    /**
+     * handles GET requests for metrics
+     */
     private void getMetricsHandler(RoutingContext routingContext) {
         routingContext.response().putHeader("Content-Type", TextFormat.CONTENT_TYPE_004);
         try (StringWriter writer = new StringWriter()) {
@@ -209,6 +239,12 @@ public final class RESTEBikeServiceControllerVerticle extends AbstractVerticle i
         }
     }
     
+    /**
+     * Sends a response to the client.
+     * @param routingContext the routing context
+     * @param response the response
+     * @param statusCode the status code
+     */
     private static void sendResponse(RoutingContext routingContext, JsonArray response, int statusCode) {
         LOGGER.trace("Sending response with status code '{}' to client:\n{}", statusCode, response.encodePrettily());
         routingContext.response()
@@ -217,6 +253,12 @@ public final class RESTEBikeServiceControllerVerticle extends AbstractVerticle i
                 .end(response.encode());
     }
     
+    /**
+     * Sends a response to the client.
+     * @param routingContext the routing context
+     * @param response the response
+     * @param statusCode the status code
+     */
     private static void sendResponse(RoutingContext routingContext, JsonObject response, int statusCode) {
         LOGGER.trace("Sending response with status code '{}' to client:\n{}", statusCode, response.encodePrettily());
         routingContext.response()

@@ -1,24 +1,36 @@
 package sap.ass02.domain.application;
 
 import io.vertx.core.AbstractVerticle;
+import io.vertx.kafka.client.producer.KafkaProducer;
+import io.vertx.kafka.client.producer.KafkaProducerRecord;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import sap.ass02.domain.AbstractBike;
 import sap.ass02.domain.EBike;
-import sap.ass02.domain.P2d;
-import sap.ass02.domain.V2d;
-import sap.ass02.domain.dto.DTOUtils;
 import sap.ass02.domain.dto.EBikeDTO;
-import sap.ddd.ReadOnlyRepository;
-import sap.ddd.ReadWriteRepository;
+import sap.ddd.Repository;
 import sap.ddd.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
+/**
+ * Proxy class for the service class to produce events upon calling it.
+ */
 public final class BikeServiceVerticle extends AbstractVerticle implements ServiceVerticle {
     private static final Logger LOGGER = LogManager.getLogger(BikeServiceVerticle.class);
     private final Service bikeService = new BikeService();
+    Map<String, String> producerConfig = new HashMap<>();
+    KafkaProducer<String, String> producer;
+
+    @Override
+    public void start() {
+        this.producerConfig.put("bootstrap.servers", "kafka:9092");
+        this.producerConfig.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+        this.producerConfig.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+        this.producerConfig.put("acks", "1");
+        
+        this.producer = KafkaProducer.create(this.vertx, this.producerConfig);
+    }
     
     /**
      * Adds an ebike to the repository and publishes an event
@@ -32,6 +44,8 @@ public final class BikeServiceVerticle extends AbstractVerticle implements Servi
         EBikeDTO addedEBike = new EBike(ebikeId).toDTO();
         LOGGER.trace("Publishing insert-ebike event '{}'", addedEBike.toJsonString());
         this.vertx.eventBus().publish("insert-ebike", addedEBike.toJsonString());
+        this.producer.write(KafkaProducerRecord.create("client", "client-insert-ebike", addedEBike.toJsonString()));
+        this.producer.write(KafkaProducerRecord.create("bike-service", "insert-ebike", addedEBike.toJsonString()));
         return true;
     }
     
@@ -59,6 +73,7 @@ public final class BikeServiceVerticle extends AbstractVerticle implements Servi
         EBikeDTO ebikeDTO = new EBike(eBike.getId(), eBike.getState(), eBike.getLocation(), eBike.getDirection(), eBike.getSpeed(), eBike.getBatteryLevel()).toDTO();
         LOGGER.trace("Publishing update-ebike event '{}'", ebikeDTO.toJsonString());
         this.vertx.eventBus().publish("ebike-update", ebikeDTO.toJsonString());
+        this.producer.write(KafkaProducerRecord.create("client", "client-insert-ebike", ebikeDTO.toJsonString()));
         return true;
     }
     
@@ -76,7 +91,7 @@ public final class BikeServiceVerticle extends AbstractVerticle implements Servi
      * @param repository the repository
      */
     @Override
-    public void attachRepository(ReadWriteRepository repository) {
+    public void attachRepository(Repository repository) {
         this.bikeService.attachRepository(repository);
     }
 }

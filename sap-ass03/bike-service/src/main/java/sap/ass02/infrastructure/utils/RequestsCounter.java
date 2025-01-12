@@ -1,5 +1,8 @@
 package sap.ass02.infrastructure.utils;
 
+/**
+ * Interface to implement a counter for the number of requests received by the service.
+ */
 public interface RequestsCounter {
     /**
      * Increase the total number of POST requests received by the service

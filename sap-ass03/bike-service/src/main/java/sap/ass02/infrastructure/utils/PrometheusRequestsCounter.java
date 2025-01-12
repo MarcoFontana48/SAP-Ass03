@@ -2,7 +2,13 @@ package sap.ass02.infrastructure.utils;
 
 import io.prometheus.client.Counter;
 
+/**
+ * Class to count the number of requests received by the service.
+ */
 public final class PrometheusRequestsCounter implements RequestsCounter {
+    /**
+     * Counter to count the number of requests received by the service.
+     */
     private static final Counter REQUESTS_METHOD_STATUS_NUM_COUNTER = Counter.build()
             .name("bike_service_requests_method_status_total")
             .help("Total requests to bike service divided by method type and status.")

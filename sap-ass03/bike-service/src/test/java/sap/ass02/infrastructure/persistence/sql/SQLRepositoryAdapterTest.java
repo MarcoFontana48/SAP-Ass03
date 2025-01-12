@@ -53,12 +53,6 @@ class SQLRepositoryAdapterTest {
         process.waitFor();
     }
     
-    //! already in use in 'setUp' method
-//    @Test
-//    void connectsToDatabase() {
-//        assertDoesNotThrow(() -> this.repository.connect("localhost", "3306", "ebike", "root", "password"));
-//    }
-    
     @Test
     void throwsExceptionWhenInsertingEBikeWithInvalidId() {
         var eBike = new EBikeDTO("not_a_valid_id", BikeStateDTO.AVAILABLE, new P2dDTO(0, 0), new V2dDTO(1, 0), 1, 100);

@@ -10,15 +10,38 @@ import sap.ddd.Entity;
 
 import java.util.Objects;
 
+/**
+ * Represents an electric bike.
+ */
 public final class EBike extends AbstractBike implements Entity<EBikeDTO> {
+    /**
+     * Creates a new electric bike with the given ID.
+     *
+     * @param id the ID of the bike
+     */
     public EBike(String id) {
         super(id);
     }
     
+    /**
+     * Creates a new electric bike with the given ID, state, location, direction, speed, and battery level.
+     *
+     * @param id           the ID of the bike
+     * @param state        the state of the bike
+     * @param location     the location of the bike
+     * @param direction    the direction of the bike
+     * @param speed        the speed of the bike
+     * @param batteryLevel the battery level of the bike
+     */
     public EBike(String id, BikeState state, P2d location, V2d direction, double speed, int batteryLevel) {
         super(id, state, location, direction, speed, batteryLevel);
     }
     
+    /**
+     * Creates a new electric bike given a JSON object that represents the it.
+     *
+     * @param asJsonObject the JSON object
+     */
     public EBike(JsonObject asJsonObject) {
         this(
                 asJsonObject.getString(JsonFieldKey.EBIKE_ID_KEY),
@@ -30,6 +53,9 @@ public final class EBike extends AbstractBike implements Entity<EBikeDTO> {
         );
     }
     
+    /**
+     * Creates a new electric bike given a DTO.
+     */
     @Override
     public EBikeDTO toDTO() {
         return new EBikeDTO(
@@ -42,6 +68,9 @@ public final class EBike extends AbstractBike implements Entity<EBikeDTO> {
         );
     }
     
+    /**
+     * Converts this object to a JSON object.
+     */
     @Override
     public JsonObject toJsonObject() {
         return new JsonObject()
@@ -55,11 +84,17 @@ public final class EBike extends AbstractBike implements Entity<EBikeDTO> {
                 .put(JsonFieldKey.EBIKE_BATTERY_KEY, this.batteryLevel);
     }
     
+    /**
+     * Converts this object to a JSON string.
+     */
     @Override
     public String toJsonString() {
         return this.toJsonObject().encode();
     }
     
+    /**
+     * Checks if this object is equal to another object.
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -68,6 +103,9 @@ public final class EBike extends AbstractBike implements Entity<EBikeDTO> {
         return Double.compare(this.getSpeed(), eBike.getSpeed()) == 0 && this.getBatteryLevel() == eBike.getBatteryLevel() && Objects.equals(this.getId(), eBike.getId()) && this.getState() == eBike.getState() && Objects.equals(this.getLocation(), eBike.getLocation()) && Objects.equals(this.getDirection(), eBike.getDirection());
     }
     
+    /**
+     * Returns the hash code of this object.
+     */
     @Override
     public int hashCode() {
         return Objects.hash(this.getId(), this.getState(), this.getLocation(), this.getDirection(), this.getSpeed(), this.getBatteryLevel());

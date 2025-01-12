@@ -10,33 +10,26 @@ import sap.ass02.infrastructure.KafkaEBikeServiceEventManagerVerticle;
 import sap.ass02.infrastructure.RESTEBikeServiceControllerVerticle;
 import sap.ass02.domain.application.BikeServiceVerticle;
 import sap.ass02.domain.application.ServiceVerticle;
-import sap.ass02.infrastructure.persistence.AbstractVerticleReadOnlyRepository;
-import sap.ass02.infrastructure.persistence.AbstractVerticleRepository;
-import sap.ass02.infrastructure.persistence.ReadOnlyRepositoryAdapter;
-import sap.ass02.infrastructure.persistence.local.LocalJsonQueryRepositoryAdapter;
 import sap.ass02.infrastructure.persistence.local.LocalJsonRepositoryAdaptor;
-import sap.ass02.infrastructure.persistence.mongo.MongoRepositoryAdapter;
-import sap.ass02.infrastructure.persistence.sql.SQLRepositoryAdapter;
+import sap.ddd.Repository;
 
 import java.util.Arrays;
 
 public class Main {
     private static final Logger LOGGER = LogManager.getLogger(Main.class);
     public static void main(String[] args) {
-        AbstractVerticleRepository readWriteRepository = new LocalJsonRepositoryAdaptor();
-//        AbstractVerticleRepository readWriteRepository = new MongoRepositoryAdapter();
-//        AbstractVerticleRepository readWriteRepository = new SQLRepositoryAdapter();
-        readWriteRepository.init();
-        
-        AbstractVerticleReadOnlyRepository readOnlyRepository = new ReadOnlyRepositoryAdapter(readWriteRepository);
+        Repository repository = new LocalJsonRepositoryAdaptor();
+//        Repository repository = new MongoRepositoryAdapter();
+//        Repository repository = new SQLRepositoryAdapter();
+        repository.init();
         
         ServiceVerticle service = new BikeServiceVerticle();
-        service.attachRepository(readWriteRepository);
+        service.attachRepository(repository);
         
         Controller controller = new RESTEBikeServiceControllerVerticle();
-        EventManager eventManager = new KafkaEBikeServiceEventManagerVerticle();
+        EventManager eventManager = new KafkaEBikeServiceEventManagerVerticle(service);
         
-        deployVerticles(controller, eventManager, readOnlyRepository, service);
+        deployVerticles(controller, eventManager, service);
         
         controller.attachService(service);
     }

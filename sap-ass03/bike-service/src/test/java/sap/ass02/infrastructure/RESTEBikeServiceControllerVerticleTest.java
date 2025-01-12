@@ -35,7 +35,7 @@ class RESTEBikeServiceControllerVerticleTest {
     @BeforeEach
     void setUp() throws IOException, InterruptedException {
         startProcess(new File("."), "docker-compose", "up");
-        Thread.sleep(2*MINUTE);
+        Thread.sleep(5*MINUTE);
         this.client = HttpClient.newHttpClient();
     }
     

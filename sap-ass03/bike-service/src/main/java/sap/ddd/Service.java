@@ -2,6 +2,9 @@ package sap.ddd;
 
 import sap.ass02.domain.EBike;
 
+/**
+ * Interface for services.
+ */
 public interface Service {
     /**
      * Adds an ebike to the repository
@@ -32,5 +35,5 @@ public interface Service {
      * Attach a repository to the service
      * @param repository the repository
      */
-    void attachRepository(ReadWriteRepository repository);
+    void attachRepository(Repository repository);
 }

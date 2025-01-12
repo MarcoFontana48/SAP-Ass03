@@ -5,8 +5,16 @@ import sap.ass02.domain.EBike;
 import sap.ass02.domain.P2d;
 import sap.ass02.domain.V2d;
 
+/**
+ * Utility class for DTOs
+ */
 public class DTOUtils {
     
+    /**
+     * Converts an ebike dto to an ebike
+     * @param ebikeDTO the ebike DTO
+     * @return the ebike
+     */
     public static EBike toEBike(EBikeDTO ebikeDTO) {
         EBike ebike = new EBike(ebikeDTO.id());
         ebike.updateState(AbstractBike.BikeState.valueOf(ebikeDTO.state().toString()));

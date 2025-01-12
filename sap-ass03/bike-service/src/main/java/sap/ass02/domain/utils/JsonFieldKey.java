@@ -1,5 +1,8 @@
 package sap.ass02.domain.utils;
 
+/**
+ * Utility class for JSON field keys
+ */
 public final class JsonFieldKey {
     /**
      * JSON keys for eBike

@@ -13,7 +13,8 @@ import sap.ass02.domain.dto.EBikeDTO;
 import sap.ass02.domain.dto.P2dDTO;
 import sap.ass02.domain.dto.V2dDTO;
 import sap.ass02.infrastructure.EndpointPath;
-import sap.ass02.infrastructure.persistence.AbstractVerticleRepository;
+import sap.ass02.infrastructure.persistence.properties.Connectable;
+import sap.ddd.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -29,11 +30,17 @@ import static sap.ass02.infrastructure.persistence.sql.SQLUpdates.UPDATE_EBIKE;
 import static sap.ass02.infrastructure.persistence.sql.SQLUtils.mySQLConnection;
 import static sap.ass02.infrastructure.persistence.sql.SQLUtils.prepareStatement;
 
-public abstract class AbstractSQLRepositoryAdapter extends AbstractVerticleRepository implements Connectable {
+/**
+ * Abstract class that provides a skeletal implementation of the {@link Repository} interface for SQL databases.
+ */
+public abstract class AbstractSQLRepositoryAdapter implements Connectable, Repository {
     private static final Logger LOGGER = LogManager.getLogger(AbstractSQLRepositoryAdapter.class);
     private Connection connection;
     private WebClient webClient;
     
+    /**
+     * Initializes the repository adapter by fetching the configuration from the config server and connecting to the SQL database.
+     */
     @Override
     public void init() {
         LOGGER.debug("Initializing SQLRepositoryAdapter...");
@@ -56,6 +63,12 @@ public abstract class AbstractSQLRepositoryAdapter extends AbstractVerticleRepos
         }).onFailure(err -> LOGGER.error("Failed to fetch configuration", err));
     }
     
+    /**
+     * Fetches the configuration from the given endpoint.
+     *
+     * @param endpoint the endpoint to fetch the configuration from
+     * @return a future that will be completed with the fetched configuration
+     */
     private Future<JsonObject> fetchConfigurationOnEndpoint(String endpoint) {
         return this.webClient.get(endpoint)
                 .as(BodyCodec.jsonObject())
@@ -69,12 +82,27 @@ public abstract class AbstractSQLRepositoryAdapter extends AbstractVerticleRepos
                 });
     }
     
+    /**
+     * Connects to the SQL database with the given arguments.
+     *
+     * @param host     the host of the SQL database
+     * @param port     the port of the SQL database
+     * @param database the name of the database
+     * @param username the username to connect to the database
+     * @param password the password to connect to the database
+     */
     @Override
     public void connect(String host, String port, String database, String username, String password) {
         LOGGER.trace("Connecting to MySQL database with arguments: host: {}, port: {}, dbName: {}, dbUsername: {}, dbPassword: {}", host, port, database, username, password);
         this.connection = mySQLConnection(host, port, database, username, password);
     }
     
+    /**
+     * Inserts an ebike into the SQL database.
+     *
+     * @param eBike the ebike to insert
+     * @return true if the ebike was inserted successfully, false otherwise
+     */
     @Override
     public boolean insertEbike(EBikeDTO eBike) {
         LOGGER.trace("Preparing statement to insert ebike '{}' to SQL database", eBike);
@@ -98,6 +126,12 @@ public abstract class AbstractSQLRepositoryAdapter extends AbstractVerticleRepos
         return true;
     }
     
+    /**
+     * Updates an ebike in the SQL database.
+     *
+     * @param ebike the ebike to update
+     * @return true if the ebike was updated successfully, false otherwise
+     */
     @Override
     public boolean updateEBike(EBikeDTO ebike) {
         LOGGER.trace("Preparing statement to update ebike: '{}' in SQL database", ebike);
@@ -120,6 +154,12 @@ public abstract class AbstractSQLRepositoryAdapter extends AbstractVerticleRepos
         return true;
     }
     
+    /**
+     * Retrieves an ebike from the SQL database by its id.
+     *
+     * @param ebikeId the id of the ebike to retrieve
+     * @return an optional containing the retrieved ebike if it exists, an empty optional otherwise
+     */
     @Override
     public Optional<EBikeDTO> getEbikeById(final String ebikeId) {
         LOGGER.trace("Preparing statement to retrieve ebike with id: '{}' from SQL database", ebikeId);
@@ -150,6 +190,11 @@ public abstract class AbstractSQLRepositoryAdapter extends AbstractVerticleRepos
         }
     }
     
+    /**
+     * Retrieves all ebikes from the SQL database.
+     *
+     * @return an iterable containing all the retrieved ebikes
+     */
     @Override
     public Iterable<EBikeDTO> getAllEBikes() {
         LOGGER.trace("Preparing statement to retrieve all ebikes from SQL database");

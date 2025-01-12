@@ -8,16 +8,39 @@ import sap.ddd.Entity;
 
 import java.util.Objects;
 
+/**
+ * Represents an agent bike.
+ */
 public final class ABike extends AbstractBike implements Entity<ABikeDTO> {
     
+    /**
+     * Creates a new agent bike.
+     *
+     * @param id the id of the bike
+     */
     public ABike(String id) {
         super(id);
     }
 
+    /**
+     * Creates a new agent bike.
+     *
+     * @param id the id of the bike
+     * @param state the state of the bike
+     * @param location the location of the bike
+     * @param direction the direction of the bike
+     * @param speed the speed of the bike
+     * @param batteryLevel the battery level of the bike
+     */
     public ABike(String id, BikeState state, P2d location, V2d direction, double speed, int batteryLevel) {
         super(id, state, location, direction, speed, batteryLevel);
     }
     
+    /**
+     * Creates a new agent bike from a JSON object.
+     *
+     * @param asJsonObject the JSON object
+     */
     public ABike(JsonObject asJsonObject) {
         this(
                 asJsonObject.getString(JsonFieldKey.ABIKE_ID_KEY),
@@ -29,6 +52,9 @@ public final class ABike extends AbstractBike implements Entity<ABikeDTO> {
         );
     }
     
+    /**
+     * Creates a new agent bike from a DTO.
+     */
     @Override
     public ABikeDTO toDTO() {
         return new ABikeDTO(
@@ -41,6 +67,11 @@ public final class ABike extends AbstractBike implements Entity<ABikeDTO> {
         );
     }
     
+    /**
+     * Converts the bike to a JSON object.
+     *
+     * @return the JSON object
+     */
     @Override
     public JsonObject toJsonObject() {
         return new JsonObject()
@@ -54,11 +85,21 @@ public final class ABike extends AbstractBike implements Entity<ABikeDTO> {
                 .put(JsonFieldKey.ABIKE_BATTERY_KEY, this.batteryLevel);
     }
     
+    /**
+     * Converts the bike to a JSON string.
+     *
+     * @return the JSON string
+     */
     @Override
     public String toJsonString() {
         return this.toJsonObject().encode();
     }
     
+    /**
+     * Converts the bike to a string.
+     *
+     * @return the string representation of the bike
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -67,6 +108,11 @@ public final class ABike extends AbstractBike implements Entity<ABikeDTO> {
         return Double.compare(this.getSpeed(), eBike.getSpeed()) == 0 && this.getBatteryLevel() == eBike.getBatteryLevel() && Objects.equals(this.getId(), eBike.getId()) && this.getState() == eBike.getState() && Objects.equals(this.getLocation(), eBike.getLocation()) && Objects.equals(this.getDirection(), eBike.getDirection());
     }
     
+    /**
+     * Returns the hash code of the bike.
+     *
+     * @return the hash code
+     */
     @Override
     public int hashCode() {
         return Objects.hash(this.getId(), this.getState(), this.getLocation(), this.getDirection(), this.getSpeed(), this.getBatteryLevel());

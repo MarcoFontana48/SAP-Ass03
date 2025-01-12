@@ -4,16 +4,63 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c36b0785-90ba-474f-8b00-43f3f30ac046" name="Changes" comment="feat: add custom user location to be declare the moment the user is created">
+    <list default="true" id="c36b0785-90ba-474f-8b00-43f3f30ac046" name="Changes" comment="fix(admin-ui): fix BikeState type in tests">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sap-ass03/admin-ui/src/test/java/sap/ass02/infrastructure/presentation/controller/property/StandardClientRequestTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/admin-ui/src/test/java/sap/ass02/infrastructure/presentation/controller/property/StandardClientRequestTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/bike-service/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/bike-service/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/domain/ABike.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/domain/ABike.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/domain/AbstractBike.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/domain/AbstractBike.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/domain/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/domain/Controller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/domain/EBike.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/domain/EBike.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/domain/EventManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/domain/EventManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/domain/P2d.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/domain/P2d.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/domain/V2d.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/domain/V2d.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/domain/application/BikeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/domain/application/BikeService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/domain/application/BikeServiceVerticle.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/domain/application/BikeServiceVerticle.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/domain/application/ServiceVerticle.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/domain/application/ServiceVerticle.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/domain/dto/ABikeDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/domain/dto/ABikeDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/domain/dto/BikeStateDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/domain/dto/BikeStateDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/domain/dto/DTOUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/domain/dto/DTOUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/domain/dto/EBikeDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/domain/dto/EBikeDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/domain/dto/P2dDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/domain/dto/P2dDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/domain/dto/V2dDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/domain/dto/V2dDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/domain/property/Jsonifyable.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/domain/property/Jsonifyable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/domain/utils/JsonFieldKey.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/domain/utils/JsonFieldKey.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/domain/utils/JsonUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/domain/utils/JsonUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/infrastructure/EndpointPath.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/infrastructure/EndpointPath.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/infrastructure/KafkaEBikeServiceEventManagerVerticle.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/infrastructure/KafkaEBikeServiceEventManagerVerticle.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/infrastructure/RESTEBikeServiceControllerVerticle.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/infrastructure/RESTEBikeServiceControllerVerticle.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/infrastructure/persistence/AbstractVerticleReadOnlyRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/infrastructure/persistence/AbstractVerticleRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/infrastructure/persistence/ReadOnlyRepositoryAdapter.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/infrastructure/persistence/local/AbstractLocalJsonRepositoryAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/infrastructure/persistence/local/AbstractLocalJsonRepositoryAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sap-ass03/bike-service/src/test/java/sap/ass02/domain/entity/EBikeTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/bike-service/src/test/java/sap/ass02/domain/entity/EBikeTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/infrastructure/persistence/local/LocalJsonQueryRepositoryAdapter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/infrastructure/persistence/local/LocalJsonRepositoryAdaptor.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/infrastructure/persistence/local/LocalJsonRepositoryAdaptor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/infrastructure/persistence/mongo/AbstractMongoRepositoryAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/infrastructure/persistence/mongo/AbstractMongoRepositoryAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/infrastructure/persistence/mongo/MongoQueryRepositoryAdapter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/infrastructure/persistence/mongo/MongoRepositoryAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/infrastructure/persistence/mongo/MongoRepositoryAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/infrastructure/persistence/properties/Connectable.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/infrastructure/persistence/properties/Connectable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/infrastructure/persistence/sql/AbstractSQLRepositoryAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/infrastructure/persistence/sql/AbstractSQLRepositoryAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/infrastructure/persistence/sql/Connectable.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/infrastructure/persistence/sql/SQLQueryRepositoryAdapter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/infrastructure/persistence/sql/SQLRepositoryAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/infrastructure/persistence/sql/SQLRepositoryAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/infrastructure/persistence/sql/SQLStatement.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/infrastructure/persistence/sql/SQLStatement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/infrastructure/persistence/sql/SQLUpdates.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/infrastructure/persistence/sql/SQLUpdates.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/infrastructure/persistence/sql/SQLUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/infrastructure/persistence/sql/SQLUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/infrastructure/persistence/utils/EBikeDTOJsonSerializer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/infrastructure/utils/PerformanceMeasurer.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/infrastructure/utils/PerformanceMeasurer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/infrastructure/utils/PrometheusPerformanceMeasurer.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/infrastructure/utils/PrometheusPerformanceMeasurer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/infrastructure/utils/PrometheusRequestsCounter.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/infrastructure/utils/PrometheusRequestsCounter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/infrastructure/utils/RequestsCounter.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ass02/infrastructure/utils/RequestsCounter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ddd/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ddd/Entity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ddd/ReadOnlyRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ddd/ReadWriteRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ddd/Repository.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ddd/Repository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ddd/Service.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ddd/Service.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ddd/ValueObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/bike-service/src/main/java/sap/ddd/ValueObject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/bike-service/src/test/java/sap/ass02/infrastructure/EBikeServiceComponentTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/bike-service/src/test/java/sap/ass02/infrastructure/EBikeServiceComponentTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sap-ass03/bike-service/src/test/java/sap/ass02/infrastructure/RESTEBikeServiceControllerVerticleTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/bike-service/src/test/java/sap/ass02/infrastructure/RESTEBikeServiceControllerVerticleTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/bike-service/src/test/java/sap/ass02/infrastructure/persistence/local/LocalJsonRepositoryAdapterTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/bike-service/src/test/java/sap/ass02/infrastructure/persistence/local/LocalJsonRepositoryAdapterTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,6 +133,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Application.AdminClient.executor": "Run",
+    "Application.Main.executor": "Run",
     "Application.UserClient.executor": "Run",
     "JUnit.All in admin-ui (1).executor": "Run",
     "JUnit.All in admin-ui.executor": "Run",
@@ -107,6 +155,8 @@
     "JUnit.LocalJsonRepositoryAdapterTest.executor": "Run",
     "JUnit.MongoRepositoryAdapterTest.executor": "Run",
     "JUnit.MongoRepositoryAdapterTest.retrievesRideCorrectly.executor": "Run",
+    "JUnit.RESTEBikeServiceControllerVerticleTest.executor": "Run",
+    "JUnit.RESTEBikeServiceControllerVerticleTest.insertsEBikeCorrectly.executor": "Run",
     "JUnit.RESTEBikeServiceControllerVerticleTest.retrievesMultipleEBikesCorrectly.executor": "Run",
     "JUnit.RESTEBikeServiceControllerVerticleTest.retrievesSingleEBikeCorrectly.executor": "Run",
     "JUnit.RESTEBikeServiceControllerVerticleTest.updatesEBikeBatteryCorrectly.executor": "Run",
@@ -180,15 +230,33 @@
     </key>
   </component>
   <component name="RunManager" selected="JUnit.java in bike-service">
-    <configuration name="All in bike-service (1)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="bike-service" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="TEST_OBJECT" value="package" />
+    <configuration name="AdminClient" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="sap.ass02.infrastructure.AdminClient" />
+      <module name="admin-ui" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="sap.ass02.infrastructure.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="RESTEBikeServiceControllerVerticleTest.retrievesMultipleEBikesCorrectly" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="sap.ass02.Main" />
+      <module name="bike-service" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="sap.ass02.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RESTEBikeServiceControllerVerticleTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="bike-service" />
       <extension name="coverage">
         <pattern>
@@ -198,13 +266,12 @@
       </extension>
       <option name="PACKAGE_NAME" value="sap.ass02.infrastructure" />
       <option name="MAIN_CLASS_NAME" value="sap.ass02.infrastructure.RESTEBikeServiceControllerVerticleTest" />
-      <option name="METHOD_NAME" value="retrievesMultipleEBikesCorrectly" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="RESTEBikeServiceControllerVerticleTest.retrievesSingleEBikeCorrectly" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="RESTEBikeServiceControllerVerticleTest.insertsEBikeCorrectly" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="bike-service" />
       <extension name="coverage">
         <pattern>
@@ -214,23 +281,7 @@
       </extension>
       <option name="PACKAGE_NAME" value="sap.ass02.infrastructure" />
       <option name="MAIN_CLASS_NAME" value="sap.ass02.infrastructure.RESTEBikeServiceControllerVerticleTest" />
-      <option name="METHOD_NAME" value="retrievesSingleEBikeCorrectly" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="RESTEBikeServiceControllerVerticleTest.updatesEBikeBatteryCorrectly" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="bike-service" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="sap.ass02.infrastructure.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="sap.ass02.infrastructure" />
-      <option name="MAIN_CLASS_NAME" value="sap.ass02.infrastructure.RESTEBikeServiceControllerVerticleTest" />
-      <option name="METHOD_NAME" value="updatesEBikeBatteryCorrectly" />
+      <option name="METHOD_NAME" value="insertsEBikeCorrectly" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -254,10 +305,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.java in bike-service" />
-        <item itemvalue="JUnit.RESTEBikeServiceControllerVerticleTest.updatesEBikeBatteryCorrectly" />
-        <item itemvalue="JUnit.RESTEBikeServiceControllerVerticleTest.retrievesMultipleEBikesCorrectly" />
-        <item itemvalue="JUnit.RESTEBikeServiceControllerVerticleTest.retrievesSingleEBikeCorrectly" />
-        <item itemvalue="JUnit.All in bike-service (1)" />
+        <item itemvalue="JUnit.RESTEBikeServiceControllerVerticleTest.insertsEBikeCorrectly" />
+        <item itemvalue="JUnit.RESTEBikeServiceControllerVerticleTest" />
+        <item itemvalue="Application.AdminClient" />
+        <item itemvalue="Application.Main" />
       </list>
     </recent_temporary>
   </component>
@@ -306,7 +357,7 @@
       <workItem from="1736519830814" duration="1709000" />
       <workItem from="1736580316156" duration="20000" />
       <workItem from="1736593501707" duration="6438000" />
-      <workItem from="1736665710579" duration="24982000" />
+      <workItem from="1736665710579" duration="33124000" />
     </task>
     <task id="LOCAL-00001" summary="uploaded ass-02 refactorized to jvm21">
       <option name="closed" value="true" />
@@ -636,15 +687,29 @@
       <option name="project" value="LOCAL" />
       <updated>1736680174224</updated>
     </task>
-    <option name="localTasksCounter" value="42" />
+    <task id="LOCAL-00042" summary="fix(bike-service): fix verticle service to correctly use standard service">
+      <option name="closed" value="true" />
+      <created>1736696509300</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1736696509300</updated>
+    </task>
+    <task id="LOCAL-00043" summary="fix(admin-ui): fix BikeState type in tests">
+      <option name="closed" value="true" />
+      <created>1736696535169</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1736696535169</updated>
+    </task>
+    <option name="localTasksCounter" value="44" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="docs(admin-ui): fix documentation of controller's AbstractAdminController" />
-    <MESSAGE value="docs(admin-ui): add documentation of listener classes" />
     <MESSAGE value="docs(admin-ui): add documentation of admin view classes" />
     <MESSAGE value="docs(admin-ui): add documentation of admin view dialog classes" />
     <MESSAGE value="docs(admin-ui): add documentation of admin view property classes" />
@@ -668,7 +733,9 @@
     <MESSAGE value="refactor: add initial user location logic" />
     <MESSAGE value="feat: add abike reaches user when requested" />
     <MESSAGE value="feat: add custom user location to be declare the moment the user is created" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: add custom user location to be declare the moment the user is created" />
+    <MESSAGE value="fix(bike-service): fix verticle service to correctly use standard service" />
+    <MESSAGE value="fix(admin-ui): fix BikeState type in tests" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix(admin-ui): fix BikeState type in tests" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

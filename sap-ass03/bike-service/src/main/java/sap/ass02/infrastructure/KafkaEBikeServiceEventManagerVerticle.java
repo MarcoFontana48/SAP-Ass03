@@ -7,7 +7,9 @@ import io.vertx.kafka.client.producer.KafkaProducer;
 import io.vertx.kafka.client.producer.KafkaProducerRecord;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import sap.ass02.domain.EBike;
 import sap.ass02.domain.EventManager;
+import sap.ddd.Service;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,9 +18,12 @@ import java.util.UUID;
 public final class KafkaEBikeServiceEventManagerVerticle extends AbstractVerticle implements EventManager {
     private static final Logger LOGGER = LogManager.getLogger(KafkaEBikeServiceEventManagerVerticle.class);
     Map<String, String> consumerConfig = new HashMap<>();
-    Map<String, String> producerConfig = new HashMap<>();
     KafkaConsumer<String, String> consumer;
-    KafkaProducer<String, String> producer;
+    private final Service service;
+    
+    public KafkaEBikeServiceEventManagerVerticle(Service service) {
+        this.service = service;
+    }
     
     @Override
     public void start() {
@@ -29,13 +34,7 @@ public final class KafkaEBikeServiceEventManagerVerticle extends AbstractVerticl
         this.consumerConfig.put("client.id", "ebike-bike-consumer-" + UUID.randomUUID());
         this.consumerConfig.put("auto.offset.reset", "earliest");
         
-        this.producerConfig.put("bootstrap.servers", "kafka:9092");
-        this.producerConfig.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-        this.producerConfig.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-        this.producerConfig.put("acks", "1");
-        
         this.consumer = KafkaConsumer.create(this.vertx, this.consumerConfig);
-        this.producer = KafkaProducer.create(this.vertx, this.producerConfig);
         
         this.consumer.subscribe("bike-service", ar -> {
             if (ar.succeeded()) {
@@ -49,21 +48,11 @@ public final class KafkaEBikeServiceEventManagerVerticle extends AbstractVerticl
             LOGGER.trace("Received record from kafka: '{}' with topic: '{}', k={}, v={}", record, record.topic(), record.key(), record.value());
             if ("bike-service".equals(record.topic())) {
                 if ("ebike-update".equals(record.key())) {
-                    JsonObject ebikeJsonObject = new JsonObject(record.value());
-                    LOGGER.trace("Sending event ebike-update to vertx event bus: {}", ebikeJsonObject);
-                    this.vertx.eventBus().publish("ebike-update", ebikeJsonObject);
-                    this.producer.write(KafkaProducerRecord.create("client", "client-ebike-update", ebikeJsonObject.encode()));
+                    this.service.updateEBike(new EBike(new JsonObject(record.value())));
                 } else {
                     LOGGER.error("Unknown record key: '{}'", record.key());
                 }
             }
-        });
-        
-        this.vertx.eventBus().consumer("insert-ebike", message -> {
-            LOGGER.trace("Received message from event bus: '{}'", message.body());
-            JsonObject ebikeJsonObject = new JsonObject(message.body().toString());
-            this.producer.write(KafkaProducerRecord.create("client", "client-insert-ebike", ebikeJsonObject.encode()));
-            this.producer.write(KafkaProducerRecord.create("bike-service", "insert-ebike", ebikeJsonObject.encode()));
         });
     }
 }

@@ -1,5 +1,8 @@
 package sap.ass02.infrastructure;
 
+/**
+ * Class to store the endpoint paths.
+ */
 public final class EndpointPath {
     public static final String EBIKE = "/app/ebike/*";
     public static final String HEALTH_CHECK = "/health";

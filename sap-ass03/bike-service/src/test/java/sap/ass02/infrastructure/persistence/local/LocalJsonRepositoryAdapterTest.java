@@ -11,7 +11,7 @@ import sap.ass02.domain.dto.BikeStateDTO;
 import sap.ass02.domain.dto.EBikeDTO;
 import sap.ass02.domain.dto.P2dDTO;
 import sap.ass02.domain.dto.V2dDTO;
-import sap.ddd.ReadWriteRepository;
+import sap.ddd.Repository;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,7 +27,7 @@ class LocalJsonRepositoryAdapterTest {
     private final String databaseFileName = "database";
     private final String databaseEbikeFileName = "ebike";
     private final String testEbikeId = "test_ebike";
-    private ReadWriteRepository repo;
+    private Repository repo;
     
     @BeforeEach
     void setUp() {
