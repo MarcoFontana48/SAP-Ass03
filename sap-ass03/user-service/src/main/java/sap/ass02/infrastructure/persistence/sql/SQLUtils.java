@@ -8,6 +8,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+/**
+ * Utility class for SQL operations.
+ */
 public final class SQLUtils {
     private static final Logger LOGGER = LogManager.getLogger(SQLUtils.class);
     

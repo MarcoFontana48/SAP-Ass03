@@ -26,6 +26,9 @@ import sap.ass02.infrastructure.utils.RequestsCounter;
 import java.io.IOException;
 import java.io.StringWriter;
 
+/**
+ * REST controller for the user service.
+ */
 public final class RESTUserServiceControllerVerticle extends AbstractVerticle implements Controller {
     private static final Logger LOGGER = LogManager.getLogger(RESTUserServiceControllerVerticle.class);
     private static final int HTTP_PORT = 8080;

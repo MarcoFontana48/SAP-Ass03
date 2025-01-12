@@ -1,5 +1,8 @@
 package sap.ass02.infrastructure;
 
+/**
+ * Endpoint paths.
+ */
 public final class EndpointPath {
     public static final String USER = "/app/user/*";
     public static final String HEALTH_CHECK = "/health";

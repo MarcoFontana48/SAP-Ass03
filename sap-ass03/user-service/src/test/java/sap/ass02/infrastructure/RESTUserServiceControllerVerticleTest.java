@@ -39,7 +39,7 @@ class RESTUserServiceControllerVerticleTest {
     @BeforeEach
     void setUp() throws IOException, InterruptedException {
         startProcess(new File("."), "docker-compose", "up");
-        Thread.sleep(MINUTE);   // cannot use process.waitFor() because it would block the thread indefinitely
+        Thread.sleep(5*MINUTE);
         this.client = HttpClient.newHttpClient();
     }
     

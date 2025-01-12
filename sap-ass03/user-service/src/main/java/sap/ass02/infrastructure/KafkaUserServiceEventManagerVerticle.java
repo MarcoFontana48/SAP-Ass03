@@ -8,17 +8,28 @@ import io.vertx.kafka.client.producer.KafkaProducerRecord;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import sap.ass02.domain.EventManager;
+import sap.ass02.domain.User;
+import sap.ass02.domain.application.ServiceVerticle;
+import sap.ass02.domain.application.UserService;
+import sap.ass02.domain.utils.JsonFieldKey;
+import sap.ddd.Service;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * Kafka event manager for user service.
+ */
 public class KafkaUserServiceEventManagerVerticle extends AbstractVerticle implements EventManager {
     private static final Logger LOGGER = LogManager.getLogger(KafkaUserServiceEventManagerVerticle.class);
     Map<String, String> consumerConfig = new HashMap<>();
-    Map<String, String> producerConfig = new HashMap<>();
     KafkaConsumer<String, String> consumer;
-    KafkaProducer<String, String> producer;
+    private ServiceVerticle service;
+    
+    public KafkaUserServiceEventManagerVerticle(ServiceVerticle service) {
+        this.service = service;
+    }
     
     @Override
     public void start() {
@@ -29,13 +40,7 @@ public class KafkaUserServiceEventManagerVerticle extends AbstractVerticle imple
         this.consumerConfig.put("client.id", "ebike-user-consumer-" + UUID.randomUUID());
         this.consumerConfig.put("auto.offset.reset", "earliest");
         
-        this.producerConfig.put("bootstrap.servers", "kafka:9092");
-        this.producerConfig.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-        this.producerConfig.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-        this.producerConfig.put("acks", "1");
-        
         this.consumer = KafkaConsumer.create(this.vertx, this.consumerConfig);
-        this.producer = KafkaProducer.create(this.vertx, this.producerConfig);
         
         this.consumer.subscribe("user-service", ar -> {
             if (ar.succeeded()) {
@@ -49,21 +54,12 @@ public class KafkaUserServiceEventManagerVerticle extends AbstractVerticle imple
             LOGGER.trace("Received record from kafka: '{}' with topic: '{}', k={}, v={}", record, record.topic(), record.key(), record.value());
             if ("user-service".equals(record.topic())) {
                 if ("user-update".equals(record.key())) {
-                    JsonObject userJsonObject = new JsonObject(record.value());
-                    LOGGER.trace("Sending event user-update to vertx event bus: {}", userJsonObject);
-                    this.vertx.eventBus().publish("user-update", userJsonObject);
-                    this.producer.write(KafkaProducerRecord.create("client", "client-user-update", userJsonObject.encode()));
+                    JsonObject entries = new JsonObject(record.value());
+                    this.service.updateUserCredits(entries.getString(JsonFieldKey.USER_ID_KEY), entries.getInteger(JsonFieldKey.USER_CREDIT_KEY));
                 } else {
                     LOGGER.error("Unknown record key: '{}'", record.key());
                 }
             }
-        });
-        
-        this.vertx.eventBus().consumer("insert-user", message -> {
-            LOGGER.trace("Received message from event bus: '{}'", message.body());
-            JsonObject userJsonObject = new JsonObject(message.body().toString());
-            this.producer.write(KafkaProducerRecord.create("client", "client-insert-user", userJsonObject.encode()));
-            this.producer.write(KafkaProducerRecord.create("user-service", "insert-user", userJsonObject.encode()));
         });
     }
 }

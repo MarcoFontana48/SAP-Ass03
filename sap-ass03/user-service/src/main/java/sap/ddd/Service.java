@@ -9,6 +9,14 @@ public interface Service {
      * @param credits the user credits
      */
     boolean addUser(final String userId, final int credits);
+    
+    /**
+     * Add a user to the repository
+     * @param userId the user id
+     * @param credits the user credits
+     * @param xLocation the x location
+     * @param yLocation the y location
+     */
     boolean addUser(final String userId, final int credits, final double xLocation, final double yLocation);
     
     /**
@@ -35,5 +43,5 @@ public interface Service {
      * Attach a repository to the service
      * @param repository the repository
      */
-    void attachRepository(ReadWriteRepository repository);
+    void attachRepository(Repository repository);
 }

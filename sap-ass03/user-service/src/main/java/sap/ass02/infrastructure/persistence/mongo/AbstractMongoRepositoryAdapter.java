@@ -15,19 +15,26 @@ import org.apache.logging.log4j.Logger;
 import org.bson.Document;
 import sap.ass02.domain.dto.UserDTO;
 import sap.ass02.infrastructure.EndpointPath;
-import sap.ass02.infrastructure.persistence.AbstractVerticleRepository;
 import sap.ass02.infrastructure.persistence.properties.Connectable;
+import sap.ddd.Repository;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static com.mongodb.client.model.Filters.eq;
 
-public abstract class AbstractMongoRepositoryAdapter extends AbstractVerticleRepository implements Connectable {
+/**
+ * Abstract class for MongoDB repository adapters.
+ */
+public abstract class AbstractMongoRepositoryAdapter implements Connectable, Repository {
     private static final Logger LOGGER = LogManager.getLogger(AbstractMongoRepositoryAdapter.class);
     private MongoCollection<Document> userCollection;
     private WebClient webClient;
     
+    /**
+     * Initializes the repository adapter.
+     */
     @Override
     public void init() {
         LOGGER.debug("Initializing AbstractMongoRepositoryAdapter...");
@@ -50,6 +57,12 @@ public abstract class AbstractMongoRepositoryAdapter extends AbstractVerticleRep
         }).onFailure(err -> LOGGER.error("Failed to fetch configuration", err));
     }
     
+    /**
+     * Fetches the configuration from the given endpoint.
+     *
+     * @param endpoint the endpoint to fetch the configuration from
+     * @return a future with the fetched configuration
+     */
     private Future<JsonObject> fetchConfigurationOnEndpoint(String endpoint) {
         return this.webClient.get(endpoint)
                 .as(BodyCodec.jsonObject())
@@ -63,6 +76,15 @@ public abstract class AbstractMongoRepositoryAdapter extends AbstractVerticleRep
                 });
     }
     
+    /**
+     * Connects to the MongoDB database.
+     *
+     * @param host the host
+     * @param port the port
+     * @param database the database name
+     * @param username the username
+     * @param password the password
+     */
     @Override
     public void connect(String host, String port, String database, String username, String password) {
         LOGGER.trace("Connecting to MongoDB database with arguments: host: {}, port: {}, dbName: {}, dbUsername: {}, dbPassword: {}", host, port, database, username, password);
@@ -72,25 +94,46 @@ public abstract class AbstractMongoRepositoryAdapter extends AbstractVerticleRep
         LOGGER.debug("{} initialized", this.getClass().getSimpleName());
     }
     
+    /**
+     * Inserts a user into the MongoDB database.
+     *
+     * @param user the user to insert
+     * @return true if the user was inserted, false otherwise
+     */
     @Override
     public boolean insertUser(final UserDTO user) {
         LOGGER.trace("Preparing document to insert user '{}' to MongoDB database", user);
         Document userDoc = new Document("id", user.id())
-                .append("credit", user.credit());
+                .append("credit", user.credit())
+                .append("x_location", user.xLocation())
+                .append("y_location", user.yLocation());
         LOGGER.trace("Document prepared: '{}'", userDoc.toJson());
         this.userCollection.insertOne(userDoc);
         LOGGER.trace("User inserted: '{}'", user);
         return true;
     }
     
+    /**
+     * Updates a user's credits in the MongoDB database.
+     *
+     * @param userID the user's ID
+     * @param credits the new credits
+     * @return true if the user's credits were updated, false otherwise
+     */
     @Override
     public boolean updateUserCredits(String userID, int credits) {
         LOGGER.trace("Preparing document to update user '{}' credits in MongoDB database", userID);
-        this.userCollection.updateOne(eq("id", userID), new Document("$set", new Document("credit", credits)));
+        this.userCollection.updateMany(eq("id", userID), new Document("mod", List.of(new Document("credit", credits), new Document("x_location", 0.0), new Document("y_location", 0.0))));
         LOGGER.trace("User credits updated: '{}'", userID);
         return true;
     }
     
+    /**
+     * Retrieves a user from the MongoDB database.
+     *
+     * @param userId the user's ID
+     * @return the user if found, empty otherwise
+     */
     @Override
     public Optional<UserDTO> getUserById(final String userId) {
         LOGGER.trace("Preparing query to retrieve user with id: '{}' from MongoDB database", userId);
@@ -105,6 +148,11 @@ public abstract class AbstractMongoRepositoryAdapter extends AbstractVerticleRep
         }
     }
     
+    /**
+     * Retrieves all users from the MongoDB database.
+     *
+     * @return all users
+     */
     @Override
     public Iterable<UserDTO> getAllUsers() {
         LOGGER.trace("Preparing query to retrieve all users from MongoDB database");

@@ -62,7 +62,7 @@ class UserTest {
     void convertsToJSON() {
         User user = new User("id", 10);
         String json = user.toJsonString();
-        assertEquals("{\"" + JsonFieldKey.USER_ID_KEY + "\":\"id\",\"" + JsonFieldKey.USER_CREDIT_KEY + "\":10}", json);
+        assertEquals("{\"user_id\":\"id\",\"credit\":10,\"x_location\":0.0,\"y_location\":0.0}", json);
     }
     
     @Test

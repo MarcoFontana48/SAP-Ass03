@@ -74,11 +74,11 @@ class MongoRepositoryAdapterTest {
         this.repository.insertUser(userDTO);
         var updatedUser = new UserDTO("1", 50, 0, 0);
         this.repository.updateUserCredits(updatedUser.id(), updatedUser.credit());
-        Optional<UserDTO> ebikeById = this.repository.getUserById("1");
+        Optional<UserDTO> userAfterUpdate = this.repository.getUserById("1");
         assertAll(
-                () -> assertTrue(ebikeById.isPresent()),
-                () -> assertEquals(updatedUser.id(), ebikeById.get().id()),
-                () -> assertEquals(updatedUser.credit(), ebikeById.get().credit())
+                () -> assertTrue(userAfterUpdate.isPresent()),
+                () -> assertEquals(updatedUser.id(), userAfterUpdate.get().id()),
+                () -> assertEquals(updatedUser.credit(), userAfterUpdate.get().credit())
         );
     }
     
@@ -108,5 +108,4 @@ class MongoRepositoryAdapterTest {
                 .directory(workDir)
                 .start();
     }
-    
 }

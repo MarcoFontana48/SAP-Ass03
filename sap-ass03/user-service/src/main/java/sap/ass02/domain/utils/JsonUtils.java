@@ -3,6 +3,9 @@ package sap.ass02.domain.utils;
 import io.vertx.core.json.JsonObject;
 import sap.ass02.domain.User;
 
+/**
+ * Utility class for JSON operations.
+ */
 public final class JsonUtils {
     public static JsonObject fromUserToJsonObject(User user) {
         return new JsonObject()

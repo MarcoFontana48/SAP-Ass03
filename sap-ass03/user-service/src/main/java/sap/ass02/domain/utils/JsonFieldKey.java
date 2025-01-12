@@ -1,5 +1,8 @@
 package sap.ass02.domain.utils;
 
+/**
+ * Class that contains all the keys for the json fields
+ */
 public final class JsonFieldKey {
     /**
      * User's json id key

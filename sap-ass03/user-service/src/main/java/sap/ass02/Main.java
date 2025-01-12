@@ -10,33 +10,26 @@ import sap.ass02.domain.EventManager;
 import sap.ass02.infrastructure.KafkaUserServiceEventManagerVerticle;
 import sap.ass02.infrastructure.RESTUserServiceControllerVerticle;
 import sap.ass02.domain.application.UserServiceVerticle;
-import sap.ass02.infrastructure.persistence.AbstractVerticleReadOnlyRepository;
-import sap.ass02.infrastructure.persistence.AbstractVerticleRepository;
-import sap.ass02.infrastructure.persistence.ReadOnlyRepositoryAdapter;
-import sap.ass02.infrastructure.persistence.local.LocalJsonQueryRepositoryAdapter;
 import sap.ass02.infrastructure.persistence.local.LocalJsonRepositoryAdapter;
-import sap.ass02.infrastructure.persistence.mongo.MongoRepositoryAdapter;
-import sap.ass02.infrastructure.persistence.sql.SQLRepositoryAdapter;
+import sap.ddd.Repository;
 
 import java.util.Arrays;
 
 public final class Main {
     private static final Logger LOGGER = LogManager.getLogger(Main.class);
     public static void main(String[] args) {
-        AbstractVerticleRepository readWriteRepository = new LocalJsonRepositoryAdapter();
-//        AbstractVerticleRepository readWriteRepository = new MongoRepositoryAdapter();
-//        AbstractVerticleRepository readWriteRepository = new SQLRepositoryAdapter();
-        readWriteRepository.init();
-        
-        AbstractVerticleReadOnlyRepository readOnlyRepository = new ReadOnlyRepositoryAdapter(readWriteRepository);
+        Repository repository = new LocalJsonRepositoryAdapter();
+//        Repository repository = new MongoRepositoryAdapter();
+//        Repository repository = new SQLRepositoryAdapter();
+        repository.init();
         
         ServiceVerticle service = new UserServiceVerticle();
-        service.attachRepository(readWriteRepository);
+        service.attachRepository(repository);
         
         Controller controller = new RESTUserServiceControllerVerticle();
-        EventManager eventManager = new KafkaUserServiceEventManagerVerticle();
+        EventManager eventManager = new KafkaUserServiceEventManagerVerticle(service);
         
-        deployVerticles(controller, eventManager, readOnlyRepository, service);
+        deployVerticles(controller, eventManager, service);
         
         controller.attachService(service);
     }

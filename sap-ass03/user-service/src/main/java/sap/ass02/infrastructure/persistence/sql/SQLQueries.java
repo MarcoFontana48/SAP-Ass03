@@ -1,5 +1,8 @@
 package sap.ass02.infrastructure.persistence.sql;
 
+/**
+ * Interface for SQL statements.
+ */
 public final class SQLQueries implements SQLStatement {
     public static final String SELECT_USER_BY_ID =
             """

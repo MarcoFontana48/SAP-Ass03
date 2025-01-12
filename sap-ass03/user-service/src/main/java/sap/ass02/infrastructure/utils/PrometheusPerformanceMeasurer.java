@@ -2,6 +2,9 @@ package sap.ass02.infrastructure.utils;
 
 import io.prometheus.client.Histogram;
 
+/**
+ * Performance measurer using Prometheus.
+ */
 public class PrometheusPerformanceMeasurer implements PerformanceMeasurer<Histogram.Timer> {
     private static final Histogram REQUESTS_LATENCY_SECONDS = Histogram.build()
             .name("requests_latency_seconds")

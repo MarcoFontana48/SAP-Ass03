@@ -10,8 +10,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import sap.ass02.domain.dto.UserDTO;
 import sap.ass02.infrastructure.EndpointPath;
-import sap.ass02.infrastructure.persistence.AbstractVerticleRepository;
 import sap.ass02.infrastructure.persistence.properties.Connectable;
+import sap.ddd.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -27,11 +27,17 @@ import static sap.ass02.infrastructure.persistence.sql.SQLUpdates.SET_CREDITS;
 import static sap.ass02.infrastructure.persistence.sql.SQLUtils.mySQLConnection;
 import static sap.ass02.infrastructure.persistence.sql.SQLUtils.prepareStatement;
 
-public abstract class AbstractSQLRepositoryAdapter extends AbstractVerticleRepository implements Connectable {
+/**
+ * Abstract class for SQL repository adapters.
+ */
+public abstract class AbstractSQLRepositoryAdapter implements Connectable, Repository {
     private static final Logger LOGGER = LogManager.getLogger(AbstractSQLRepositoryAdapter.class);
     private Connection connection;
     private WebClient webClient;
     
+    /**
+     * Initializes the SQL repository adapter.
+     */
     @Override
     public void init() {
         LOGGER.debug("Initializing SQLRepositoryAdapter...");
@@ -54,6 +60,12 @@ public abstract class AbstractSQLRepositoryAdapter extends AbstractVerticleRepos
         }).onFailure(err -> LOGGER.error("Failed to fetch configuration", err));
     }
     
+    /**
+     * Fetches the configuration on the given endpoint.
+     *
+     * @param endpoint the endpoint
+     * @return the future
+     */
     private Future<JsonObject> fetchConfigurationOnEndpoint(String endpoint) {
         return this.webClient.get(endpoint)
                 .as(BodyCodec.jsonObject())
@@ -67,12 +79,24 @@ public abstract class AbstractSQLRepositoryAdapter extends AbstractVerticleRepos
                 });
     }
     
+    /**
+     * Connects to the MySQL database.
+     *
+     * @param host the host
+     * @param port the port
+     * @param database the database
+     * @param username the username
+     * @param password the password
+     */
     @Override
     public void connect(String host, String port, String database, String username, String password) {
         LOGGER.trace("Connecting to MySQL database with arguments: host: {}, port: {}, dbName: {}, dbUsername: {}, dbPassword: {}", host, port, database, username, password);
         this.connection = mySQLConnection(host, port, database, username, password);
     }
     
+    /**
+     * Inserts a user into the SQL database.
+     */
     @Override
     public boolean insertUser(final UserDTO user) {
         LOGGER.trace("Preparing statement to insert user '{}' to SQL database", user);
@@ -92,6 +116,9 @@ public abstract class AbstractSQLRepositoryAdapter extends AbstractVerticleRepos
         return true;
     }
     
+    /**
+     * Updates a user's credits in the SQL database.
+     */
     @Override
     public boolean updateUserCredits(String userID, int credits) {
         LOGGER.trace("Preparing statement to update user '{}' credits in SQL database", userID);
@@ -108,6 +135,9 @@ public abstract class AbstractSQLRepositoryAdapter extends AbstractVerticleRepos
         return true;
     }
     
+    /**
+     * Retrieves a user from the SQL database by ID.
+     */
     @Override
     public Optional<UserDTO> getUserById(final String userId) {
         LOGGER.trace("Preparing statement to retrieve user with id: '{}' from SQL database", userId);
@@ -136,6 +166,9 @@ public abstract class AbstractSQLRepositoryAdapter extends AbstractVerticleRepos
         }
     }
     
+    /**
+     * Retrieves all users from the SQL database.
+     */
     @Override
     public Iterable<UserDTO> getAllUsers() {
         LOGGER.trace("Preparing statement to retrieve all users from SQL database");

@@ -1,26 +1,43 @@
 package sap.ass02.domain.application;
 
 import io.vertx.core.AbstractVerticle;
+import io.vertx.kafka.client.producer.KafkaProducer;
+import io.vertx.kafka.client.producer.KafkaProducerRecord;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import sap.ass02.domain.User;
-import sap.ass02.domain.dto.DTOUtils;
 import sap.ass02.domain.dto.UserDTO;
-import sap.ddd.ReadOnlyRepository;
-import sap.ddd.ReadWriteRepository;
+import sap.ddd.Repository;
 import sap.ddd.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- * Pseudo-proxy class for the UserService class to be used for CQRS.
+ * Proxy class for the user service to produce events upon calling the service.
  */
 public final class UserServiceVerticle extends AbstractVerticle implements ServiceVerticle {
     private static final Logger LOGGER = LogManager.getLogger(UserServiceVerticle.class);
     private final Service userService = new UserService();
-    private ReadOnlyRepository queryOnlyRepository;
+    Map<String, String> producerConfig = new HashMap<>();
+    private KafkaProducer<String, String> producer;
     
+    /**
+     * Instantiates a new User service verticle.
+     */
+    @Override
+    public void start() {
+        this.producerConfig.put("bootstrap.servers", "kafka:9092");
+        this.producerConfig.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+        this.producerConfig.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+        this.producerConfig.put("acks", "1");
+        
+        this.producer = KafkaProducer.create(this.vertx, this.producerConfig);
+    }
+        
+        /**
+         * Adds a user to the repository.
+         */
     @Override
     public boolean addUser(String userId, int credits) {
         LOGGER.trace("Adding user with id '{}' and credits '{}'", userId, credits);
@@ -28,9 +45,14 @@ public final class UserServiceVerticle extends AbstractVerticle implements Servi
         UserDTO addedUser = new User(userId, credits).toDTO();
         LOGGER.trace("Publishing insert-user event '{}'", addedUser.toJsonString());
         this.vertx.eventBus().publish("insert-user", addedUser.toJsonString());
+        this.producer.write(KafkaProducerRecord.create("client", "client-insert-user", addedUser.toJsonString()));
+        this.producer.write(KafkaProducerRecord.create("user-service", "insert-user", addedUser.toJsonString()));
         return true;
     }
     
+    /**
+     * Adds a user to the repository.
+     */
     @Override
     public boolean addUser(String userId, int credits, double xLocation, double yLocation) {
         LOGGER.trace("Adding user with id '{}', credits '{}', xLocation '{}' and yLocation '{}'", userId, credits, xLocation, yLocation);
@@ -38,16 +60,22 @@ public final class UserServiceVerticle extends AbstractVerticle implements Servi
         UserDTO addedUser = new User(userId, credits, xLocation, yLocation).toDTO();
         LOGGER.trace("Publishing insert-user event '{}'", addedUser.toJsonString());
         this.vertx.eventBus().publish("insert-user", addedUser.toJsonString());
+        this.producer.write(KafkaProducerRecord.create("client", "client-insert-user", addedUser.toJsonString()));
+        this.producer.write(KafkaProducerRecord.create("user-service", "insert-user", addedUser.toJsonString()));
         return true;
     }
     
+    /**
+     * Gets a user from the repository.
+     */
     @Override
     public User getUser(String userId) {
-        LOGGER.trace("Getting user with id '{}'", userId);
-        var user = this.queryOnlyRepository.getUserById(userId);
-        return user.map(userDTO -> new User(userDTO.id(), userDTO.credit())).orElse(null);
+        return this.userService.getUser(userId);
     }
     
+    /**
+     * Updates a user in the repository.
+     */
     @Override
     public boolean updateUserCredits(String userId, int credits) {
         LOGGER.trace("Updating user with id '{}' to credits '{}'", userId, credits);
@@ -55,27 +83,24 @@ public final class UserServiceVerticle extends AbstractVerticle implements Servi
         UserDTO userDTO = new User(userId, credits).toDTO();
         LOGGER.trace("Publishing update-user-credits event '{}'", userDTO.toJsonString());
         this.vertx.eventBus().publish("update-user-credits", userDTO.toJsonString());
+        this.vertx.eventBus().publish("user-update", userDTO.toJsonString());
+        this.producer.write(KafkaProducerRecord.create("client", "client-user-update", userDTO.toJsonString()));
         return true;
     }
     
+    /**
+     * Retrieves all users from the repository.
+     */
     @Override
     public Iterable<User> getUsers() {
-        Iterable<UserDTO> allUsersDTO = this.queryOnlyRepository.getAllUsers();
-        List<User> users = new ArrayList<>();
-        allUsersDTO.forEach(userDTO -> users.add(DTOUtils.toUser(userDTO)));
-        return users;
-    }
-    
-    @Override
-    public void attachRepository(ReadWriteRepository repository) {
-        this.userService.attachRepository(repository);
+        return this.userService.getUsers();
     }
     
     /**
-     * @param repository
+     * Attaches a repository to the service.
      */
     @Override
-    public void attachQueryOnlyRepository(ReadOnlyRepository repository) {
-        this.queryOnlyRepository = repository;
+    public void attachRepository(Repository repository) {
+        this.userService.attachRepository(repository);
     }
 }

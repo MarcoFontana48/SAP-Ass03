@@ -4,7 +4,7 @@ import io.vertx.core.json.JsonObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import sap.ass02.domain.dto.UserDTO;
-import sap.ass02.infrastructure.persistence.AbstractVerticleRepository;
+import sap.ddd.Repository;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -17,15 +17,24 @@ import java.util.Optional;
 
 import static sap.ass02.domain.utils.JsonFieldKey.*;
 
-public abstract class AbstractLocalJsonRepositoryAdapter extends AbstractVerticleRepository {
+/**
+ * Abstract class for local JSON repository adapters.
+ */
+public abstract class AbstractLocalJsonRepositoryAdapter implements Repository {
     private static final Logger LOGGER = LogManager.getLogger(AbstractLocalJsonRepositoryAdapter.class);
     private final String userFolder = "user";
     private final String databaseFolder = "./database";
     
+    /**
+     * Constructor.
+     */
     public AbstractLocalJsonRepositoryAdapter() {
         LOGGER.trace("LocalJsonRepositoryAdapter instantiated (remember to initialize it before using it!)");
     }
     
+    /**
+     * Instantiates a new Abstract local json repository adapter.
+     */
     @Override
     public void init() {
         this.makeDir(this.databaseFolder);
@@ -33,6 +42,12 @@ public abstract class AbstractLocalJsonRepositoryAdapter extends AbstractVerticl
         LOGGER.trace("LocalJsonRepositoryAdapter initialized");
     }
     
+    /**
+     * Insert a new user into the repository.
+     *
+     * @param user the user to be inserted
+     * @return true if the user was inserted successfully
+     */
     @Override
     public boolean insertUser(UserDTO user) {
         LOGGER.trace("Inserting user: {}", user.toString());
@@ -50,6 +65,12 @@ public abstract class AbstractLocalJsonRepositoryAdapter extends AbstractVerticl
         return true;
     }
     
+    /**
+     * Retrieve a user from the repository.
+     *
+     * @param userId the id of the user to be retrieved
+     * @return the user
+     */
     @Override
     public Optional<UserDTO> getUserById(String userId) {
         LOGGER.trace("Retrieving user with ID: {}", userId);
@@ -73,6 +94,9 @@ public abstract class AbstractLocalJsonRepositoryAdapter extends AbstractVerticl
         return Optional.empty();
     }
     
+    /**
+     * Retrieve all users from the repository.
+     */
     @Override
     public Iterable<UserDTO> getAllUsers() {
         ArrayList<UserDTO> users = new ArrayList<>();
@@ -89,6 +113,13 @@ public abstract class AbstractLocalJsonRepositoryAdapter extends AbstractVerticl
         return users;
     }
     
+    /**
+     * Update a user in the repository.
+     *
+     * @param userID the user to be updated
+     * @param credits the new credits of the user
+     * @return true if the user was updated successfully
+     */
     @Override
     public boolean updateUserCredits(String userID, int credits) {
         LOGGER.trace("Updating user credits: {}", credits);
@@ -113,6 +144,11 @@ public abstract class AbstractLocalJsonRepositoryAdapter extends AbstractVerticl
         return true;
     }
     
+    /**
+     * Update a user in the repository.
+     *
+     * @param name the user to be updated
+     */
     private void makeDir(final String name) {
         LOGGER.trace("Creating directory: {}", name);
         File dir = new File(name);
@@ -124,6 +160,13 @@ public abstract class AbstractLocalJsonRepositoryAdapter extends AbstractVerticl
         }
     }
     
+    /**
+     * Save an object.
+     *
+     * @param db the database
+     * @param id the id
+     * @param obj the object
+     */
     private void saveObj(final String db, final String id, final JsonObject obj) throws FileAlreadyExistsException {
         File file = new File(this.databaseFolder + File.separator + db + File.separator + id + ".json");
         

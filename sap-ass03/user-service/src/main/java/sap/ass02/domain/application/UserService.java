@@ -5,16 +5,25 @@ import org.apache.logging.log4j.Logger;
 import sap.ass02.domain.User;
 import sap.ass02.domain.dto.DTOUtils;
 import sap.ass02.domain.dto.UserDTO;
-import sap.ddd.ReadWriteRepository;
+import sap.ddd.Repository;
 import sap.ddd.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Service class for the user micro-service.
+ */
 public final class UserService implements Service {
     private static final Logger LOGGER = LogManager.getLogger(UserService.class);
-    private ReadWriteRepository repository;
+    private Repository repository;
     
+    /**
+     * Adds a user to the repository.
+     * @param userId the id of the user to be added
+     * @param credits the credits of the user to be added
+     * @return true if the user was added successfully
+     */
     @Override
     public boolean addUser(String userId, int credits) {
         User user = new User(userId, credits);
@@ -23,6 +32,14 @@ public final class UserService implements Service {
         return true;
     }
     
+    /**
+     * Adds a user to the repository.
+     * @param userId the id of the user to be added
+     * @param credits the credits of the user to be added
+     * @param xLocation the x location of the user to be added
+     * @param yLocation the y location of the user to be added
+     * @return true if the user was added successfully
+     */
     @Override
     public boolean addUser(String userId, int credits, double xLocation, double yLocation) {
         User user = new User(userId, credits, xLocation, yLocation);
@@ -31,6 +48,11 @@ public final class UserService implements Service {
         return true;
     }
     
+    /**
+     * Gets a user from the repository.
+     * @param userId the id of the user to be retrieved
+     * @return the user
+     */
     @Override
     public User getUser(String userId) {
         LOGGER.trace("Getting user with id '{}'", userId);
@@ -38,6 +60,11 @@ public final class UserService implements Service {
         return user.map(userDTO -> new User(userDTO.id(), userDTO.credit())).orElse(null);
     }
     
+    /**
+     * Updates a user in the repository.
+     * @param userId the user to be updated
+     * @return true if the user was updated successfully
+     */
     @Override
     public boolean updateUserCredits(String userId, int credits) {
         LOGGER.trace("Updating user with id '{}' to credits '{}'", userId, credits);
@@ -49,6 +76,10 @@ public final class UserService implements Service {
         return true;
     }
     
+    /**
+     * Gets all users from the repository.
+     * @return all users as an iterable
+     */
     @Override
     public Iterable<User> getUsers() {
         Iterable<UserDTO> allUsersDTO = this.repository.getAllUsers();
@@ -57,8 +88,12 @@ public final class UserService implements Service {
         return users;
     }
     
+    /**
+     * Attaches a repository to the service.
+     * @param repository the repository
+     */
     @Override
-    public void attachRepository(ReadWriteRepository repository) {
+    public void attachRepository(Repository repository) {
         this.repository = repository;
     }
 }
