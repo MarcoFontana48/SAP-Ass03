@@ -41,8 +41,8 @@ class RESTEBikeServiceControllerVerticleTest {
     
     @AfterEach
     void tearDown() throws IOException, InterruptedException {
-        Process process = startProcess(new File("."), "docker-compose", "down");
-        process.waitFor();
+//        Process process = startProcess(new File("."), "docker-compose", "down");
+//        process.waitFor();
     }
     
     @Test
@@ -107,7 +107,7 @@ class RESTEBikeServiceControllerVerticleTest {
                 .put("x_direction", 1.0)
                 .put("y_direction", 0.0)
                 .put("speed", 0.0)
-                .put("battery", 100);
+                .put("battery", 1);
         
         assertAll(
                 () -> assertEquals(STATUS_CODE_OK, getResponse.statusCode(), "GET request failed"),
@@ -134,7 +134,7 @@ class RESTEBikeServiceControllerVerticleTest {
                 .put("x_direction", 1.0)
                 .put("y_direction", 0.0)
                 .put("speed", 0.0)
-                .put("battery", 100)
+                .put("battery", 1)
                 .toString();
         var json2 = new JsonObject()
                 .put("ebike_id", "2")
@@ -144,7 +144,7 @@ class RESTEBikeServiceControllerVerticleTest {
                 .put("x_direction", 1.0)
                 .put("y_direction", 0.0)
                 .put("speed", 0.0)
-                .put("battery", 100)
+                .put("battery", 1)
                 .toString();
         
         var postRequest1 = java.net.http.HttpRequest.newBuilder()
@@ -190,7 +190,7 @@ class RESTEBikeServiceControllerVerticleTest {
                 .put("x_direction", 1.0)
                 .put("y_direction", 0.0)
                 .put("speed", 0.0)
-                .put("battery", 100)
+                .put("battery", 1)
                 .toString();
         
         var postRequest = java.net.http.HttpRequest.newBuilder()

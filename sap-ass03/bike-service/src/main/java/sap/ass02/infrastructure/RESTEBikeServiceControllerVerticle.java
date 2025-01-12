@@ -136,16 +136,21 @@ public final class RESTEBikeServiceControllerVerticle extends AbstractVerticle i
             
             String ebikeId = routingContext.request().getParam(JsonFieldKey.EBIKE_ID_KEY);
             JsonArray response = new JsonArray();
+            LOGGER.trace("Retrieving ebike(s) with ID '{}'", ebikeId);
             
             if (ebikeId != null) {
-                // Retrieve specific eBike
+                LOGGER.trace("Retrieving ebike with ID '{}'", ebikeId);
                 EBike eBike = this.service.getEBike(ebikeId);
+                LOGGER.trace("Retrieved ebike: {}", eBike);
                 if (eBike != null) {
+                    LOGGER.trace("Adding ebike to response: {}", eBike);
                     response.add(JsonUtils.fromEBikeToJsonObject(eBike));
                 }
             } else {
-                // Retrieve all eBikes
+                LOGGER.trace("Retrieving all ebikes");
+                LOGGER.trace("service: {}", this.service);
                 Iterable<EBike> eBikes = this.service.getEBikes();
+                LOGGER.trace("Retrieved ebikes: {}", eBikes);
                 eBikes.forEach(eBike -> response.add(JsonUtils.fromEBikeToJsonObject(eBike)));
             }
             

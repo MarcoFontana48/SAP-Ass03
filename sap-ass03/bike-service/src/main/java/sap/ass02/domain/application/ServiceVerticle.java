@@ -5,5 +5,4 @@ import sap.ddd.ReadOnlyRepository;
 import sap.ddd.Service;
 
 public interface ServiceVerticle extends Verticle, Service {
-    void attachReadOnlyRepository(ReadOnlyRepository repository);
 }

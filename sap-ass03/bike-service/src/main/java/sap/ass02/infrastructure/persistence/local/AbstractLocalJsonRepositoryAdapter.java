@@ -117,15 +117,20 @@ public abstract class AbstractLocalJsonRepositoryAdapter extends AbstractVerticl
     
     @Override
     public Iterable<EBikeDTO> getAllEBikes() {
+        LOGGER.trace("Retrieving all ebikes");
         ArrayList<EBikeDTO> ebikes = new ArrayList<>();
         File ebikeDir = new File(this.databaseFolder + File.separator + this.ebikeFolder);
         File[] files = ebikeDir.listFiles((dir, name) -> name.endsWith(".json"));
         
         if (files != null) {
+            LOGGER.trace("Found {} ebike files", files.length);
             for (File file : files) {
+                LOGGER.trace("Retrieving ebike from file: {}", file.getAbsolutePath());
                 String ebikeId = file.getName().replace(".json", "");
                 this.getEbikeById(ebikeId).ifPresent(ebikes::add);
             }
+        } else {
+            LOGGER.warn("No ebike files found");
         }
         
         return ebikes;

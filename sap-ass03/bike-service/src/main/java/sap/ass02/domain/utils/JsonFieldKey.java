@@ -12,7 +12,6 @@ public final class JsonFieldKey {
     public static final String EBIKE_Y_DIRECTION_KEY = "y_direction";
     public static final String EBIKE_SPEED_KEY = "speed";
     public static final String EBIKE_BATTERY_KEY = "battery";
-    public static final String BIKE_TYPE_KEY = "type";
     
     /**
      * JSON keys for eBike

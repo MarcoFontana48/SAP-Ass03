@@ -19,10 +19,9 @@ import java.util.List;
 public final class BikeServiceVerticle extends AbstractVerticle implements ServiceVerticle {
     private static final Logger LOGGER = LogManager.getLogger(BikeServiceVerticle.class);
     private final Service bikeService = new BikeService();
-    private ReadOnlyRepository queryOnlyRepository;
     
     /**
-     * Adds an ebike to the repository
+     * Adds an ebike to the repository and publishes an event
      *
      * @param ebikeId the ebike id
      */
@@ -45,19 +44,11 @@ public final class BikeServiceVerticle extends AbstractVerticle implements Servi
     @Override
     public EBike getEBike(String eBikeId) {
         LOGGER.trace("Getting ebike with id '{}'", eBikeId);
-        var ebike = this.queryOnlyRepository.getEbikeById(eBikeId);
-        return ebike.map(eBikeDTO -> new EBike(
-                eBikeDTO.id(),
-                AbstractBike.BikeState.valueOf(eBikeDTO.state().toString()),
-                new P2d(eBikeDTO.location().x(), eBikeDTO.location().y()),
-                new V2d(eBikeDTO.direction().x(), eBikeDTO.direction().y()),
-                eBikeDTO.speed(),
-                eBikeDTO.batteryLevel()
-        )).orElse(null);
+        return this.bikeService.getEBike(eBikeId);
     }
     
     /**
-     * Updates the ebike in the repository given the ebike
+     * Updates the ebike in the repository given the ebike and publishes an event
      *
      * @param eBike the ebike
      */
@@ -77,15 +68,7 @@ public final class BikeServiceVerticle extends AbstractVerticle implements Servi
      * @return the ebikes
      */
     @Override
-    public Iterable<EBike> getEBikes() {
-        LOGGER.trace("Getting all ebikes from '{}' repository", this.queryOnlyRepository.getClass().getSimpleName());
-        Iterable<EBikeDTO> allEBikesDTO = this.queryOnlyRepository.getAllEBikes();
-        List<EBike> eBikes = new ArrayList<>();
-        allEBikesDTO.forEach(eBikeDTO -> eBikes.add(DTOUtils.toEBike(eBikeDTO)));
-        LOGGER.trace("Retrieved {} ebikes:", eBikes.size());
-        eBikes.forEach(eBike -> LOGGER.trace("\t- {}", eBike.toJsonString()));
-        return eBikes;
-    }
+    public Iterable<EBike> getEBikes() { return this.bikeService.getEBikes(); }
     
     /**
      * Attach a repository to the service
@@ -95,13 +78,5 @@ public final class BikeServiceVerticle extends AbstractVerticle implements Servi
     @Override
     public void attachRepository(ReadWriteRepository repository) {
         this.bikeService.attachRepository(repository);
-    }
-    
-    /**
-     * @param repository
-     */
-    @Override
-    public void attachReadOnlyRepository(ReadOnlyRepository repository) {
-        this.queryOnlyRepository = repository;
     }
 }

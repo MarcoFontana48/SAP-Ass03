@@ -5,13 +5,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import sap.ass02.domain.AbstractBike;
 import sap.ass02.domain.EBike;
+import sap.ass02.domain.dto.BikeStateDTO;
 import sap.ass02.domain.dto.EBikeDTO;
 import sap.ass02.domain.utils.JsonFieldKey;
 
 //! UNIT test
 import static org.junit.jupiter.api.Assertions.*;
 class EBikeTest {
-    
     @BeforeEach
     void setUp() {
     }
@@ -26,7 +26,7 @@ class EBikeTest {
         assertAll(
                 () -> assertEquals("id", eBike.getId()),
                 () -> assertEquals(AbstractBike.BikeState.AVAILABLE, eBike.getState()),
-                () -> assertEquals(100, eBike.getBatteryLevel()),
+                () -> assertEquals(1, eBike.getBatteryLevel()),
                 () -> assertEquals(0, eBike.getSpeed()),
                 () -> assertEquals(0, eBike.getSpeed())
         );
@@ -71,8 +71,8 @@ class EBikeTest {
         EBikeDTO eBikeDTO = eBike.toDTO();
         assertAll(
                 () -> assertEquals("id", eBikeDTO.id()),
-                () -> assertEquals(AbstractBike.BikeState.AVAILABLE, eBikeDTO.state()),
-                () -> assertEquals(100, eBikeDTO.batteryLevel()),
+                () -> assertEquals(BikeStateDTO.AVAILABLE, eBikeDTO.state()),
+                () -> assertEquals(1, eBikeDTO.batteryLevel()),
                 () -> assertEquals(0, eBikeDTO.speed())
         );
     }
@@ -89,7 +89,7 @@ class EBikeTest {
                 () -> assertTrue(json.contains("\"" + JsonFieldKey.EBIKE_X_DIRECTION_KEY + "\":1")),
                 () -> assertTrue(json.contains("\"" + JsonFieldKey.EBIKE_Y_DIRECTION_KEY + "\":0")),
                 () -> assertTrue(json.contains("\"" + JsonFieldKey.EBIKE_SPEED_KEY + "\":0")),
-                () -> assertTrue(json.contains("\"" + JsonFieldKey.EBIKE_BATTERY_KEY + "\":100"))
+                () -> assertTrue(json.contains("\"" + JsonFieldKey.EBIKE_BATTERY_KEY + "\":1"))
         );
     }
 }
