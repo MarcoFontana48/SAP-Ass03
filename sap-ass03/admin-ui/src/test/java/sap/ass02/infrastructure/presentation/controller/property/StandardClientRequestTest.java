@@ -82,7 +82,7 @@ class StandardClientRequestTest {
                 var ebike = ar.result();
                 assertAll(
                         () -> assertEquals("1", ebike.getId()),
-                        () -> assertEquals(EBike.EBikeState.AVAILABLE, ebike.getState()),
+                        () -> assertEquals(EBike.BikeState.AVAILABLE, ebike.getState()),
                         () -> assertEquals(100, ebike.getBatteryLevel()),
                         () -> assertEquals(new V2d(1.0,0.0), ebike.getDirection()),
                         () -> assertEquals(new P2d(0.0,0.0), ebike.getLocation()),
