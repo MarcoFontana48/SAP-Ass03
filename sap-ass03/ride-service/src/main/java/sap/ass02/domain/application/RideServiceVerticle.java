@@ -137,4 +137,15 @@ public final class RideServiceVerticle extends AbstractVerticle implements Servi
             throw new RuntimeException("EBike not found");
         }
     }
+    
+    @Override
+    public void reachUser(Ride ride) {
+        if (this.currentlyActiveSimulations.get(ride.getId()) == null) {
+            throw new RuntimeException("Ride not found");
+        }
+        VerticleAgent aBikeAgentVerticle = new ABikeAgentMovementVerticle(ride, this);
+        this.vertx.deployVerticle(aBikeAgentVerticle);
+        
+        aBikeAgentVerticle.reachUserAutonomously();
+    }
 }

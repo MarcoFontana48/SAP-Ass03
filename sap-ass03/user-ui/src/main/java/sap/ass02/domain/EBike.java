@@ -98,7 +98,7 @@ public class EBike implements Entity<EBikeDTO> {
         return "{ id: " + this.id + ", loc: " + this.location + ", batteryLevel: " + this.batteryLevel + ", state: " + this.state + " }";
     }
     
-    public enum EBikeState {AVAILABLE, IN_USE, MAINTENANCE}
+    public enum EBikeState {AVAILABLE, IN_USE, MOVING_TO_STATION, AT_STATION, MAINTENANCE, START_AUTONOMOUSLY_REACH_STATION, START_AUTONOMOUSLY_REACH_USER, MOVING_TO_USER, AT_USER}
     
     @Override
     public EBikeDTO toDTO() {

@@ -80,6 +80,7 @@ public final class RESTRideServiceControllerVerticle extends AbstractVerticle im
         router.get(EndpointPath.RIDE).handler(this::getRideHandler);
         router.get(EndpointPath.HEALTH_CHECK).handler(this::getHealthCheckHandler);
         router.get(EndpointPath.METRICS).handler(this::getMetricsHandler);
+        router.post(EndpointPath.REACH_USER).handler(this::postReachUserHandler);
         
         this.webClient = WebClient.create(this.vertx);
         
@@ -243,5 +244,43 @@ public final class RESTRideServiceControllerVerticle extends AbstractVerticle im
             LOGGER.error("Failed to write metrics", e);
             routingContext.fail(e);
         }
+    }
+    
+    private void postReachUserHandler(RoutingContext routingContext) {
+        Histogram.Timer latencyTimer = PERFORMANCE_MEASURER.startTimer();
+        this.circuitBreaker.execute(promise -> {
+            JsonObject jsonBody = routingContext.getBodyAsJson();
+            
+            LOGGER.info("Received POST request with body: {}", jsonBody);
+            
+            String userId = jsonBody.getString(JsonFieldKey.USER_ID_KEY);
+            String eBikeId = jsonBody.getString(JsonFieldKey.EBIKE_ID_KEY);
+            
+            LOGGER.trace("Retrieved IDs: user_id='{}', ebike_id='{}'", userId, eBikeId);
+            
+            User user = this.service.getUser(userId);
+            EBike eBike = this.service.getEBike(eBikeId);
+            
+            LOGGER.trace("Retrieved user : '{}'", user.toJsonString());
+            LOGGER.trace("Retrieved eBike : '{}'", eBike.toJsonString());
+            
+            Ride ride = new Ride(jsonBody.getString(JsonFieldKey.RIDE_ID_KEY), user, eBike);
+            LOGGER.trace("About to start reaching user autonomously: '{}'", ride.toJsonString());
+            
+            this.service.reachUser(ride);
+            
+            promise.complete();
+        }).onComplete(res -> {
+            PERFORMANCE_MEASURER.stopTimer(latencyTimer);
+            if (res.succeeded()) {
+                LOGGER.info("Started to reach user autonomously, returning status code '{}' to client", STATUS_CODE_OK);
+                REQUESTS_COUNTER.increasePostRequestsCounter(STATUS_CODE_OK);
+                sendResponse(routingContext, new JsonObject(), STATUS_CODE_OK);
+            } else {
+                LOGGER.error("Failed to reach user autonomously, returning status code '{}' to client", STATUS_CODE_INTERNAL_SERVER_ERROR);
+                REQUESTS_COUNTER.increasePostRequestsCounter(STATUS_CODE_INTERNAL_SERVER_ERROR);
+                sendResponse(routingContext, new JsonObject(), STATUS_CODE_INTERNAL_SERVER_ERROR);
+            }
+        });
     }
 }

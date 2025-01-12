@@ -9,6 +9,7 @@ import sap.ass02.infrastructure.presentation.controller.property.ClientRequest;
 import sap.ass02.infrastructure.presentation.controller.property.ClientRequestSender;
 import sap.ass02.infrastructure.presentation.controller.property.StandardClientRequest;
 import sap.ass02.infrastructure.presentation.controller.property.ViewAware;
+import sap.ass02.infrastructure.presentation.listener.item.ride.AddReachUserListener;
 import sap.ass02.infrastructure.presentation.listener.item.ride.AddRideStartListener;
 import sap.ass02.infrastructure.presentation.listener.item.ride.AddRideStopListener;
 import sap.ass02.infrastructure.presentation.view.dialog.AddRideView;
@@ -45,6 +46,10 @@ public final class AddRideWebController implements ViewAware<AddRideView>, Clien
         AddRideStopListener addRideStopListener = new AddRideStopListener();
         addRideStopListener.attachController(this);
         this.rideDialogView.addRideStopButtonListener(addRideStopListener);
+        
+        AddReachUserListener addReachUserListener = new AddReachUserListener();
+        addReachUserListener.attachController(this);
+        this.rideDialogView.addReachUserListener(addReachUserListener);
         
         LOGGER.trace("Attached view of type '{}' to webController of type '{}'", view.getClass().getSimpleName(), this.getClass().getSimpleName());
     }

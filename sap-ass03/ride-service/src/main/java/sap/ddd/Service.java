@@ -22,4 +22,6 @@ public interface Service {
     User getUser(String userId);
     
     EBike getEBike(String ebikeId);
+    
+    void reachUser(Ride ride);
 }

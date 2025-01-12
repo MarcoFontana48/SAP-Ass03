@@ -485,4 +485,30 @@ public final class StandardClientRequest implements ClientRequest {
                 });
         return result.future();
     }
+    
+    @Override
+    public Future<Object> reachUser(String userId, String eBikeId) {
+        LOGGER.trace("about to POST reach user with id '{}' and eBike with id '{}'", userId, eBikeId);
+        Promise<Object> result = Promise.promise();
+        JsonObject request = new JsonObject()
+                .put(JsonFieldKey.JSON_RIDE_ID_KEY, userId + eBikeId)
+                .put(JsonFieldKey.USER_ID_KEY, userId)
+                .put(JsonFieldKey.EBIKE_ID_KEY, eBikeId);
+        
+        LOGGER.trace("Sending request to endpoint '" + EndpointPath.REACH_USER + "':\n{}", request.encodePrettily());
+        this.webClient.post(this.port, this.host, EndpointPath.REACH_USER)
+                .putHeader("content-type", "application/json")
+                .as(BodyCodec.string())
+                .sendJsonObject(request, ar -> {
+                    if (ar.succeeded()) {
+                        LOGGER.trace("Received response with status code {}", ar.result().statusCode());
+                        LOGGER.trace("Response: {}", ar.result().body());
+                        result.complete(true);
+                    } else {
+                        LOGGER.error("Failed to send request: {}", ar.cause().getMessage());
+                        result.fail(ar.cause());
+                    }
+                });
+        return result.future();
+    }
 }

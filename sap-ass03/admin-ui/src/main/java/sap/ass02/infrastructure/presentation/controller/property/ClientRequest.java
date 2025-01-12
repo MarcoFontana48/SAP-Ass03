@@ -98,4 +98,6 @@ public interface ClientRequest {
     Future<String> getOngoingRide(String userId, String eBikeId);
     
     Future<Object> addAgentBike(String aBikeId);
+    
+    Future<Object> reachUser(String userId, String eBikeId);
 }

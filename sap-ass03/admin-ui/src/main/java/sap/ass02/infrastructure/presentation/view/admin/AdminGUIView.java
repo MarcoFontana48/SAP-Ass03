@@ -298,7 +298,7 @@ public final class AdminGUIView extends AbstractGUIView<AdminView> implements Ad
                     
                     g2.drawOval(x0, y0, 20, 20);
                     g2.drawString(b.getId(), x0, y0 + 35);
-                    g2.drawString("(" + (int) p.getX() + "," + (int) p.getY() + ")", x0, y0 + 50);
+                    g2.drawString("(" + (int) p.getX() + "," + (int) p.getY() + ")\n(" + b.getState() + ")", x0, y0 + 50);
                 }
             }
 

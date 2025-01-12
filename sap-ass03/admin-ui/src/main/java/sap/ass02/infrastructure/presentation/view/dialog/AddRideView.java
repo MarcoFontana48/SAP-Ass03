@@ -1,5 +1,6 @@
 package sap.ass02.infrastructure.presentation.view.dialog;
 
+import sap.ass02.infrastructure.presentation.listener.item.ride.AddReachUserListener;
 import sap.ass02.infrastructure.presentation.listener.item.ride.AddRideStartListener;
 import sap.ass02.infrastructure.presentation.listener.item.ride.AddRideStopListener;
 import sap.ass02.infrastructure.presentation.view.AppView;
@@ -17,6 +18,7 @@ public final class AddRideView extends JDialog implements AppView {
     private JLabel rideInfoLabel;
     private JButton startRide;
     private JButton stopRide;
+    private JButton bikeReachUser;
     
     /**
      * Creates a new AddRideView
@@ -36,6 +38,7 @@ public final class AddRideView extends JDialog implements AppView {
         this.errorField = new JTextField(25);
         this.startRide = new JButton("Start ride");
         this.stopRide = new JButton("Stop ride");
+        this.bikeReachUser = new JButton("Reach user");
         this.rideInfoLabel = new JLabel("No ride started");
     }
     
@@ -55,6 +58,7 @@ public final class AddRideView extends JDialog implements AppView {
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(this.startRide);
         buttonPanel.add(this.stopRide);
+        buttonPanel.add(this.bikeReachUser);
         
         // JPanel errorPanel = new JPanel();
         // errorPanel.add(errorField);
@@ -125,6 +129,15 @@ public final class AddRideView extends JDialog implements AppView {
      */
     public void addRideStopButtonListener(AddRideStopListener addRideStopListener) {
         this.stopRide.addActionListener(addRideStopListener);
+    }
+    
+    /**
+     * Adds a reach user button listener
+     *
+     * @param addReachUserListener the listener
+     */
+    public void addReachUserListener(AddReachUserListener addReachUserListener) {
+        this.bikeReachUser.addActionListener(addReachUserListener);
     }
     
     /**
