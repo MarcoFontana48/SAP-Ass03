@@ -36,9 +36,11 @@ You can also manually send http requests using `curl` cmd, in both cases the api
 - stop a ride to ride-service: `curl -X PUT http://localhost:8080/app/ride/ -H "Content-Type: application/json" -d '{"ride_id": 1, "user_id": 1, "ebike_id": 1, "action":"stop"}'`
 - get a ride from ride-service: `curl -X GET http://localhost:8080/app/ride/`
 
-kubectl delete all --all -n ebike-app
-kubectl get pods -n ebike-app
-kubectl describe pod <podname> -n ebike-app
-kubectl apply -f kubernetes/
-minikube start --no-vtx-check
-minikube start --driver=docker --no-vtx-check
+### Deployment on Kubernetes
+To deploy the project on kubernetes, you need to have minikube installed on your machine or docker desktop with kubernetes enabled, then you can run the following commands:
+- `minikube start` to start the minikube cluster or run 'docker desktop' with kubernetes enabled and run the next commands
+- go to the root project path and run command: `kubectl apply -f kubernetes/` to deploy the project on the cluster
+- apply port forwarding `kubectl port-forward svc/api-gateway 8080:8080`
+- `kubectl get pods` to see the pods created (if you specified a different namespace than the 'default' one that is currently used by this project, use command '-n <namespace>')
+- `kubectl describe pod <podname>` to see the details of a specific pod (if you specified a different namespace than the 'default' one that is currently used by this project, use command '-n <namespace>')
+- `kubectl delete all --all` to delete all the resources created in the cluster (if you specified a different namespace than the 'default' one that is currently used by this project, use command '-n <namespace>')
