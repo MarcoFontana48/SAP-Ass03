@@ -4,6 +4,7 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
@@ -16,19 +17,25 @@ import org.bson.Document;
 import sap.ass02.domain.dto.*;
 import sap.ass02.domain.utils.JsonFieldKey;
 import sap.ass02.infrastructure.EndpointPath;
-import sap.ass02.infrastructure.persistence.AbstractVerticleRepository;
 import sap.ass02.infrastructure.persistence.properties.Connectable;
+import sap.ddd.Repository;
 
 import java.util.ArrayList;
 import java.util.Optional;
 
 import static com.mongodb.client.model.Filters.eq;
 
-public abstract class AbstractMongoRepositoryAdapter extends AbstractVerticleRepository implements Connectable {
+/**
+ * Abstract class for MongoDB repository adapters.
+ */
+public abstract class AbstractMongoRepositoryAdapter extends AbstractVerticle implements Connectable, Repository {
     private static final Logger LOGGER = LogManager.getLogger(AbstractMongoRepositoryAdapter.class);
     private MongoCollection<Document> ridesCollection;
     private WebClient webClient;
 
+    /**
+     * Initializes the repository adapter.
+     */
     @Override
     public void init() {
         LOGGER.debug("Initializing SQLRepositoryAdapter...");
@@ -51,6 +58,12 @@ public abstract class AbstractMongoRepositoryAdapter extends AbstractVerticleRep
         }).onFailure(err -> LOGGER.error("Failed to fetch configuration", err));
     }
 
+    /**
+     * Fetches the configuration from the given endpoint.
+     *
+     * @param endpoint the endpoint
+     * @return the future
+     */
     private Future<JsonObject> fetchConfigurationOnEndpoint(String endpoint) {
         return this.webClient.get(endpoint)
                 .as(BodyCodec.jsonObject())
@@ -64,6 +77,15 @@ public abstract class AbstractMongoRepositoryAdapter extends AbstractVerticleRep
                 });
     }
 
+    /**
+     * Connects to the MongoDB database.
+     *
+     * @param host     the host
+     * @param port     the port
+     * @param database the database
+     * @param username the username
+     * @param password the password
+     */
     @Override
     public void connect(String host, String port, String database, String username, String password) {
         LOGGER.trace("Connecting to MongoDB database with arguments: host: {}, port: {}, dbName: {}, dbUsername: {}, dbPassword: {}", host, port, database, username, password);
@@ -72,14 +94,11 @@ public abstract class AbstractMongoRepositoryAdapter extends AbstractVerticleRep
         this.ridesCollection = database1.getCollection("rides");
         LOGGER.debug("{} initialized", this.getClass().getSimpleName());
     }
-
-    @Override
-    public void updateRideEnd(RideDTO ride) {
-        LOGGER.trace("Updating ride '{}' in MongoDB database", ride.id());
-        this.ridesCollection.updateOne(eq(JsonFieldKey.RIDE_ID_KEY, ride.id()), new Document("$set", new Document(JsonFieldKey.RIDE_END_DATE_KEY, ride.endDate().map(java.sql.Date::toString).orElse(null))));
-        LOGGER.trace("Ride updated: '{}'", ride.id());
-    }
     
+    /**
+     * Updates the ongoing status of a ride.
+     * @param rideId the ride id
+     */
     @Override
     public Optional<RideDTO> getRideById(String rideId) {
         LOGGER.trace("Retrieving ride '{}' from MongoDB database", rideId);
@@ -103,6 +122,11 @@ public abstract class AbstractMongoRepositoryAdapter extends AbstractVerticleRep
         }
     }
     
+    /**
+     * Updates the ongoing status of a ride.
+     * @param userId the user id of the user taking the ride
+     * @param ebikeId the ebike id of the ebike used in the ride
+     */
     @Override
     public Optional<RideDTO> getRideById(String userId, String ebikeId) {
         LOGGER.trace("Retrieving ride by user '{}' and ebike '{}' from MongoDB database", userId, ebikeId);
@@ -126,6 +150,11 @@ public abstract class AbstractMongoRepositoryAdapter extends AbstractVerticleRep
         }
     }
     
+    /**
+     * Updates the ongoing status of a ride.
+     * @param userId the user id of the user taking the ride
+     * @param ebikeId the ebike id of the ebike used in the ride
+     */
     @Override
     public Optional<RideDTO> getOngoingRideById(String userId, String ebikeId) {
         LOGGER.trace("Retrieving ongoing ride by user '{}' and ebike '{}' from MongoDB database", userId, ebikeId);
@@ -149,6 +178,9 @@ public abstract class AbstractMongoRepositoryAdapter extends AbstractVerticleRep
         }
     }
     
+    /**
+     * Get all rides.
+     */
     @Override
     public Iterable<RideDTO> getAllRides() {
         LOGGER.trace("Retrieving all rides from MongoDB database");
@@ -169,6 +201,10 @@ public abstract class AbstractMongoRepositoryAdapter extends AbstractVerticleRep
         return rides;
     }
 
+    /**
+     * Inserts a ride.
+     * @param ride the ride
+     */
     @Override
     public void insertRide(RideDTO ride) {
         LOGGER.trace("Preparing document to insert ride '{}' to MongoDB database", ride.id());
@@ -184,6 +220,11 @@ public abstract class AbstractMongoRepositoryAdapter extends AbstractVerticleRep
         LOGGER.trace("Ride inserted: '{}'", ride.id());
     }
     
+    /**
+     * Gets the eBike with the specified id.
+     * @param ebikeId The id of the eBike.
+     * @return The eBike.
+     */
     @Override
     public Optional<EBikeDTO> getEBikeById(String ebikeId) {
         for (RideDTO ride : this.getAllRides()) {
@@ -194,6 +235,11 @@ public abstract class AbstractMongoRepositoryAdapter extends AbstractVerticleRep
         return Optional.empty();
     }
     
+    /**
+     * Gets the user with the specified id.
+     * @param userId The id of the user.
+     * @return The user.
+     */
     @Override
     public Optional<UserDTO> getUserById(String userId) {
         for (RideDTO ride : this.getAllRides()) {
@@ -204,24 +250,10 @@ public abstract class AbstractMongoRepositoryAdapter extends AbstractVerticleRep
         return Optional.empty();
     }
     
-    @Override
-    public void updateEBike(EBikeDTO dto) {
-        for (RideDTO ride : this.getAllRides()) {
-            if (ride.ebike().id().equals(dto.id())) {
-                this.ridesCollection.updateOne(eq(JsonFieldKey.RIDE_EBIKE_ID_KEY, dto.id()), new Document("$set", new Document(JsonFieldKey.EBIKE_STATE_KEY, dto.state().toString())));
-            }
-        }
-    }
-    
-    @Override
-    public void updateUser(UserDTO dto) {
-        for (RideDTO ride : this.getAllRides()) {
-            if (ride.user().id().equals(dto.id())) {
-                this.ridesCollection.updateOne(eq(JsonFieldKey.RIDE_USER_ID_KEY, dto.id()), new Document("$set", new Document(JsonFieldKey.USER_CREDIT_KEY, dto.credit())));
-            }
-        }
-    }
-    
+    /**
+     * Inserts a user.
+     * @param user the user
+     */
     @Override
     public void insertUser(UserDTO user) {
         LOGGER.trace("Preparing document to insert user '{}' to MongoDB database", user.id());
@@ -233,6 +265,10 @@ public abstract class AbstractMongoRepositoryAdapter extends AbstractVerticleRep
         LOGGER.trace("User inserted: '{}'", user.id());
     }
     
+    /**
+     * Inserts an eBike.
+     * @param ebike the eBike
+     */
     @Override
     public void insertEbike(EBikeDTO ebike) {
         LOGGER.trace("Preparing document to insert ebike '{}' to MongoDB database", ebike.id());

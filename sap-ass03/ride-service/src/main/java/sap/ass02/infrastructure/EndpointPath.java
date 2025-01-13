@@ -1,5 +1,8 @@
 package sap.ass02.infrastructure;
 
+/**
+ * Class containing the paths of the endpoints.
+ */
 public final class EndpointPath {
     public static final String RIDE = "/app/ride";
     public static final String USER = "/app/user";

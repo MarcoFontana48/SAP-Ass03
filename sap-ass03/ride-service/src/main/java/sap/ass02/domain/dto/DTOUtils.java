@@ -4,14 +4,25 @@ import sap.ass02.domain.*;
 
 import java.util.Optional;
 
+/**
+ * Utility class for DTOs.
+ */
 public class DTOUtils {
     
+    /**
+     * Converts a user to a user DTO.
+     * @param userDTO The user to convert.
+     * @return The user DTO.
+     */
     public static User toUser(UserDTO userDTO) {
-        User user = new User(userDTO.id(), userDTO.credit(), userDTO.xLocation(), userDTO.yLocation());
-//        user.rechargeCredit(userDTO.credit());
-        return user;
+        return new User(userDTO.id(), userDTO.credit(), userDTO.xLocation(), userDTO.yLocation());
     }
     
+    /**
+     * Converts an e-bike DTO to an e-bike.
+     * @param ebikeDTO The e-bike DTO to convert.
+     * @return The e-bike.
+     */
     public static EBike toEBike(EBikeDTO ebikeDTO) {
         EBike ebike = new EBikeImpl(ebikeDTO.id());
         ebike.updateState(EBikeImpl.BikeState.valueOf(ebikeDTO.state().toString()));
@@ -22,6 +33,11 @@ public class DTOUtils {
         return ebike;
     }
     
+    /**
+     * Converts a ride DTO to a ride.
+     * @param rideDTO The ride DTO to convert.
+     * @return The ride.
+     */
     public static Ride toRide(RideDTO rideDTO) {
         UserDTO userDTO = rideDTO.user();
         EBikeDTO ebikeDTO = rideDTO.ebike();

@@ -4,7 +4,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import sap.ass02.domain.dto.*;
-import sap.ddd.ReadWriteRepository;
+import sap.ddd.Repository;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,7 +22,7 @@ class LocalJsonRepositoryAdapterTest {
     private final String testRideId = "test_ride";
     private final String testUserId = "test_user";
     private final String testEBikeId = "test_ebike";
-    private ReadWriteRepository repo;
+    private Repository repo;
     private final UserDTO user = new UserDTO(this.testUserId, 100, 0, 0);
     private final EBikeDTO ebike = new EBikeDTO(this.testEBikeId, BikeStateDTO.AVAILABLE, new P2dDTO(0, 0), new V2dDTO(0, 0), 0, 100);
     

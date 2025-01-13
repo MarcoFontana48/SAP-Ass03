@@ -25,10 +25,16 @@ public record V2dDTO(double x, double y) implements java.io.Serializable, ValueO
         return this.y;
     }
     
+    /**
+     * @return the sum of this vector with the given one
+     */
     public V2dDTO sum(V2dDTO v) {
         return new V2dDTO(this.x + v.x, this.y + v.y);
     }
     
+    /**
+     * @return rotation of this vector by the given degree
+     */
     public V2dDTO rotate(double degree) {
         var rad = degree * Math.PI / 180;
         var cs = Math.cos(rad);
@@ -39,21 +45,32 @@ public record V2dDTO(double x, double y) implements java.io.Serializable, ValueO
         return v;
     }
     
+    /**
+     * @return the module of this vector
+     */
     public double abs() {
         return Math.sqrt(this.x * this.x + this.y * this.y);
     }
     
+    /**
+     * @return the normalized vector
+     */
     public V2dDTO getNormalized() {
         double module = Math.sqrt(this.x * this.x + this.y * this.y);
         return new V2dDTO(this.x / module, this.y / module);
     }
     
+    /**
+     * @return the multiplication of this vector by the given factor
+     */
     public V2dDTO mul(double fact) {
         return new V2dDTO(this.x * fact, this.y * fact);
     }
     
+    /**
+     * @return the string representation of this vector
+     */
     public String toString() {
         return "V2dDTO(" + this.x + "," + this.y + ")";
     }
-    
 }

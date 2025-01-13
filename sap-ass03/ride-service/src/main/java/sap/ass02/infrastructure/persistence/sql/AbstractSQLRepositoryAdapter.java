@@ -1,5 +1,6 @@
 package sap.ass02.infrastructure.persistence.sql;
 
+import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
@@ -10,8 +11,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import sap.ass02.domain.dto.*;
 import sap.ass02.infrastructure.EndpointPath;
-import sap.ass02.infrastructure.persistence.AbstractVerticleRepository;
 import sap.ass02.infrastructure.persistence.properties.Connectable;
+import sap.ddd.Repository;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -21,11 +22,17 @@ import static sap.ass02.infrastructure.persistence.sql.SQLUpdates.*;
 import static sap.ass02.infrastructure.persistence.sql.SQLUtils.mySQLConnection;
 import static sap.ass02.infrastructure.persistence.sql.SQLUtils.prepareStatement;
 
-public abstract class AbstractSQLRepositoryAdapter extends AbstractVerticleRepository implements Connectable {
+/**
+ * Abstract SQL repository adapter.
+ */
+public abstract class AbstractSQLRepositoryAdapter extends AbstractVerticle implements Connectable, Repository {
     private static final Logger LOGGER = LogManager.getLogger(AbstractSQLRepositoryAdapter.class);
     private Connection connection;
     private WebClient webClient;
 
+    /**
+     * Initializes the SQL repository adapter.
+     */
     @Override
     public void init() {
         LOGGER.debug("Initializing SQLRepositoryAdapter...");
@@ -48,6 +55,12 @@ public abstract class AbstractSQLRepositoryAdapter extends AbstractVerticleRepos
         }).onFailure(err -> LOGGER.error("Failed to fetch configuration", err));
     }
 
+    /**
+     * Fetches the configuration on the given endpoint.
+     *
+     * @param endpoint the endpoint
+     * @return the future
+     */
     private Future<JsonObject> fetchConfigurationOnEndpoint(String endpoint) {
         return this.webClient.get(endpoint)
                 .as(BodyCodec.jsonObject())
@@ -61,12 +74,24 @@ public abstract class AbstractSQLRepositoryAdapter extends AbstractVerticleRepos
                 });
     }
 
+    /**
+     * Connects to the SQL database.
+     *
+     * @param host     the host
+     * @param port     the port
+     * @param database the database
+     * @param username the username
+     * @param password the password
+     */
     @Override
     public void connect(String host, String port, String database, String username, String password) {
         LOGGER.trace("Connecting to MySQL database with arguments: host: {}, port: {}, dbName: {}, dbUsername: {}, dbPassword: {}", host, port, database, username, password);
         this.connection = mySQLConnection(host, port, database, username, password);
     }
     
+    /**
+     * Inserts a ride into the SQL database.
+     */
     @Override
     public void insertRide(RideDTO ride) {
         LOGGER.trace("Preparing statement to insert ride '{}' to SQL database", ride);
@@ -89,6 +114,9 @@ public abstract class AbstractSQLRepositoryAdapter extends AbstractVerticleRepos
         }
     }
     
+    /**
+     * Inserts a user into the SQL database.
+     */
     @Override
     public void insertUser(UserDTO user) {
         LOGGER.trace("Preparing statement to insert user '{}' to SQL database", user);
@@ -104,6 +132,9 @@ public abstract class AbstractSQLRepositoryAdapter extends AbstractVerticleRepos
         }
     }
     
+    /**
+     * Inserts an eBike into the SQL database.
+     */
     @Override
     public void insertEbike(EBikeDTO ebike) {
         LOGGER.trace("Preparing statement to insert ebike '{}' to SQL database", ebike);
@@ -125,22 +156,9 @@ public abstract class AbstractSQLRepositoryAdapter extends AbstractVerticleRepos
         }
     }
     
-    @Override
-    public void updateRideEnd(RideDTO ride) {
-        LOGGER.trace("Preparing statement to update ride '{}' end in SQL database", ride);
-        try (PreparedStatement statement = prepareStatement(
-                this.connection,
-                UPDATE_RIDE_END,
-                ride.endDate().orElse(null),
-                ride.ongoing(),
-                ride.id())) {
-            LOGGER.trace("Executing statement:\n'{}'", statement);
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-    
+    /**
+     * Updates a ride in the SQL database.
+     */
     @Override
     public Optional<RideDTO> getRideById(String rideId) {
         LOGGER.trace("Preparing statement to retrieve ride with id: '{}' from SQL database", rideId);
@@ -181,6 +199,9 @@ public abstract class AbstractSQLRepositoryAdapter extends AbstractVerticleRepos
         }
     }
     
+    /**
+     * Get a ride by user and ebike id.
+     */
     @Override
     public Optional<RideDTO> getRideById(String userId, String ebikeId) {
         LOGGER.trace("Preparing statement to retrieve ride with user id: '{}' and ebike id: '{}' from SQL database", userId, ebikeId);
@@ -222,6 +243,9 @@ public abstract class AbstractSQLRepositoryAdapter extends AbstractVerticleRepos
         }
     }
     
+    /**
+     * Get an ongoing ride by user and ebike id.
+     */
     @Override
     public Optional<RideDTO> getOngoingRideById(String userId, String ebikeId) {
         LOGGER.trace("Preparing statement to retrieve ongoing ride with user id: '{}' and ebike id: '{}' from SQL database", userId, ebikeId);
@@ -263,6 +287,9 @@ public abstract class AbstractSQLRepositoryAdapter extends AbstractVerticleRepos
         }
     }
     
+    /**
+     * Get all rides.
+     */
     @Override
     public Iterable<RideDTO> getAllRides() {
         LOGGER.trace("Preparing statement to retrieve all rides from SQL database");
@@ -302,24 +329,19 @@ public abstract class AbstractSQLRepositoryAdapter extends AbstractVerticleRepos
         }
     }
     
-    //TODO
+    /**
+     * Get ebike by id.
+     */
     @Override
     public Optional<EBikeDTO> getEBikeById(String ebikeId) {
         return Optional.empty();
     }
     
+    /**
+     * Get user by id.
+     */
     @Override
     public Optional<UserDTO> getUserById(String userId) {
         return Optional.empty();
-    }
-    
-    @Override
-    public void updateEBike(EBikeDTO dto) {
-    
-    }
-    
-    @Override
-    public void updateUser(UserDTO dto) {
-    
     }
 }

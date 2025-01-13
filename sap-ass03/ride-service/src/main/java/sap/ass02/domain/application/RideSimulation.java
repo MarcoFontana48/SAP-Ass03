@@ -5,6 +5,9 @@ import org.apache.logging.log4j.Logger;
 import sap.ass02.domain.*;
 import sap.ddd.Service;
 
+/**
+ * Class for simulating a ride.
+ */
 public final class RideSimulation extends Thread {
     private static final Logger LOGGER = LogManager.getLogger(RideSimulation.class);
     private static final int THREAD_SLEEP_MILLIS = 20;
@@ -14,6 +17,13 @@ public final class RideSimulation extends Thread {
     private final Service service;
     private volatile boolean stopped;
     
+    /**
+     * Instantiates a new Ride simulation.
+     * @param ride the ride
+     * @param user the user
+     * @param service the service
+     * @param agent the agent
+     */
     public RideSimulation(Ride ride, User user, Service service, VerticleAgent agent) {
         this.ride = ride;
         this.user = user;
@@ -22,6 +32,9 @@ public final class RideSimulation extends Thread {
         this.aBikeAgent = agent;
     }
     
+    /**
+     * Starts the ride simulation.
+     */
     public void run() {
         LOGGER.trace("Starting ride simulation for ride '{}'", this.ride);
         
@@ -79,6 +92,11 @@ public final class RideSimulation extends Thread {
         }
     }
     
+    /**
+     * Updates the battery level of the bike.
+     * @param lastTimeDecreasedBattery the last time the battery level was decreased
+     * @return the last time the battery level was decreased
+     */
     private long updateBattery(long lastTimeDecreasedBattery) {
         var elapsedTimeSinceLastDecBattery = System.currentTimeMillis() - lastTimeDecreasedBattery;
         if (elapsedTimeSinceLastDecBattery > 3000) {
@@ -90,6 +108,12 @@ public final class RideSimulation extends Thread {
         return lastTimeDecreasedBattery;
     }
     
+    /**
+     * Changes the direction of the bike randomly.
+     * @param lastTimeChangedDir the last time the direction was changed
+     * @param bike the bike
+     * @param direction the direction
+     */
     private void changeDirectionRandomly(long lastTimeChangedDir, EBike bike, V2d direction) {
         var elapsedTimeSinceLastChangeDir = System.currentTimeMillis() - lastTimeChangedDir;
         if (elapsedTimeSinceLastChangeDir > 500) {
@@ -99,6 +123,11 @@ public final class RideSimulation extends Thread {
         }
     }
     
+    /**
+     * Updates the credit of the user.
+     * @param lastTimeDecreasedCredit the last time the credit was decreased
+     * @return the last time the credit was decreased
+     */
     private long updateCredit(long lastTimeDecreasedCredit) {
         var elapsedTimeSinceLastDecredit = System.currentTimeMillis() - lastTimeDecreasedCredit;
         if (elapsedTimeSinceLastDecredit > 1000) {
@@ -110,11 +139,18 @@ public final class RideSimulation extends Thread {
         return lastTimeDecreasedCredit;
     }
     
+    /**
+     * Stops the ride simulation.
+     */
     public void stopSimulation() {
         this.stopped = true;
         this.interrupt();
     }
     
+    /**
+     * Gets the ride.
+     * @return the ride
+     */
     public Ride getRide() {
         return this.ride;
     }

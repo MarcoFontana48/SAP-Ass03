@@ -11,7 +11,7 @@ public interface Service {
     Iterable<Ride> getRides();
     boolean stopRide(final String rideId);
     
-    void attachRepository(ReadOnlyRepository repository);
+    void attachRepository(Repository repository);
     
     void updateUserCredits(Ride ride);
     

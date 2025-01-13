@@ -6,6 +6,9 @@ import org.apache.logging.log4j.Logger;
 import sap.ass02.domain.*;
 import sap.ddd.Service;
 
+/**
+ * Verticle for the ABike agent movement.
+ */
 public final class ABikeAgentMovementVerticle extends AbstractVerticle implements VerticleAgent {
     private static final Logger LOGGER = LogManager.getLogger(ABikeAgentMovementVerticle.class);
     private final ABike aBike;
@@ -13,12 +16,20 @@ public final class ABikeAgentMovementVerticle extends AbstractVerticle implement
     private final Service service;
     private final User user;
     
+    /**
+     * Instantiates a new ABike agent movement verticle.
+     * @param ride the ride
+     * @param service the service
+     */
     public ABikeAgentMovementVerticle(Ride ride, Service service) {
         this.aBike = new ABikeImpl(ride.getBike());
         this.user = ride.getUser();
         this.service = service;
     }
     
+    /**
+     * Starts the agent in order to autonomously reach nearest station.
+     */
     public void startToAutonomouslyReachNearestStation() {
         this.aBike.updateState(ABikeImpl.BikeState.START_AUTONOMOUSLY_REACH_STATION);
         this.service.updateEBike(this.aBike);
@@ -28,7 +39,10 @@ public final class ABikeAgentMovementVerticle extends AbstractVerticle implement
         this.vertx.eventBus().publish(eventKey, eventValue);
     }
     
-    public void reachUserAutonomously() {
+    /**
+     * Starts the agent in order to autonomously reach user.
+     */
+    public void startToAutonomouslyReachUser() {
         this.aBike.updateState(ABikeImpl.BikeState.START_AUTONOMOUSLY_REACH_USER);
         this.service.updateEBike(this.aBike);
         String eventKey = "abike-state-update-" + this.aBike.getBikeId();
@@ -37,6 +51,9 @@ public final class ABikeAgentMovementVerticle extends AbstractVerticle implement
         this.vertx.eventBus().publish(eventKey, eventValue);
     }
     
+    /**
+     * Starts the agent verticle.
+     */
     @Override
     public void start() {
         String eventKey = "abike-state-update-" + this.aBike.getBikeId();
@@ -85,6 +102,10 @@ public final class ABikeAgentMovementVerticle extends AbstractVerticle implement
         });
     }
     
+    /**
+     * Updates the state of the agent to the given state.
+     * @param bikeState the bike state
+     */
     private void updateStateTo(EBike.BikeState bikeState) {
         this.aBike.updateState(bikeState);
         this.service.updateEBike(this.aBike);
@@ -92,20 +113,34 @@ public final class ABikeAgentMovementVerticle extends AbstractVerticle implement
         
     }
     
+    /**
+     * Stops the bike from moving.
+     */
     private void stopMoving() {
         this.aBike.updateState(ABikeImpl.BikeState.MAINTENANCE);
         this.service.updateEBike(this.aBike);
     }
     
+    /**
+     * Finds the user.
+     * @return the user
+     */
     private User findUser() {
         return this.service.getUser(this.user.getId());
     }
     
+    /**
+     * Recharges the bike.
+     */
     private void rechargeBike() {
         this.aBike.rechargeBattery();
         this.service.updateEBike(this.aBike);
     }
     
+    /**
+     * Evaluates the agent position relative to the given place.
+     * @param place the place
+     */
     private void evaluateAgentPositionRelativeTo(Place place) {
         if (this.aBike.getLocation().getX() == place.location().getX() && this.aBike.getLocation().getY() == place.location().getY()) {
             if (place instanceof Station) {
@@ -114,17 +149,28 @@ public final class ABikeAgentMovementVerticle extends AbstractVerticle implement
         }
     }
     
+    /**
+     * Evaluates the agent position relative to the given user.
+     * @param user the user
+     */
     private void evaluateAgentPositionRelativeTo(User user) {
         if (this.aBike.getLocation().getX() == user.getXLocation() && this.aBike.getLocation().getY() == user.getYLocation()) {
             this.updateStateTo(ABikeImpl.BikeState.AT_USER);
         }
     }
     
+    /**
+     * Steps the agent forward.
+     */
     private void stepForward() {
         BikePositionLogic.updatePosition(this.aBike);
         this.service.updateEBike(this.aBike);
     }
     
+    /**
+     * Changes the direction towards the given place.
+     * @param place the place
+     */
     private void changeDirectionTowards(Place place) {
         this.aBike.updateDirection(new V2d(place.location().getX() - this.aBike.getLocation().getX(), place.location().getY() - this.aBike.getLocation().getY()));
         if (place instanceof Station) {
@@ -134,6 +180,10 @@ public final class ABikeAgentMovementVerticle extends AbstractVerticle implement
         }
     }
     
+    /**
+     * Changes the direction towards the given user.
+     * @param user the user
+     */
     private void changeDirectionTowards(User user) {
         this.aBike.updateDirection(new V2d(user.getXLocation() - this.aBike.getLocation().getX(), user.getYLocation() - this.aBike.getLocation().getY()));
         this.aBike.updateState(ABikeImpl.BikeState.MOVING_TO_USER);
@@ -141,14 +191,24 @@ public final class ABikeAgentMovementVerticle extends AbstractVerticle implement
         this.service.updateEBike(this.aBike);
     }
     
+    /**
+     * Stops the agent verticle.
+     */
     public void stop() {
         this.vertx.undeploy(this.deploymentID());
     }
     
+    /**
+     * Gets the current time.
+     */
     private long getTime() {
         return System.currentTimeMillis();
     }
     
+    /**
+     * Evaluates the nearest station from the environment.
+     * @return the nearest station
+     */
     private Station evaluateNearestStation() {
         Iterable<Station> stations = Environment.getStations();
         Station nearestStation = null;

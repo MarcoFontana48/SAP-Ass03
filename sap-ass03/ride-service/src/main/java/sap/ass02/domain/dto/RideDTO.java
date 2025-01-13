@@ -7,8 +7,15 @@ import sap.ddd.ValueObject;
 
 import java.util.Optional;
 
+/**
+ * Data transfer object for rides.
+ */
 public record RideDTO(java.sql.Date startedDate, Optional<java.sql.Date> endDate, UserDTO user, EBikeDTO ebike, boolean ongoing, String id) implements Jsonifyable, ValueObject {
     
+    /**
+     * Converts the object to a JSON object.
+     * @return JSON object
+     */
     @Override
     public JsonObject toJsonObject() {
         return new JsonObject()
@@ -22,11 +29,20 @@ public record RideDTO(java.sql.Date startedDate, Optional<java.sql.Date> endDate
                 .put(JsonFieldKey.RIDE_EBIKE_KEY, this.ebike.toJsonObject());
     }
     
+    /**
+     * Converts the object to a JSON string.
+     * @return JSON string
+     */
     @Override
     public String toJsonString() {
         return this.toJsonObject().encode();
     }
     
+    /**
+     * Converts a JSON object to a ride DTO.
+     * @param json the JSON object
+     * @return the ride DTO
+     */
     public static RideDTO fromJson(JsonObject json) {
         JsonObject userJsonObject = json.getJsonObject(JsonFieldKey.RIDE_USER_KEY);
         JsonObject ebikeJsonObject = json.getJsonObject(JsonFieldKey.RIDE_EBIKE_KEY);

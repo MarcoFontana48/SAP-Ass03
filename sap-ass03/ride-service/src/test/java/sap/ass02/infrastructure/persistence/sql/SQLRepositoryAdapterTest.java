@@ -48,7 +48,7 @@ class SQLRepositoryAdapterTest {
     @BeforeEach
     void setUp() throws IOException, InterruptedException {
         startProcess(new File(".."), "docker", "run", "-d", "-p", "3306:3306", "--name", "ride-sql-db", "ride-sql-db");
-        Thread.sleep(MINUTE / 2);
+        Thread.sleep(5*MINUTE);
         this.repository.connect("localhost", "3306", "ebike", "root", "password");
     }
     

@@ -8,5 +8,5 @@ public interface VerticleAgent extends Verticle {
     
     void startToAutonomouslyReachNearestStation();
     
-    void reachUserAutonomously();
+    void startToAutonomouslyReachUser();
 }

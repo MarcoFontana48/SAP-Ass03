@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import sap.ass02.domain.application.RideServiceVerticle;
 import sap.ass02.domain.*;
 import sap.ass02.domain.dto.RideDTO;
-import sap.ddd.ReadOnlyRepository;
+import sap.ddd.Repository;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -16,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+//! INTEGRATION TESTS
 public class RideServiceComponentTest {
     private final EBike eBike1 = new EBikeImpl("1", EBikeImpl.BikeState.AVAILABLE, new P2d(1.0, 2.0), new V2d(3.0, 4.0), 5.0, 11);
     private final User user1 = new User("1", 10);
@@ -24,7 +25,7 @@ public class RideServiceComponentTest {
     
     @BeforeEach
     public void setUp() {
-        ReadOnlyRepository repository = mock(ReadOnlyRepository.class);
+        Repository repository = mock(Repository.class);
         when(repository.getRideById("1")).thenReturn(Optional.of(this.ride1));
         when(repository.getRideById("1", "1")).thenReturn(Optional.of(this.ride1));
         when(repository.getOngoingRideById("1", "1")).thenReturn(Optional.of(this.ride1));

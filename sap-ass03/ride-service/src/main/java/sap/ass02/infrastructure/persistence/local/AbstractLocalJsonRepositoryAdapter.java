@@ -1,12 +1,13 @@
 package sap.ass02.infrastructure.persistence.local;
 
+import io.vertx.core.AbstractVerticle;
 import io.vertx.core.json.JsonObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import sap.ass02.domain.dto.*;
 import sap.ass02.domain.utils.JsonFieldKey;
-import sap.ass02.infrastructure.persistence.AbstractVerticleRepository;
 import sap.ass02.infrastructure.persistence.utils.DateFormatUtils;
+import sap.ddd.Repository;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -19,18 +20,27 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Optional;
 
-public abstract class AbstractLocalJsonRepositoryAdapter extends AbstractVerticleRepository {
+/**
+ * Abstract class for local JSON repository adapters.
+ */
+public abstract class AbstractLocalJsonRepositoryAdapter extends AbstractVerticle implements Repository {
     private static final Logger LOGGER = LogManager.getLogger(AbstractLocalJsonRepositoryAdapter.class);
     private final String RIDE_PATH = "rides";
     private final String USER_PATH = "users";
     private final String EBIKE_PATH = "ebikes";
     private final String databaseFolder;
     
+    /**
+     * Constructor for the local JSON repository adapter.
+     */
     public AbstractLocalJsonRepositoryAdapter() {
         this.databaseFolder = "./database";
         LOGGER.trace("LocalJsonRepositoryAdapter instantiated (remember to initialize it before using it!)");
     }
     
+    /**
+     * Initializes the local JSON repository adapter.
+     */
     @Override
     public void init() {
         this.makeDir(this.databaseFolder);
@@ -40,6 +50,11 @@ public abstract class AbstractLocalJsonRepositoryAdapter extends AbstractVerticl
         LOGGER.trace("LocalJsonRepositoryAdapter initialized");
     }
     
+    /**
+     * Retrieves an eBike by its ID.
+     * @param ebikeId the eBike's ID
+     * @return the eBike
+     */
     @Override
     public Optional<EBikeDTO> getEBikeById(final String ebikeId) {
         LOGGER.trace("Retrieving eBike with ID: {}", ebikeId);
@@ -58,6 +73,11 @@ public abstract class AbstractLocalJsonRepositoryAdapter extends AbstractVerticl
         }
     }
     
+    /**
+     * Retrieves a user by its ID.
+     * @param userId the user's ID
+     * @return the user
+     */
     @Override
     public Optional<UserDTO> getUserById(String userId) {
         LOGGER.trace("Retrieving user with ID: {}", userId);
@@ -76,6 +96,12 @@ public abstract class AbstractLocalJsonRepositoryAdapter extends AbstractVerticl
         }
     }
     
+    /**
+     * Retrieves a ride by the user's ID and the eBike's ID.
+     * @param userId the user's ID
+     * @param ebikeId the eBike's ID
+     * @return the ride
+     */
     @Override
     public Optional<RideDTO> getRideById(String userId, String ebikeId) {
         LOGGER.trace("Retrieving ride with user ID: {} and eBike ID: {}", userId, ebikeId);
@@ -91,6 +117,10 @@ public abstract class AbstractLocalJsonRepositoryAdapter extends AbstractVerticl
         return Optional.empty();
     }
     
+    /**
+     * Inserts a ride into the database.
+     * @param ride the ride to insert
+     */
     @Override
     public void insertRide(RideDTO ride) {
         try {
@@ -100,29 +130,13 @@ public abstract class AbstractLocalJsonRepositoryAdapter extends AbstractVerticl
         }
     }
     
-    @Override
-    public void updateRideEnd(RideDTO ride) {
-        LOGGER.trace("Updating ride end: {}", ride.toString());
-        File rideFile = new File(this.databaseFolder + File.separator + this.RIDE_PATH + File.separator + ride.id() + ".json");
-        if (rideFile.exists()) {
-            LOGGER.trace("RideDTO file found: {}", rideFile.getAbsolutePath());
-            try {
-                String content = new String(Files.readAllBytes(rideFile.toPath()));
-                LOGGER.trace("RideDTO file content: {}", content);
-                JsonObject obj = new JsonObject(content);
-                ride.endDate().ifPresent(date -> obj.put(JsonFieldKey.RIDE_END_DATE_KEY, date.toString()));
-                obj.put(JsonFieldKey.RIDE_ONGONING_KEY, ride.ongoing());
-                LOGGER.trace("RideDTO file content updated: {}", obj.encodePrettily());
-                this.saveObj(this.RIDE_PATH, String.valueOf(ride.id()), obj);
-            } catch (IOException e) {
-                e.printStackTrace();
-                throw new RuntimeException(e);
-            }
-        } else {
-            throw new IllegalArgumentException("RideDTO with ID " + ride.id() + " does not exist.");
-        }
-    }
-    
+    /**
+     * Retrieves a ride DTO.
+     * @param userId the user's ID
+     * @param ebikeId the eBike's ID
+     * @param file the file
+     * @return the ride DTO
+     */
     private Optional<RideDTO> getRideDTO(String userId, String ebikeId, File file) {
         try {
             String content = new String(Files.readAllBytes(file.toPath()));
@@ -154,6 +168,10 @@ public abstract class AbstractLocalJsonRepositoryAdapter extends AbstractVerticl
         return null;
     }
     
+    /**
+     * Retrieves all rides.
+     * @return the rides
+     */
     @Override
     public Optional<RideDTO> getRideById(String rideId) {
         LOGGER.trace("Retrieving ride with ID: {}", rideId);
@@ -172,6 +190,12 @@ public abstract class AbstractLocalJsonRepositoryAdapter extends AbstractVerticl
         }
     }
     
+    /**
+     * Retrieves an ongoing ride by the user's ID and the eBike's ID.
+     * @param userId the user's ID
+     * @param ebikeId the eBike's ID
+     * @return the ongoing ride
+     */
     @Override
     public Optional<RideDTO> getOngoingRideById(String userId, String ebikeId) {
         LOGGER.trace("Retrieving ongoing ride with user ID: {} and eBike ID: {}", userId, ebikeId);
@@ -187,6 +211,10 @@ public abstract class AbstractLocalJsonRepositoryAdapter extends AbstractVerticl
         return Optional.empty();
     }
     
+    /**
+     * Retrieves all rides.
+     * @return the rides
+     */
     @Override
     public Iterable<RideDTO> getAllRides() {
         ArrayList<RideDTO> rides = new ArrayList<>();
@@ -211,6 +239,10 @@ public abstract class AbstractLocalJsonRepositoryAdapter extends AbstractVerticl
         return rides;
     }
     
+    /**
+     * Creates a directory.
+     * @param name the directory's name
+     */
     private void makeDir(final String name) {
         LOGGER.trace("Creating directory: {}", name);
         try {
@@ -228,6 +260,13 @@ public abstract class AbstractLocalJsonRepositoryAdapter extends AbstractVerticl
         }
     }
     
+    /**
+     * Saves an object.
+     * @param db the database
+     * @param id the object's ID
+     * @param obj the object
+     * @throws FileAlreadyExistsException if the file already exists
+     */
     private void saveObj(final String db, final String id, final JsonObject obj) throws FileAlreadyExistsException {
         File file = new File(this.databaseFolder + File.separator + db + File.separator + id + ".json");
 //        if (file.exists()) {
@@ -243,6 +282,10 @@ public abstract class AbstractLocalJsonRepositoryAdapter extends AbstractVerticl
         }
     }
     
+    /**
+     * Updates an eBike.
+     * @param dto the eBike DTO
+     */
     public void updateEBike(EBikeDTO dto) {
         try {
             this.saveObj(this.EBIKE_PATH, dto.id(), dto.toJsonObject());
@@ -261,6 +304,10 @@ public abstract class AbstractLocalJsonRepositoryAdapter extends AbstractVerticl
         });
     }
     
+    /**
+     * Updates a user.
+     * @param dto the user DTO
+     */
     public void updateUser(UserDTO dto) {
         try {
             this.saveObj(this.USER_PATH, dto.id(), dto.toJsonObject());
@@ -279,6 +326,10 @@ public abstract class AbstractLocalJsonRepositoryAdapter extends AbstractVerticl
         });
     }
     
+    /**
+     * Inserts a user.
+     * @param user the user
+     */
     public void insertUser(UserDTO user) {
         try {
             this.saveObj(this.USER_PATH, user.id(), user.toJsonObject());
@@ -287,6 +338,10 @@ public abstract class AbstractLocalJsonRepositoryAdapter extends AbstractVerticl
         }
     }
     
+    /**
+     * Inserts an eBike.
+     * @param ebike the eBike
+     */
     public void insertEbike(EBikeDTO ebike) {
         try {
             this.saveObj(this.EBIKE_PATH, ebike.id(), ebike.toJsonObject());

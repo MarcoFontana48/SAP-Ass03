@@ -1,5 +1,8 @@
 package sap.ass02.infrastructure.persistence.sql;
 
+/**
+ * Class for SQL queries.
+ */
 public final class SQLQueries implements SQLStatement {
     public static final String SELECT_RIDE_BY_ID =
             """

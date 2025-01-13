@@ -1,5 +1,8 @@
 package sap.ass02.infrastructure.persistence.sql;
 
+/**
+ * SQLUpdates class.
+ */
 public final class SQLUpdates implements SQLStatement {
     public static final String INSERT_RIDE =
             """

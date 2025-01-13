@@ -10,30 +10,26 @@ import sap.ass02.domain.Controller;
 import sap.ass02.domain.EventManager;
 import sap.ass02.infrastructure.KafkaRideServiceEventManagerVerticle;
 import sap.ass02.infrastructure.RESTRideServiceControllerVerticle;
-import sap.ass02.infrastructure.persistence.AbstractVerticleReadOnlyRepository;
-import sap.ass02.infrastructure.persistence.AbstractVerticleRepository;
-import sap.ass02.infrastructure.persistence.ReadOnlyRepositoryAdapter;
 import sap.ass02.infrastructure.persistence.local.LocalJsonRepositoryAdapter;
+import sap.ddd.Repository;
 
 import java.util.Arrays;
 
 public class Main {
     private static final Logger LOGGER = LogManager.getLogger(Main.class);
     public static void main(String[] args) {
-        AbstractVerticleRepository readWriteRepository = new LocalJsonRepositoryAdapter();
-//        AbstractVerticleRepository readWriteRepository = new MongoRepositoryAdapter();
-//        AbstractVerticleRepository readWriteRepository = new SQLRepositoryAdapter();
-        readWriteRepository.init();
-        
-        AbstractVerticleReadOnlyRepository readOnlyRepository = new ReadOnlyRepositoryAdapter(readWriteRepository);
+        Repository repository = new LocalJsonRepositoryAdapter();
+//        Repository repository = new MongoRepositoryAdapter();
+//        Repository repository = new SQLRepositoryAdapter();
+        repository.init();
         
         ServiceVerticle service = new RideServiceVerticle();
-        service.attachRepository(readOnlyRepository);
+        service.attachRepository(repository);
         
         Controller controller = new RESTRideServiceControllerVerticle();
         EventManager eventManager = new KafkaRideServiceEventManagerVerticle();
         
-        deployVerticles(controller, eventManager, readOnlyRepository, service);
+        deployVerticles(controller, eventManager, service);
         
         controller.attachService(service);
     }

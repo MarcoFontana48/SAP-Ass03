@@ -2,6 +2,9 @@ package sap.ass02.infrastructure.utils;
 
 import io.prometheus.client.Counter;
 
+/**
+ * Class to count the number of requests received by the service.
+ */
 public final class PrometheusRequestsCounter implements RequestsCounter {
     private static final Counter REQUESTS_METHOD_STATUS_NUM_COUNTER = Counter.build()
             .name("user_service_requests_method_status_total")

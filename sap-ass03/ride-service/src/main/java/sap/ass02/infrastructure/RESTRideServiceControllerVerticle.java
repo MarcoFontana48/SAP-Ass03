@@ -28,6 +28,9 @@ import sap.ass02.infrastructure.utils.RequestsCounter;
 import java.io.IOException;
 import java.io.StringWriter;
 
+/**
+ * Represents the REST ride service controller verticle.
+ */
 public final class RESTRideServiceControllerVerticle extends AbstractVerticle implements Controller {
     private static final Logger LOGGER = LogManager.getLogger(RESTRideServiceControllerVerticle.class);
     private static final PrometheusPerformanceMeasurer PERFORMANCE_MEASURER = new PrometheusPerformanceMeasurer();
@@ -39,6 +42,12 @@ public final class RESTRideServiceControllerVerticle extends AbstractVerticle im
     private Service service;
     private WebClient webClient;
     
+    /**
+     * Sends a response to the client.
+     * @param routingContext The routing context.
+     * @param response The response.
+     * @param statusCode The status code.
+     */
     private static void sendResponse(RoutingContext routingContext, JsonArray response, int statusCode) {
         LOGGER.trace("Sending response with status code '{}' to client:\n{}", statusCode, response.encodePrettily());
         routingContext.response()
@@ -47,6 +56,12 @@ public final class RESTRideServiceControllerVerticle extends AbstractVerticle im
                 .end(response.encode());
     }
     
+    /**
+     * Sends a response to the client.
+     * @param routingContext The routing context.
+     * @param response The response.
+     * @param statusCode The status code.
+     */
     private static void sendResponse(RoutingContext routingContext, JsonObject response, int statusCode) {
         LOGGER.trace("Sending response with status code '{}' to client:\n{}", statusCode, response.encodePrettily());
         routingContext.response()
@@ -55,11 +70,18 @@ public final class RESTRideServiceControllerVerticle extends AbstractVerticle im
                 .end(response.encode());
     }
     
+    /**
+     * Attaches a service to the controller.
+     * @param service The service.
+     */
     @Override
     public void attachService(Service service) {
         this.service = service;
     }
     
+    /**
+     * Deploys the verticle.
+     */
     @Override
     public void start() {
         this.circuitBreaker = CircuitBreaker.create("user-service-circuit-breaker", this.vertx,
@@ -87,6 +109,10 @@ public final class RESTRideServiceControllerVerticle extends AbstractVerticle im
         this.vertx.createHttpServer().requestHandler(router).listen(HTTP_PORT);
     }
     
+    /**
+     * Handles a PUT request to update a ride.
+     * @param routingContext The routing context.
+     */
     private void putRideHandler(RoutingContext routingContext) {
         Histogram.Timer latencyTimer = PERFORMANCE_MEASURER.startTimer();
         this.circuitBreaker.execute(promise -> {
@@ -132,6 +158,10 @@ public final class RESTRideServiceControllerVerticle extends AbstractVerticle im
         });
     }
     
+    /**
+     * Handles a GET request to retrieve the health check.
+     * @param routingContext The routing context.
+     */
     private void getHealthCheckHandler(RoutingContext routingContext) {
         Histogram.Timer timer = PERFORMANCE_MEASURER.startTimer();
         this.circuitBreaker.execute(promise -> {
@@ -158,6 +188,10 @@ public final class RESTRideServiceControllerVerticle extends AbstractVerticle im
         });
     }
     
+    /**
+     * Handles a GET request to retrieve a ride.
+     * @param routingContext The routing context.
+     */
     private void getRideHandler(RoutingContext routingContext) {
         Histogram.Timer latencyTimer = PERFORMANCE_MEASURER.startTimer();
         this.circuitBreaker.execute(promise -> {
@@ -195,6 +229,10 @@ public final class RESTRideServiceControllerVerticle extends AbstractVerticle im
         
     }
     
+    /**
+     * Handles a POST request to add a ride.
+     * @param routingContext The routing context.
+     */
     private void postRideHandler(RoutingContext routingContext) {
         Histogram.Timer latencyTimer = PERFORMANCE_MEASURER.startTimer();
         this.circuitBreaker.execute(promise -> {
@@ -233,6 +271,10 @@ public final class RESTRideServiceControllerVerticle extends AbstractVerticle im
         });
     }
     
+    /**
+     * Handles a GET request to retrieve the metrics.
+     * @param routingContext The routing context.
+     */
     private void getMetricsHandler(RoutingContext routingContext) {
         routingContext.response().putHeader("Content-Type", TextFormat.CONTENT_TYPE_004);
         try (StringWriter writer = new StringWriter()) {
@@ -246,6 +288,10 @@ public final class RESTRideServiceControllerVerticle extends AbstractVerticle im
         }
     }
     
+    /**
+     * Handles a POST request to reach a user autonomously.
+     * @param routingContext The routing context.
+     */
     private void postReachUserHandler(RoutingContext routingContext) {
         Histogram.Timer latencyTimer = PERFORMANCE_MEASURER.startTimer();
         this.circuitBreaker.execute(promise -> {

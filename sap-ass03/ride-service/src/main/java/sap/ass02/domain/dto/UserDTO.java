@@ -5,6 +5,9 @@ import sap.ass02.domain.property.Jsonifyable;
 import sap.ass02.domain.utils.JsonFieldKey;
 import sap.ddd.ValueObject;
 
+/**
+ * Data transfer object for users.
+ */
 public record UserDTO(String id, int credit, double xLocation, double yLocation) implements Jsonifyable, ValueObject {
     public static UserDTO fromJson(JsonObject jsonUser) {
         return new UserDTO(
@@ -16,13 +19,18 @@ public record UserDTO(String id, int credit, double xLocation, double yLocation)
     }
     
     /**
-     * @return
+     * Converts the object to a JSON string.
+     * @return the JSON string
      */
     @Override
     public String toJsonString() {
         return this.toJsonObject().encode();
     }
     
+    /**
+     * Converts the object to a JSON object.
+     * @return the JSON object
+     */
     @Override
     public JsonObject toJsonObject() {
         JsonObject jsonObject = new JsonObject();
