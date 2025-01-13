@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: prometheus
-  namespace: default
+  namespace: ebike-app
 spec:
   replicas: 1
   selector:
@@ -40,7 +40,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: prometheus
-  namespace: default
+  namespace: ebike-app
 spec:
   selector:
     app: prometheus
@@ -48,13 +48,14 @@ spec:
     - protocol: TCP
       port: 9090
       targetPort: 9090
+  type: ClusterIP
 
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: prometheus-config
-  namespace: default
+  namespace: ebike-app
 data:
   prometheus.yml: |
     global:
