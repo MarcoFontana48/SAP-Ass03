@@ -4,22 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c36b0785-90ba-474f-8b00-43f3f30ac046" name="Changes" comment="refactor(ride-service): move kafka to service">
+    <list default="true" id="c36b0785-90ba-474f-8b00-43f3f30ac046" name="Changes" comment="docs: update README">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sap-ass03/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sap-ass03/kubernetes/api-gateway.yml" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/kubernetes/api-gateway.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sap-ass03/kubernetes/bike-mongo-db.yml" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/kubernetes/bike-mongo-db.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sap-ass03/kubernetes/bike-mysql-db.yml" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/kubernetes/bike-mysql-db.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sap-ass03/kubernetes/bike-service.yml" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/kubernetes/bike-service.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sap-ass03/kubernetes/config-server.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/kubernetes/config-server.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sap-ass03/kubernetes/kafka.yml" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/kubernetes/kafka.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sap-ass03/kubernetes/namespace.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/kubernetes/namespace.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sap-ass03/kubernetes/prometheus.yml" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/kubernetes/prometheus.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sap-ass03/kubernetes/ride-service.yml" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/kubernetes/ride-service.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sap-ass03/kubernetes/user-mongo-db.yml" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/kubernetes/user-mongo-db.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sap-ass03/kubernetes/user-mysql-db.yml" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/kubernetes/user-mysql-db.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sap-ass03/kubernetes/user-service.yml" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/kubernetes/user-service.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sap-ass03/kubernetes/zookeeper.yml" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/kubernetes/zookeeper.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -323,7 +309,15 @@
       <workItem from="1736756242302" duration="13198000" />
       <workItem from="1736781115596" duration="25000" />
       <workItem from="1736786807138" duration="269000" />
-      <workItem from="1736798016991" duration="5396000" />
+      <workItem from="1736798016991" duration="6054000" />
+      <workItem from="1736839219267" duration="34000" />
+      <workItem from="1736864318390" duration="86000" />
+      <workItem from="1737042120677" duration="1542000" />
+      <workItem from="1737099035897" duration="9000" />
+      <workItem from="1737103008799" duration="14000" />
+      <workItem from="1737361711266" duration="32000" />
+      <workItem from="1737712001385" duration="125000" />
+      <workItem from="1737720800847" duration="71000" />
     </task>
     <task id="LOCAL-00001" summary="uploaded ass-02 refactorized to jvm21">
       <option name="closed" value="true" />
@@ -693,7 +687,23 @@
       <option name="project" value="LOCAL" />
       <updated>1736714012341</updated>
     </task>
-    <option name="localTasksCounter" value="47" />
+    <task id="LOCAL-00047" summary="refactor(ride-service): apply namespace to kubernetes">
+      <option name="closed" value="true" />
+      <created>1736805610138</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1736805610138</updated>
+    </task>
+    <task id="LOCAL-00048" summary="docs: update README">
+      <option name="closed" value="true" />
+      <created>1736805653621</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1736805653621</updated>
+    </task>
+    <option name="localTasksCounter" value="49" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -711,8 +721,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="docs(admin-ui): add documentation of admin view" />
-    <MESSAGE value="docs(admin-ui): add documentation of AdminClient main class" />
     <MESSAGE value="docs(admin-ui): add documentation of KafkaEBikeServiceEventManagerVerticle" />
     <MESSAGE value="docs(admin-ui): add documentation for DDD objects" />
     <MESSAGE value="docs(api-gateway): add documentation api-gateway classes" />
@@ -736,7 +744,9 @@
     <MESSAGE value="refactor(bike-service): move kafka producer to user service" />
     <MESSAGE value="hotfix(bike-service): fix error in previous commit" />
     <MESSAGE value="refactor(user-service): move kafka to service" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactor(user-service): move kafka to service" />
+    <MESSAGE value="refactor(ride-service): apply namespace to kubernetes" />
+    <MESSAGE value="docs: update README" />
+    <option name="LAST_COMMIT_MESSAGE" value="docs: update README" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
