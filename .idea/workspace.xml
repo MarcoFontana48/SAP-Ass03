@@ -4,8 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c36b0785-90ba-474f-8b00-43f3f30ac046" name="Changes" comment="docs: update README">
+    <list default="true" id="c36b0785-90ba-474f-8b00-43f3f30ac046" name="Changes" comment="build: update workspace.xml">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/kubernetes/api-gateway.yml" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/kubernetes/api-gateway.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/kubernetes/bike-mongo-db.yml" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/kubernetes/bike-mongo-db.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/kubernetes/bike-mysql-db.yml" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/kubernetes/bike-mysql-db.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/kubernetes/bike-service.yml" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/kubernetes/bike-service.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/kubernetes/config-server.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/kubernetes/config-server.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/kubernetes/kafka.yml" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/kubernetes/kafka.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/kubernetes/prometheus.yml" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/kubernetes/prometheus.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/kubernetes/ride-service.yml" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/kubernetes/ride-service.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/kubernetes/user-mongo-db.yml" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/kubernetes/user-mongo-db.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/kubernetes/user-mysql-db.yml" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/kubernetes/user-mysql-db.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/kubernetes/user-service.yml" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/kubernetes/user-service.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/kubernetes/zookeeper.yml" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/kubernetes/zookeeper.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,7 +43,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="dev" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -125,7 +138,7 @@
     &quot;Maven.sap-ass03 [org.apache.maven.plugins:maven-javadoc-plugin:3.3.0:javadoc].executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;dev&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;last_directory_selection&quot;: &quot;C:/Users/marco/OneDrive/Universita/Software architecture and platforms/SAP-ASS03/sap-ass03/ride-service/src/test/java/sap/ass02/domain&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/marco/OneDrive/Universita/Software architecture and platforms/SAP-ASS03/sap-ass03/user-service/src/main/java/sap/ass02/domain/dto&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
@@ -318,6 +331,7 @@
       <workItem from="1737361711266" duration="32000" />
       <workItem from="1737712001385" duration="125000" />
       <workItem from="1737720800847" duration="71000" />
+      <workItem from="1739206041434" duration="7289000" />
     </task>
     <task id="LOCAL-00001" summary="uploaded ass-02 refactorized to jvm21">
       <option name="closed" value="true" />

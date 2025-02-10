@@ -44,3 +44,72 @@ To deploy the project on kubernetes, you need to have minikube installed on your
 - `kubectl get pods` to see the pods created (if you specified a different namespace than the 'default' one that is currently used by this project, use command '-n <namespace>')
 - `kubectl describe pod <podname>` to see the details of a specific pod (if you specified a different namespace than the 'default' one that is currently used by this project, use command '-n <namespace>')
 - `kubectl delete all --all` to delete all the resources created in the cluster (if you specified a different namespace than the 'default' one that is currently used by this project, use command '-n <namespace>')
+
+### Testing the deployment on kubernetes
+To test if api gateway can reach the services, run the following command:
+- get the pod names: `kubectl get pods -A`
+- run the following command: `kubectl exec -it API_GATEWAY_POD_NAME -- curl -v http://ebike-service:8082/health`
+- (example: `kubectl exec -it api-gateway-59898d76cd-xl4qg -- curl -v http://ebike-service:8082/health`)
+
+example response from my machine:
+```
+$ kubectl exec -it api-gateway-59898d76cd-9fsdk -- curl -v http://ebike-service:8082/health
+* Host ebike-service:8082 was resolved.
+* IPv6: (none)
+* IPv4: 10.99.99.152
+*   Trying 10.99.99.152:8082...
+* Connected to ebike-service (10.99.99.152) port 8082
+> GET /health HTTP/1.1
+> Host: ebike-service:8082
+> User-Agent: curl/8.5.0
+> Accept: */*
+>
+< HTTP/1.1 200 OK
+< content-type: application/json
+< content-length: 15
+<
+* Connection #0 to host ebike-service left intact
+{"status":"ok"}
+```
+To test if the api gateway is reachable, run the following command:
+- `curl -v http://localhost:8080/health`
+
+example response from my machine:
+```
+$ curl -v http://localhost:8080/health
+* Host localhost:8080 was resolved.
+* IPv6: ::1
+* IPv4: 127.0.0.1
+*   Trying [::1]:8080...
+* Connected to localhost (::1) port 8080
+> GET /health HTTP/1.1
+> Host: localhost:8080
+> User-Agent: curl/8.7.1
+> Accept: */*
+>
+* Request completely sent off
+  < HTTP/1.1 200 OK
+  < content-type: application/json
+  < content-length: 15
+  <
+  {"status":"ok"}* Connection #0 to host localhost left intact
+```
+
+You can also test sending requests from api-gateway to the services:
+- get the api gateway pod name: `kubectl get pods -A`, find it under 'NAME' and paste it where API_GATEWAY_POD_NAME is written in the following commands:
+- (example: `kubectl exec -it api-gateway-59898d76cd-9fsdk -- curl -X GET http://ebike-service:8082/app/ebike/`)
+- add a user to user-service: `kubectl exec -it API_GATEWAY_POD_NAME -- curl -X POST http://user-service:8081/app/user/ -H "Content-Type: application/json" -d '{"user_id": 1, "credit": 100}'`
+- update a user to user-service: `kubectl exec -it API_GATEWAY_POD_NAME -- curl -X PUT http://user-service:8081/app/user/ -H "Content-Type: application/json" -d '{"user_id": 1, "credit": 55}'`
+- get a user from user-service: `kubectl exec -it API_GATEWAY_POD_NAME -- curl -X GET http://user-service:8081/app/user/`
+- add an ebike to bike-service: `kubectl exec -it API_GATEWAY_POD_NAME -- curl -X POST http://ebike-service:8082/app/ebike/ -H "Content-Type: application/json" -d '{"ebike_id": 1, "state": "AVAILABLE", "x_location": 0, "y_location": 0, "x_direction": 1, "y_direction": 0, "speed": 0, "battery": 100}'`
+- update an ebike to bike-service: `kubectl exec -it API_GATEWAY_POD_NAME -- curl -X PUT http://ebike-service:8082/app/ebike/ -H "Content-Type: application/json" -d '{"ebike_id": 1, "state": "AVAILABLE", "x_location": 6, "y_location": 7, "x_direction": 8, "y_direction": 9, "speed": 5, "battery": 33}'`
+- get an ebike from bike-service: `kubectl exec -it API_GATEWAY_POD_NAME -- curl -X GET http://ebike-service:8082/app/ebike/`
+- add a ride to ride-service: `kubectl exec -it API_GATEWAY_POD_NAME -- curl -X POST http://ride-service:8084/app/ride/ -H "Content-Type: application/json" -d '{"ride_id": 1, "user_id": 1, "ebike_id": 1, "action":"start"}'`
+- stop a ride to ride-service: `kubectl exec -it API_GATEWAY_POD_NAME -- curl -X PUT http://ride-service:8084/app/ride/ -H "Content-Type: application/json" -d '{"ride_id": 1, "user_id": 1, "ebike_id": 1, "action":"stop"}'`
+- get a ride from ride-service: `kubectl exec -it API_GATEWAY_POD_NAME -- curl -X GET http://ride-service:8084/app/ride/`
+
+example response from my machine:
+```
+kubectl exec -it api-gateway-59898d76cd-9fsdk -- curl -X GET http://user-service:8081/app/user/
+[{"user_id":"1","credit":100}]
+```
