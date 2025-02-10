@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ride-service
-  namespace: ebike-app
 spec:
   replicas: 1
   selector:
@@ -35,12 +34,9 @@ apiVersion: v1
 kind: Service
 metadata:
   name: ride-service
-  namespace: ebike-app
 spec:
   selector:
     app: ride-service
   ports:
-    - protocol: TCP
-      port: 8084
+    - port: 8084
       targetPort: 8080
-  type: ClusterIP
