@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: config-server
-          image: marcofontana/sap-ass-03:config-server
+          image: marcofontana17/sap-ass-03:config-server
           ports:
             - containerPort: 8080
           livenessProbe:
@@ -35,5 +35,5 @@ spec:
   selector:
     app: config-server
   ports:
-    - port: 8083
+    - port: 8080
       targetPort: 8080

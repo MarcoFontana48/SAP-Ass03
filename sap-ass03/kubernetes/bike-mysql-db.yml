@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: mysql-bike-db
-          image: marcofontana/sap-ass-03:bike-sql-db
+          image: marcofontana17/sap-ass-03:bike-sql-db
           env:
             - name: MYSQL_ROOT_PASSWORD
               value: "password"
@@ -43,5 +43,5 @@ spec:
   selector:
     app: mysql-bike-db
   ports:
-    - port: 3307
+    - port: 3306
       targetPort: 3306

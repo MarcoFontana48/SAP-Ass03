@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: mongo-user-db
-          image: marcofontana/sap-ass-03:user-mongo-db
+          image: marcofontana17/sap-ass-03:user-mongo-db
           ports:
             - containerPort: 27017
 

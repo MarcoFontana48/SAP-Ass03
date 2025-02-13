@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: user-service
-          image: marcofontana/sap-ass-03:user-service
+          image: marcofontana17/sap-ass-03:user-service
           env:
             - name: CONFIG_SERVER_HOST_NAME
               value: "config-server"
@@ -38,5 +38,5 @@ spec:
   selector:
     app: user-service
   ports:
-    - port: 8081
+    - port: 8080
       targetPort: 8080

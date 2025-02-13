@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: api-gateway
-          image: marcofontana/sap-ass-03:api-gateway
+          image: marcofontana17/sap-ass-03:api-gateway
           ports:
             - containerPort: 8080
           livenessProbe:

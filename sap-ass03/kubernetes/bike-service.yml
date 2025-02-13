@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: ebike-service
-          image: marcofontana/sap-ass-03:bike-service
+          image: marcofontana17/sap-ass-03:bike-service
           env:
             - name: CONFIG_SERVER_HOST_NAME
               value: "config-server"
@@ -38,5 +38,5 @@ spec:
   selector:
     app: ebike-service
   ports:
-    - port: 8082
+    - port: 8080
       targetPort: 8080

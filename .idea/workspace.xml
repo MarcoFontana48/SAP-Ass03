@@ -4,16 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c36b0785-90ba-474f-8b00-43f3f30ac046" name="Changes" comment="build: update workspace.xml">
+    <list default="true" id="c36b0785-90ba-474f-8b00-43f3f30ac046" name="Changes" comment="build: update kubernetes files">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sap-ass03/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sap-ass03/kubernetes/api-gateway.yml" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/kubernetes/api-gateway.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sap-ass03/kubernetes/bike-mongo-db.yml" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/kubernetes/bike-mongo-db.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sap-ass03/kubernetes/bike-mysql-db.yml" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/kubernetes/bike-mysql-db.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sap-ass03/kubernetes/bike-service.yml" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/kubernetes/bike-service.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sap-ass03/kubernetes/config-server.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/kubernetes/config-server.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sap-ass03/kubernetes/kafka.yml" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/kubernetes/kafka.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sap-ass03/kubernetes/prometheus.yml" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/kubernetes/prometheus.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sap-ass03/kubernetes/ride-service.yml" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/kubernetes/ride-service.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sap-ass03/kubernetes/user-mongo-db.yml" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/kubernetes/user-mongo-db.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sap-ass03/kubernetes/user-mysql-db.yml" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/kubernetes/user-mysql-db.yml" afterDir="false" />
@@ -332,14 +330,9 @@
       <workItem from="1737712001385" duration="125000" />
       <workItem from="1737720800847" duration="71000" />
       <workItem from="1739206041434" duration="7289000" />
-    </task>
-    <task id="LOCAL-00001" summary="uploaded ass-02 refactorized to jvm21">
-      <option name="closed" value="true" />
-      <created>1734861174056</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1734861174056</updated>
+      <workItem from="1739216390514" duration="190000" />
+      <workItem from="1739296831592" duration="31000" />
+      <workItem from="1739481066559" duration="8037000" />
     </task>
     <task id="LOCAL-00002" summary="refactor: add mockito for tests where a mock is required">
       <option name="closed" value="true" />
@@ -717,7 +710,23 @@
       <option name="project" value="LOCAL" />
       <updated>1736805653621</updated>
     </task>
-    <option name="localTasksCounter" value="49" />
+    <task id="LOCAL-00049" summary="docs: update README.md">
+      <option name="closed" value="true" />
+      <created>1739216471016</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1739216471016</updated>
+    </task>
+    <task id="LOCAL-00050" summary="build: update kubernetes files">
+      <option name="closed" value="true" />
+      <created>1739216502878</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1739216502878</updated>
+    </task>
+    <option name="localTasksCounter" value="51" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -735,8 +744,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="docs(admin-ui): add documentation of KafkaEBikeServiceEventManagerVerticle" />
-    <MESSAGE value="docs(admin-ui): add documentation for DDD objects" />
     <MESSAGE value="docs(api-gateway): add documentation api-gateway classes" />
     <MESSAGE value="build: modified poms" />
     <MESSAGE value="build: add javadoc plugin to each pom.xml" />
@@ -760,7 +767,9 @@
     <MESSAGE value="refactor(user-service): move kafka to service" />
     <MESSAGE value="refactor(ride-service): apply namespace to kubernetes" />
     <MESSAGE value="docs: update README" />
-    <option name="LAST_COMMIT_MESSAGE" value="docs: update README" />
+    <MESSAGE value="docs: update README.md" />
+    <MESSAGE value="build: update kubernetes files" />
+    <option name="LAST_COMMIT_MESSAGE" value="build: update kubernetes files" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
