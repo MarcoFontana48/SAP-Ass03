@@ -1,5 +1,12 @@
 ### How to run the project
 1. make sure to have Docker up and running on your machine
+2. move to root project path and run command `docker-compose up -d` to run the whole project and its services on containers based on images that are downloaded from docker hub
+3. to run the clients:
+   - Admin client: move to path `~\admin-ui\src\main\java\sap\ass02\infrastructure\AdminClient.java` and run its main method
+   - User client: move to path `~\user-ui\src\main\java\sap\ass02\infrastructure\UserClient.java` and run its main method
+
+### How to build and run the project
+1. make sure to have Docker up and running on your machine
 2. move to path `~\api-gateway` and run `docker build -t api-gateway -f docker-base-maven/Dockerfile .` to build the service image
 3. move to path `~\configuration-server` and run `docker build -t config-server -f docker-maven/Dockerfile .` to build the service image
 4. move to path `~\user-service` and run `docker build -t user-service -f docker-maven/Dockerfile . ; docker build -t user-sql-db -f docker-sql-db/Dockerfile . ; docker build -t user-mongo-db -f docker-mongo-db/Dockerfile .` to build the user-service and user-db images
@@ -7,8 +14,8 @@
 6. move to path `~\ride-service` and run `docker build -t ride-service -f docker-maven/Dockerfile . ; docker build -t ride-sql-db -f docker-sql-db/Dockerfile . ; docker build -t ride-mongo-db -f docker-mongo-db/Dockerfile .` to build the bike-service and bike-db images
 7. move to the project root path `~\` (the parent directory of previous' steps paths) and run `docker-compose up -d` to run the whole project and its services on containers based on the images created in previous steps
 8. to run the clients:
-    - User client: move to path `~\user-ui\src\main\java\sap\ass02\infrastructure\UserClient.java` and run its main method
-    - Admin client: move to path `~\admin-ui\src\main\java\sap\ass02\infrastructure\UserClient.java` and run its main method
+   - Admin client: move to path `~\admin-ui\src\main\java\sap\ass02\infrastructure\AdminClient.java` and run its main method
+   - User client: move to path `~\user-ui\src\main\java\sap\ass02\infrastructure\UserClient.java` and run its main method
 
 ### How to see the metrics
 Open a browser and navigate to `http://localhost:9090` to see the metrics of the services
