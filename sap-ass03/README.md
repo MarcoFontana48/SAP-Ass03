@@ -1,9 +1,10 @@
-### How to run the project
+### How to run the project 
 1. make sure to have Docker up and running on your machine
 2. move to root project path and run command `docker-compose up -d` to run the whole project and its services on containers based on images that are downloaded from docker hub
 3. to run the clients:
    - Admin client: move to path `~\admin-ui\src\main\java\sap\ass02\infrastructure\AdminClient.java` and run its main method
    - User client: move to path `~\user-ui\src\main\java\sap\ass02\infrastructure\UserClient.java` and run its main method
+4. when you're done using the application, run command `docker-compose down -v` to stop and remove the containers and volumes created by the project
 
 ### How to build and run the project
 1. make sure to have Docker up and running on your machine

@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c36b0785-90ba-474f-8b00-43f3f30ac046" name="Changes" comment="build: update kubernetes files">
+    <list default="true" id="c36b0785-90ba-474f-8b00-43f3f30ac046" name="Changes" comment="chore: update README.md">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sap-ass03/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -325,23 +325,7 @@
       <workItem from="1739481066559" duration="8037000" />
       <workItem from="1739523444010" duration="1990000" />
       <workItem from="1739525688309" duration="111000" />
-      <workItem from="1739617986273" duration="361000" />
-    </task>
-    <task id="LOCAL-00003" summary="docs(admin-ui): add documentation to DTO classes">
-      <option name="closed" value="true" />
-      <created>1734863132912</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1734863132912</updated>
-    </task>
-    <task id="LOCAL-00004" summary="docs(admin-ui): add documentation to ports">
-      <option name="closed" value="true" />
-      <created>1734863172764</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1734863172764</updated>
+      <workItem from="1739617986273" duration="1924000" />
     </task>
     <task id="LOCAL-00005" summary="docs(admin-ui): add documentation to domain utils and properties">
       <option name="closed" value="true" />
@@ -719,7 +703,23 @@
       <option name="project" value="LOCAL" />
       <updated>1739525445727</updated>
     </task>
-    <option name="localTasksCounter" value="52" />
+    <task id="LOCAL-00052" summary="build: docker compose file now uses images from dockerhub instead of pre built images">
+      <option name="closed" value="true" />
+      <created>1739618924957</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1739618924957</updated>
+    </task>
+    <task id="LOCAL-00053" summary="chore: update README.md">
+      <option name="closed" value="true" />
+      <created>1739618941462</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1739618941462</updated>
+    </task>
+    <option name="localTasksCounter" value="54" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -737,8 +737,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="docs(api-gateway): add documentation api-gateway classes" />
-    <MESSAGE value="build: modified poms" />
     <MESSAGE value="build: add javadoc plugin to each pom.xml" />
     <MESSAGE value="build: add parent maven module" />
     <MESSAGE value="style: reindented pom.xml file to use only 2 spaced" />
@@ -762,7 +760,9 @@
     <MESSAGE value="docs: update README" />
     <MESSAGE value="docs: update README.md" />
     <MESSAGE value="build: update kubernetes files" />
-    <option name="LAST_COMMIT_MESSAGE" value="build: update kubernetes files" />
+    <MESSAGE value="build: docker compose file now uses images from dockerhub instead of pre built images" />
+    <MESSAGE value="chore: update README.md" />
+    <option name="LAST_COMMIT_MESSAGE" value="chore: update README.md" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
