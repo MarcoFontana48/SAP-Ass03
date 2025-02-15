@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   config-server:
-    image: config-server
+    image: marcofontana17/sap-ass-03:config-server
     container_name: config-server
     ports:
       - "8083:8080"
@@ -18,7 +18,7 @@ services:
 
   # this tag has to match the 'DB_HOST' value in the user-service
   mysql_user_db:
-    image: user-sql-db:latest
+    image: marcofontana17/sap-ass-03:user-sql-db
     container_name: user-sql-db
     environment:
       MYSQL_ROOT_PASSWORD: password
@@ -40,7 +40,7 @@ services:
 
   # this tag has to match the 'DB_HOST' value in the ebike-service
   mysql_bike_db:
-    image: bike-sql-db:latest
+    image: marcofontana17/sap-ass-03:bike-sql-db
     container_name: bike-sql-db
     environment:
       MYSQL_ROOT_PASSWORD: password
@@ -62,7 +62,7 @@ services:
 
   # this tag has to match the 'DB_HOST_MONGO' value in the user-service
   mongo_user_db:
-    image: user-mongo-db:latest
+    image: marcofontana17/sap-ass-03:user-mongo-db
     container_name: user-mongo-db
     ports:
       - "27017:27017"
@@ -74,7 +74,7 @@ services:
 
   # this tag has to match the 'DB_HOST_MONGO' value in the user-service
   mongo_bike_db:
-    image: bike-mongo-db:latest
+    image: marcofontana17/sap-ass-03:bike-mongo-db
     container_name: bike-mongo-db
     ports:
       - "27018:27017"
@@ -119,7 +119,7 @@ services:
       - ebike-app-network
 
   user-service:
-    image: user-service
+    image: marcofontana17/sap-ass-03:user-service
     container_name: user-service
     ports:
       - "8081:8080"
@@ -141,7 +141,7 @@ services:
       - ebike-app-network
 
   ebike-service:
-    image: bike-service
+    image: marcofontana17/sap-ass-03:bike-service
     container_name: bike-service
     ports:
       - "8082:8080"
@@ -163,7 +163,7 @@ services:
       - ebike-app-network
 
   ride-service:
-    image: ride-service
+    image: marcofontana17/sap-ass-03:ride-service
     container_name: ride-service
     ports:
       - "8084:8080"
@@ -185,7 +185,7 @@ services:
       - ebike-app-network
 
   api-gateway:
-    image: api-gateway
+    image: marcofontana17/sap-ass-03:api-gateway
     container_name: api-gateway
     ports:
       - "8080:8080"

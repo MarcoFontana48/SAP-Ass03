@@ -5,11 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c36b0785-90ba-474f-8b00-43f3f30ac046" name="Changes" comment="build: update kubernetes files">
-      <change afterPath="$PROJECT_DIR$/sap-ass03/kubernetes/kafka-zookeeper.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sap-ass03/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sap-ass03/kubernetes/kafka.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sap-ass03/kubernetes/zookeeper.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/docker-compose.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -326,15 +323,9 @@
       <workItem from="1739216390514" duration="190000" />
       <workItem from="1739296831592" duration="31000" />
       <workItem from="1739481066559" duration="8037000" />
-      <workItem from="1739523444010" duration="1915000" />
-    </task>
-    <task id="LOCAL-00002" summary="refactor: add mockito for tests where a mock is required">
-      <option name="closed" value="true" />
-      <created>1734862031266</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1734862031266</updated>
+      <workItem from="1739523444010" duration="1990000" />
+      <workItem from="1739525688309" duration="111000" />
+      <workItem from="1739617986273" duration="361000" />
     </task>
     <task id="LOCAL-00003" summary="docs(admin-ui): add documentation to DTO classes">
       <option name="closed" value="true" />
@@ -720,7 +711,15 @@
       <option name="project" value="LOCAL" />
       <updated>1739216502878</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary="build: update kubernetes files">
+      <option name="closed" value="true" />
+      <created>1739525445727</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1739525445727</updated>
+    </task>
+    <option name="localTasksCounter" value="52" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
