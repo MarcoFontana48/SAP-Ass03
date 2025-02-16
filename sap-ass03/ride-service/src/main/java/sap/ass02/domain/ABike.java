@@ -2,7 +2,6 @@ package sap.ass02.domain;
 
 import io.vertx.core.json.JsonObject;
 import sap.ass02.domain.dto.EBikeDTO;
-import sap.ddd.Entity;
 
 /**
  * Interface for an agent electric bike.

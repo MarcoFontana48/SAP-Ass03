@@ -7,7 +7,7 @@ import org.apache.logging.log4j.Logger;
 import sap.ass02.domain.dto.*;
 import sap.ass02.domain.utils.JsonFieldKey;
 import sap.ass02.infrastructure.persistence.utils.DateFormatUtils;
-import sap.ddd.Repository;
+import sap.ass02.application.Repository;
 
 import java.io.BufferedWriter;
 import java.io.File;

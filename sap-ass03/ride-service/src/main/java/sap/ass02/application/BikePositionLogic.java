@@ -1,4 +1,4 @@
-package sap.ass02.domain.application;
+package sap.ass02.application;
 
 import sap.ass02.domain.EBike;
 import sap.ass02.domain.P2d;

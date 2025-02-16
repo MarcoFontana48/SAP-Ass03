@@ -7,8 +7,6 @@ import io.prometheus.metrics.instrumentation.jvm.JvmMetrics;
 import io.vertx.circuitbreaker.CircuitBreaker;
 import io.vertx.circuitbreaker.CircuitBreakerOptions;
 import io.vertx.core.AbstractVerticle;
-import io.vertx.core.Future;
-import io.vertx.core.Promise;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
@@ -17,10 +15,11 @@ import io.vertx.ext.web.client.WebClient;
 import io.vertx.ext.web.handler.BodyHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import sap.ass02.application.Controller;
 import sap.ass02.domain.*;
 import sap.ass02.domain.utils.JsonFieldKey;
 import sap.ass02.domain.utils.JsonUtils;
-import sap.ddd.Service;
+import sap.ass02.application.Service;
 import sap.ass02.infrastructure.utils.PrometheusPerformanceMeasurer;
 import sap.ass02.infrastructure.utils.PrometheusRequestsCounter;
 import sap.ass02.infrastructure.utils.RequestsCounter;
@@ -31,7 +30,7 @@ import java.io.StringWriter;
 /**
  * Represents the REST ride service controller verticle.
  */
-public final class RESTRideServiceControllerVerticle extends AbstractVerticle implements Controller {
+public final class RESTRideServiceControllerVerticle extends AbstractVerticle implements sap.ass02.application.Controller {
     private static final Logger LOGGER = LogManager.getLogger(RESTRideServiceControllerVerticle.class);
     private static final PrometheusPerformanceMeasurer PERFORMANCE_MEASURER = new PrometheusPerformanceMeasurer();
     private static final RequestsCounter REQUESTS_COUNTER = new PrometheusRequestsCounter();

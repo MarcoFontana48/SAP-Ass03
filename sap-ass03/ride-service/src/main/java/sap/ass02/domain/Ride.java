@@ -5,7 +5,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import sap.ass02.domain.dto.RideDTO;
 import sap.ass02.domain.utils.JsonFieldKey;
-import sap.ddd.AggregateRoot;
 
 import java.sql.Date;
 import java.util.Optional;

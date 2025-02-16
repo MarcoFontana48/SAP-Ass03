@@ -1,10 +1,9 @@
-package sap.ass02.domain.application;
+package sap.ass02.application;
 
 import io.vertx.core.AbstractVerticle;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import sap.ass02.domain.*;
-import sap.ddd.Service;
 
 /**
  * Verticle for the ABike agent movement.

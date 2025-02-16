@@ -2,10 +2,10 @@ package sap.ass02.infrastructure.persistence;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import sap.ass02.domain.application.RideServiceVerticle;
+import sap.ass02.application.RideServiceVerticle;
 import sap.ass02.domain.*;
 import sap.ass02.domain.dto.RideDTO;
-import sap.ddd.Repository;
+import sap.ass02.application.Repository;
 
 import java.sql.Date;
 import java.util.ArrayList;

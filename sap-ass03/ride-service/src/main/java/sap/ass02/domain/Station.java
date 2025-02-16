@@ -4,7 +4,6 @@ import io.vertx.core.json.JsonObject;
 import sap.ass02.domain.dto.P2dDTO;
 import sap.ass02.domain.dto.StationDTO;
 import sap.ass02.domain.property.Jsonifyable;
-import sap.ddd.Entity;
 
 /**
  * Record class to represent a station.

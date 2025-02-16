@@ -12,7 +12,7 @@ import org.apache.logging.log4j.Logger;
 import sap.ass02.domain.dto.*;
 import sap.ass02.infrastructure.EndpointPath;
 import sap.ass02.infrastructure.persistence.properties.Connectable;
-import sap.ddd.Repository;
+import sap.ass02.application.Repository;
 
 import java.sql.*;
 import java.util.ArrayList;

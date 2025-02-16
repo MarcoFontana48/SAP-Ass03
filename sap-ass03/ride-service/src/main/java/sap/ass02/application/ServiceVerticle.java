@@ -1,7 +1,6 @@
-package sap.ass02.domain.application;
+package sap.ass02.application;
 
 import io.vertx.core.Verticle;
-import sap.ddd.Service;
 
 /**
  * Interface to implement services as verticles.

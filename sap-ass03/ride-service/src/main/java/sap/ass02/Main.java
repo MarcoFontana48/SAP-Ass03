@@ -4,14 +4,14 @@ import io.vertx.core.Verticle;
 import io.vertx.core.Vertx;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import sap.ass02.domain.application.RideServiceVerticle;
-import sap.ass02.domain.application.ServiceVerticle;
-import sap.ass02.domain.Controller;
+import sap.ass02.application.RideServiceVerticle;
+import sap.ass02.application.ServiceVerticle;
+import sap.ass02.application.Controller;
 import sap.ass02.domain.EventManager;
 import sap.ass02.infrastructure.KafkaRideServiceEventManagerVerticle;
 import sap.ass02.infrastructure.RESTRideServiceControllerVerticle;
 import sap.ass02.infrastructure.persistence.local.LocalJsonRepositoryAdapter;
-import sap.ddd.Repository;
+import sap.ass02.application.Repository;
 
 import java.util.Arrays;
 

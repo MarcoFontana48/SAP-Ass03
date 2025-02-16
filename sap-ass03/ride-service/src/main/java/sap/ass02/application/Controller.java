@@ -1,7 +1,7 @@
-package sap.ass02.domain;
+package sap.ass02.application;
 
 import io.vertx.core.Verticle;
-import sap.ddd.Service;
+import sap.ass02.application.Service;
 
 /**
  * Interface for controllers.

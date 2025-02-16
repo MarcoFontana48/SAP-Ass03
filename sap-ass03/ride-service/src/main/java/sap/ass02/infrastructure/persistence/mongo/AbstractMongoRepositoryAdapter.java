@@ -18,7 +18,7 @@ import sap.ass02.domain.dto.*;
 import sap.ass02.domain.utils.JsonFieldKey;
 import sap.ass02.infrastructure.EndpointPath;
 import sap.ass02.infrastructure.persistence.properties.Connectable;
-import sap.ddd.Repository;
+import sap.ass02.application.Repository;
 
 import java.util.ArrayList;
 import java.util.Optional;

@@ -1,4 +1,4 @@
-package sap.ass02.domain.application;
+package sap.ass02.application;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.json.JsonObject;
@@ -12,7 +12,6 @@ import sap.ass02.domain.dto.EBikeDTO;
 import sap.ass02.domain.dto.RideDTO;
 import sap.ass02.domain.dto.UserDTO;
 import sap.ass02.domain.utils.JsonFieldKey;
-import sap.ddd.Repository;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;

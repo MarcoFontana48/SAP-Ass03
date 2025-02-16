@@ -1,9 +1,8 @@
-package sap.ass02.domain.application;
+package sap.ass02.application;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import sap.ass02.domain.*;
-import sap.ddd.Service;
 
 /**
  * Class for simulating a ride.
