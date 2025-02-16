@@ -36,8 +36,11 @@ public class DistanceFromMainSequenceTest {
         Set<JavaClass> abstractClasses = allClasses.stream()
                 .filter(javaClass -> Modifier.isAbstract(javaClass.reflect().getModifiers()) || Modifier.isInterface(javaClass.reflect().getModifiers()))
                 .collect(Collectors.toSet());
+        Set<JavaClass> concreteClasses = allClasses.stream()
+                .filter(javaClass -> !Modifier.isAbstract(javaClass.reflect().getModifiers()) && !Modifier.isInterface(javaClass.reflect().getModifiers()))
+                .collect(Collectors.toSet());
         
-        return (double) abstractClasses.size() / allClasses.size();
+        return (double) abstractClasses.size() / concreteClasses.size();
     }
     
     private double evaluateInstability() {

@@ -16,7 +16,7 @@ import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-//! INTEGRATION tests
+//! COMPONENT tests
 class RESTEBikeServiceControllerVerticleTest {
     private static final Logger LOGGER = LogManager.getLogger(RESTEBikeServiceControllerVerticleTest.class);
     private static final int MINUTE = 60_000;

@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.*;
 
-//! COMPONENT tests
+//! INTEGRATION tests
 public class EBikeServiceComponentTest {
     private final EBike eBike1 = new EBike("1", AbstractBike.BikeState.AVAILABLE, new P2d(1.0, 2.0), new V2d(3.0, 4.0), 5.0, 11);
     private final EBike eBike2 = new EBike("2", AbstractBike.BikeState.IN_USE, new P2d(2.0, 3.0), new V2d(4.0, 5.0), 6.0, 12);
