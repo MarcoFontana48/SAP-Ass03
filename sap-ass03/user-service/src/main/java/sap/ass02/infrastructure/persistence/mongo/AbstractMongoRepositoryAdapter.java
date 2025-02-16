@@ -16,7 +16,7 @@ import org.bson.Document;
 import sap.ass02.domain.dto.UserDTO;
 import sap.ass02.infrastructure.EndpointPath;
 import sap.ass02.infrastructure.persistence.properties.Connectable;
-import sap.ddd.Repository;
+import sap.ass02.application.Repository;
 
 import java.util.ArrayList;
 import java.util.List;

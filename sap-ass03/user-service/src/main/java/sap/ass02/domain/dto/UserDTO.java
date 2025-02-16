@@ -3,7 +3,7 @@ package sap.ass02.domain.dto;
 import io.vertx.core.json.JsonObject;
 import sap.ass02.domain.property.Jsonifyable;
 import sap.ass02.domain.utils.JsonFieldKey;
-import sap.ddd.ValueObject;
+import sap.ass02.domain.ValueObject;
 
 /**
  * Data transfer object for users.

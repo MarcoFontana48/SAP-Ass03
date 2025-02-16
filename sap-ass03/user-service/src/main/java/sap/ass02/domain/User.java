@@ -3,7 +3,6 @@ package sap.ass02.domain;
 import io.vertx.core.json.JsonObject;
 import sap.ass02.domain.dto.UserDTO;
 import sap.ass02.domain.utils.JsonFieldKey;
-import sap.ddd.Entity;
 
 import java.util.Objects;
 

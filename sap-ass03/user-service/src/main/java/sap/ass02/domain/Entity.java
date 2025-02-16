@@ -1,4 +1,4 @@
-package sap.ddd;
+package sap.ass02.domain;
 
 import sap.ass02.domain.property.Jsonifyable;
 

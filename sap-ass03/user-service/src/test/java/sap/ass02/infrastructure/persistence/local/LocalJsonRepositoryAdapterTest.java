@@ -3,9 +3,9 @@ package sap.ass02.infrastructure.persistence.local;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import sap.ass02.domain.User;
 import sap.ass02.domain.dto.UserDTO;
-import sap.ddd.Repository;
+import sap.ass02.application.Repository;
+import sap.ass02.domain.User;
 
 import java.io.File;
 import java.io.IOException;
