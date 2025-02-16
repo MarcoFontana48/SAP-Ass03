@@ -3,11 +3,11 @@ package sap.ass02.infrastructure;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import sap.ass02.domain.AbstractBike;
-import sap.ass02.domain.application.BikeService;
+import sap.ass02.application.BikeService;
 import sap.ass02.domain.EBike;
 import sap.ass02.domain.P2d;
 import sap.ass02.domain.V2d;
-import sap.ddd.Repository;
+import sap.ass02.application.Repository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;

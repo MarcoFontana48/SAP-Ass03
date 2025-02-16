@@ -1,12 +1,10 @@
-package sap.ass02.domain.application;
+package sap.ass02.application;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import sap.ass02.domain.EBike;
 import sap.ass02.domain.dto.DTOUtils;
 import sap.ass02.domain.dto.EBikeDTO;
-import sap.ddd.Repository;
-import sap.ddd.Service;
 
 import java.util.ArrayList;
 import java.util.List;

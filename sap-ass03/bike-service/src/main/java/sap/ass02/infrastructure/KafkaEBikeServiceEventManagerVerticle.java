@@ -3,13 +3,11 @@ package sap.ass02.infrastructure;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.json.JsonObject;
 import io.vertx.kafka.client.consumer.KafkaConsumer;
-import io.vertx.kafka.client.producer.KafkaProducer;
-import io.vertx.kafka.client.producer.KafkaProducerRecord;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import sap.ass02.domain.EBike;
 import sap.ass02.domain.EventManager;
-import sap.ddd.Service;
+import sap.ass02.application.Service;
 
 import java.util.HashMap;
 import java.util.Map;

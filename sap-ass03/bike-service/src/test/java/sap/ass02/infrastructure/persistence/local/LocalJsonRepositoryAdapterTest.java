@@ -11,7 +11,7 @@ import sap.ass02.domain.dto.BikeStateDTO;
 import sap.ass02.domain.dto.EBikeDTO;
 import sap.ass02.domain.dto.P2dDTO;
 import sap.ass02.domain.dto.V2dDTO;
-import sap.ddd.Repository;
+import sap.ass02.application.Repository;
 
 import java.io.File;
 import java.io.IOException;

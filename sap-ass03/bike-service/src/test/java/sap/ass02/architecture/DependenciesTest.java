@@ -14,9 +14,11 @@ class DependenciesTest {
     public void layerDependenciesAreRespected() {
         layeredArchitecture().consideringOnlyDependenciesInLayers()
                 .layer("Infrastructure").definedBy("sap.ass02.infrastructure..")
+                .layer("Application").definedBy("sap.ass02.application..")
                 .layer("Domain").definedBy("sap.ass02.domain..")
                 .whereLayer("Infrastructure").mayNotBeAccessedByAnyLayer()
-                .whereLayer("Domain").mayOnlyBeAccessedByLayers("Infrastructure")
+                .whereLayer("Application").mayOnlyBeAccessedByLayers("Infrastructure")
+                .whereLayer("Domain").mayNotAccessAnyLayer()
                 .check(new ClassFileImporter().importPackages("sap.ass02"));
     }
 }

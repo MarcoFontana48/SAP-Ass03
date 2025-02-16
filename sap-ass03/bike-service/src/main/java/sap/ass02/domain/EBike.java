@@ -6,7 +6,6 @@ import sap.ass02.domain.dto.EBikeDTO;
 import sap.ass02.domain.dto.P2dDTO;
 import sap.ass02.domain.dto.V2dDTO;
 import sap.ass02.domain.utils.JsonFieldKey;
-import sap.ddd.Entity;
 
 import java.util.Objects;
 

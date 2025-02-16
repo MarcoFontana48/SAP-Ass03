@@ -9,7 +9,7 @@
  */
 package sap.ass02.domain.dto;
 
-import sap.ddd.ValueObject;
+import sap.ass02.domain.ValueObject;
 
 /**
  * 2-dimensional vector
