@@ -22,17 +22,6 @@ spec:
               value: "ebike"
           ports:
             - containerPort: 3306
-          livenessProbe:
-            exec:
-              command:
-                - mysqladmin
-                - ping
-                - -h
-                - localhost
-            initialDelaySeconds: 40
-            periodSeconds: 90
-            timeoutSeconds: 10
-            failureThreshold: 3
 
 ---
 apiVersion: v1

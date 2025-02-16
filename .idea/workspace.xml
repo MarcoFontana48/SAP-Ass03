@@ -4,18 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c36b0785-90ba-474f-8b00-43f3f30ac046" name="Changes" comment="chore: update README.md">
+    <list default="true" id="c36b0785-90ba-474f-8b00-43f3f30ac046" name="Changes" comment="refactor(user-service): general refactor">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sap-ass03/bike-service/src/test/java/sap/ass02/architecture/DistanceFromMainSequenceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/bike-service/src/test/java/sap/ass02/architecture/DistanceFromMainSequenceTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sap-ass03/bike-service/src/test/java/sap/ass02/infrastructure/EBikeServiceComponentTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/bike-service/src/test/java/sap/ass02/infrastructure/EBikeServiceComponentTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sap-ass03/bike-service/src/test/java/sap/ass02/infrastructure/RESTEBikeServiceControllerVerticleTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/bike-service/src/test/java/sap/ass02/infrastructure/RESTEBikeServiceControllerVerticleTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sap-ass03/ride-service/src/test/java/sap/ass02/architecture/DistanceFromMainSequenceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/ride-service/src/test/java/sap/ass02/architecture/DistanceFromMainSequenceTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sap-ass03/ride-service/src/test/java/sap/ass02/infrastructure/persistence/local/LocalJsonRepositoryAdapterTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/ride-service/src/test/java/sap/ass02/infrastructure/persistence/local/LocalJsonRepositoryAdapterTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sap-ass03/ride-service/src/test/java/sap/ass02/infrastructure/persistence/mongo/MongoRepositoryAdapterTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/ride-service/src/test/java/sap/ass02/infrastructure/persistence/mongo/MongoRepositoryAdapterTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sap-ass03/ride-service/src/test/java/sap/ass02/infrastructure/persistence/sql/SQLRepositoryAdapterTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/ride-service/src/test/java/sap/ass02/infrastructure/persistence/sql/SQLRepositoryAdapterTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sap-ass03/user-service/src/test/java/sap/ass02/architecture/DistanceFromMainSequenceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/user-service/src/test/java/sap/ass02/architecture/DistanceFromMainSequenceTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sap-ass03/user-service/src/test/java/sap/ass02/infrastructure/RESTUserServiceControllerVerticleTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/user-service/src/test/java/sap/ass02/infrastructure/RESTUserServiceControllerVerticleTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sap-ass03/user-service/src/test/java/sap/ass02/infrastructure/UserServiceComponentTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/user-service/src/test/java/sap/ass02/infrastructure/UserServiceComponentTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/kubernetes/api-gateway.yml" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/kubernetes/api-gateway.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/kubernetes/bike-mysql-db.yml" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/kubernetes/bike-mysql-db.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/kubernetes/bike-service.yml" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/kubernetes/bike-service.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/kubernetes/config-server.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/kubernetes/config-server.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/kubernetes/prometheus.yml" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/kubernetes/prometheus.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/kubernetes/ride-service.yml" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/kubernetes/ride-service.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/kubernetes/user-mysql-db.yml" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/kubernetes/user-mysql-db.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sap-ass03/kubernetes/user-service.yml" beforeDir="false" afterPath="$PROJECT_DIR$/sap-ass03/kubernetes/user-service.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -102,6 +100,7 @@
     "JUnit.All in user-service.executor": "Run",
     "JUnit.All in user-ui.executor": "Run",
     "JUnit.DependenciesTest (1).executor": "Run",
+    "JUnit.DependenciesTest (2).executor": "Run",
     "JUnit.DependenciesTest.executor": "Run",
     "JUnit.DistanceFromMainSequenceTest.executor": "Run",
     "JUnit.EBikeServiceComponentTest.executor": "Run",
@@ -129,11 +128,15 @@
     "JUnit.java in ride-service.executor": "Run",
     "JUnit.java in user-service.executor": "Run",
     "Maven.admin-ui [org.apache.maven.plugins:maven-javadoc-plugin:3.3.0:javadoc].executor": "Run",
+    "Maven.bike-service [compile].executor": "Run",
     "Maven.bike-service [org.apache.maven.plugins:maven-javadoc-plugin:3.3.0:javadoc].executor": "Run",
+    "Maven.ride-service [compile].executor": "Run",
     "Maven.sap-ass03 [clean].executor": "Run",
     "Maven.sap-ass03 [org.apache.maven.plugins:maven-clean-plugin:3.2.0:clean].executor": "Run",
     "Maven.sap-ass03 [org.apache.maven.plugins:maven-javadoc-plugin:3.3.0:aggregate].executor": "Run",
     "Maven.sap-ass03 [org.apache.maven.plugins:maven-javadoc-plugin:3.3.0:javadoc].executor": "Run",
+    "Maven.user-service [compile].executor": "Run",
+    "Maven.user-service [install].executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "master",
@@ -191,7 +194,20 @@
       <recent name="sap.ddd" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.DistanceFromMainSequenceTest">
+  <component name="RunManager" selected="Application.AdminClient">
+    <configuration name="AdminClient" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="sap.ass02.infrastructure.AdminClient" />
+      <module name="admin-ui" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="sap.ass02.infrastructure.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="AdminClient" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="sap.ass02.infrastructure.AdminClient" />
       <module name="admin-ui" />
@@ -209,6 +225,66 @@
       <module name="user-service" />
       <option name="PACKAGE_NAME" value="" />
       <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DependenciesTest (1)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ride-service" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="sap.ass02.architecture.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="sap.ass02.architecture" />
+      <option name="MAIN_CLASS_NAME" value="sap.ass02.architecture.DependenciesTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DependenciesTest (2)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="user-service" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="sap.ass02.architecture.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="sap.ass02.architecture" />
+      <option name="MAIN_CLASS_NAME" value="sap.ass02.architecture.DependenciesTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DependenciesTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="bike-service" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="sap.ass02.architecture.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="sap.ass02.architecture" />
+      <option name="MAIN_CLASS_NAME" value="sap.ass02.architecture.DependenciesTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DistanceFromMainSequenceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="bike-service" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="sap.ass02.architecture.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="sap.ass02.architecture" />
+      <option name="MAIN_CLASS_NAME" value="sap.ass02.architecture.DistanceFromMainSequenceTest" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -260,13 +336,20 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="ApiGatewayApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="api-gateway" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="sap.ass02.apigateway.spring.ApiGatewayApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.DistanceFromMainSequenceTest" />
         <item itemvalue="Application.AdminClient" />
-        <item itemvalue="JUnit.SQLRepositoryAdapterTest.insertsRide" />
-        <item itemvalue="JUnit.java in ride-service" />
-        <item itemvalue="JUnit.All in user-service" />
+        <item itemvalue="JUnit.DependenciesTest (1)" />
+        <item itemvalue="JUnit.DependenciesTest (2)" />
+        <item itemvalue="JUnit.DependenciesTest" />
+        <item itemvalue="JUnit.DistanceFromMainSequenceTest" />
       </list>
     </recent_temporary>
   </component>
@@ -337,63 +420,9 @@
       <workItem from="1739617986273" duration="1924000" />
       <workItem from="1739619974669" duration="122000" />
       <workItem from="1739697638828" duration="61000" />
-      <workItem from="1739699293057" duration="1870000" />
-    </task>
-    <task id="LOCAL-00006" summary="docs(admin-ui): add documentation to P2dDTO and V2dDTO methods">
-      <option name="closed" value="true" />
-      <created>1734863474122</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1734863474122</updated>
-    </task>
-    <task id="LOCAL-00007" summary="docs(admin-ui): add documentation to DTOUtils and JsonUtils methods">
-      <option name="closed" value="true" />
-      <created>1734863534514</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1734863534514</updated>
-    </task>
-    <task id="LOCAL-00008" summary="docs(admin-ui): fix documentation to JsonUtils method">
-      <option name="closed" value="true" />
-      <created>1734863573400</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1734863573400</updated>
-    </task>
-    <task id="LOCAL-00009" summary="docs(admin-ui): add documentation to domain elements">
-      <option name="closed" value="true" />
-      <created>1734864133132</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1734864133132</updated>
-    </task>
-    <task id="LOCAL-00010" summary="docs(admin-ui): add documentation to api elements">
-      <option name="closed" value="true" />
-      <created>1734864249957</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1734864249957</updated>
-    </task>
-    <task id="LOCAL-00011" summary="docs(admin-ui): add documentation to controllers">
-      <option name="closed" value="true" />
-      <created>1734864526864</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1734864526864</updated>
-    </task>
-    <task id="LOCAL-00012" summary="docs(admin-ui): add documentation to controllers items">
-      <option name="closed" value="true" />
-      <created>1734864723462</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1734864723462</updated>
+      <workItem from="1739699293057" duration="2877000" />
+      <workItem from="1739723858394" duration="1675000" />
+      <workItem from="1739725599328" duration="2495000" />
     </task>
     <task id="LOCAL-00013" summary="docs(admin-ui): add documentation to controllers property">
       <option name="closed" value="true" />
@@ -731,7 +760,63 @@
       <option name="project" value="LOCAL" />
       <updated>1739620087542</updated>
     </task>
-    <option name="localTasksCounter" value="55" />
+    <task id="LOCAL-00055" summary="chore: update test type">
+      <option name="closed" value="true" />
+      <created>1739705251112</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1739705251113</updated>
+    </task>
+    <task id="LOCAL-00056" summary="chore: update test type">
+      <option name="closed" value="true" />
+      <created>1739705308579</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1739705308580</updated>
+    </task>
+    <task id="LOCAL-00057" summary="chore: update test type">
+      <option name="closed" value="true" />
+      <created>1739705323909</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1739705323909</updated>
+    </task>
+    <task id="LOCAL-00058" summary="chore: update test type">
+      <option name="closed" value="true" />
+      <created>1739705338529</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1739705338529</updated>
+    </task>
+    <task id="LOCAL-00059" summary="refactor(bike-service): general refactor">
+      <option name="closed" value="true" />
+      <created>1739727177217</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1739727177217</updated>
+    </task>
+    <task id="LOCAL-00060" summary="refactor(ride-service): general refactor">
+      <option name="closed" value="true" />
+      <created>1739727188911</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1739727188911</updated>
+    </task>
+    <task id="LOCAL-00061" summary="refactor(user-service): general refactor">
+      <option name="closed" value="true" />
+      <created>1739727203395</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1739727203395</updated>
+    </task>
+    <option name="localTasksCounter" value="62" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -749,10 +834,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="build: add javadoc plugin to each pom.xml" />
-    <MESSAGE value="build: add parent maven module" />
-    <MESSAGE value="style: reindented pom.xml file to use only 2 spaced" />
-    <MESSAGE value="docs(configuration-server): add docs to all classes of configuration server" />
     <MESSAGE value="chore(admin-ui): add tab space" />
     <MESSAGE value="chore(bike-service): add cqrs" />
     <MESSAGE value="chore(ride-service): add cqrs" />
@@ -774,7 +855,11 @@
     <MESSAGE value="build: update kubernetes files" />
     <MESSAGE value="build: docker compose file now uses images from dockerhub instead of pre built images" />
     <MESSAGE value="chore: update README.md" />
-    <option name="LAST_COMMIT_MESSAGE" value="chore: update README.md" />
+    <MESSAGE value="chore: update test type" />
+    <MESSAGE value="refactor(bike-service): general refactor" />
+    <MESSAGE value="refactor(ride-service): general refactor" />
+    <MESSAGE value="refactor(user-service): general refactor" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactor(user-service): general refactor" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

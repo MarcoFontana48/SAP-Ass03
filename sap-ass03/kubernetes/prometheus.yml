@@ -21,14 +21,6 @@ spec:
               subPath: prometheus.yml
           ports:
             - containerPort: 9090
-          livenessProbe:
-            httpGet:
-              path: /
-              port: 9090
-            initialDelaySeconds: 40
-            periodSeconds: 90
-            timeoutSeconds: 10
-            failureThreshold: 3
       volumes:
         - name: prometheus-config
           configMap:

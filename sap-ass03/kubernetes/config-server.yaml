@@ -17,14 +17,6 @@ spec:
           image: marcofontana17/sap-ass-03:config-server
           ports:
             - containerPort: 8080
-          livenessProbe:
-            httpGet:
-              path: /health
-              port: 8080
-            initialDelaySeconds: 40
-            periodSeconds: 90
-            timeoutSeconds: 10
-            failureThreshold: 3
 
 ---
 apiVersion: v1
