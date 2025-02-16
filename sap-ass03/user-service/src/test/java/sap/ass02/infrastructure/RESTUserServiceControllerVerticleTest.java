@@ -20,7 +20,7 @@ import java.util.Arrays;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-//! INTEGRATION tests
+//! COMPONENT tests
 class RESTUserServiceControllerVerticleTest {
     private static final Logger LOGGER = LogManager.getLogger(RESTUserServiceControllerVerticleTest.class);
     private static final int MINUTE = 60_000;

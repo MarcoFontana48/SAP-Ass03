@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-//! COMPONENT tests
+//! INTEGRATION tests
 public class UserServiceComponentTest {
     private final UserDTO user1 = new UserDTO("1", 0, 0, 0);
     private final UserDTO user2 = new UserDTO("2", 0, 0, 0);
