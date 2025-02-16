@@ -16,7 +16,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-//! COMPONENT tests
+//! INTEGRATION tests
 class MongoRepositoryAdapterTest {
     private static final Logger LOGGER = LogManager.getLogger(MongoRepositoryAdapterTest.class);
     private static final int MINUTE = 60_000;

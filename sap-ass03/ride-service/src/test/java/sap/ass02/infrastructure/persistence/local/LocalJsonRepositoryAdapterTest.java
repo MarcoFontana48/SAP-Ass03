@@ -15,7 +15,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-//! COMPONENT tests
+//! INTEGRATION tests
 class LocalJsonRepositoryAdapterTest {
     private final String databaseFileName = "database";
     private final String databaseRideFileName = "rides";

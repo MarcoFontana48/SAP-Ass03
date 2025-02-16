@@ -5,7 +5,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import sap.ass02.domain.dto.RideDTO;
 import sap.ass02.domain.utils.JsonFieldKey;
-import sap.ddd.Aggregate;
+import sap.ddd.AggregateRoot;
 
 import java.sql.Date;
 import java.util.Optional;
@@ -13,7 +13,7 @@ import java.util.Optional;
 /**
  * Represents a ride.
  */
-public final class Ride implements Aggregate<RideDTO> {
+public final class Ride implements AggregateRoot<RideDTO> {
     private static final Logger LOGGER = LogManager.getLogger(Ride.class);
     private final User user;
     private final EBike bike;
